@@ -1,0 +1,386 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Acoustic Noise Cancellation</title>
+  <metadata>
+  <md:content-id>m22178</md:content-id><md:title>Acoustic Noise Cancellation</md:title>
+  <md:abstract>The Least Mean Squares (LMS) Algorithm can be used in a range of Digital Signal Processing applications such as echo cancellation and acoustic noise reduction. 
+This laboratory shows how to design a model of LMS Noise Cancellation using Simulink and run it on a Texas Instruments C6000 DSP.</md:abstract>
+  <md:uuid>bbc6fc29-d8fb-47aa-8d82-cd3a4193d0b7</md:uuid>
+</metadata>
+  <content>
+    <section id="id8952839">
+      <title>Introduction</title>
+      <para id="id9096043">The Least Mean Squares (LMS) Algorithm can be used in a range of Digital Signal Processing applications such as echo cancellation and acoustic noise reduction. </para>
+      <para id="id8941185">This laboratory shows how to design a model of LMS Noise Cancellation using Simulink and run it on a Texas Instruments C6000 DSP. </para>
+      <section id="id9120279">
+        <title>Objectives </title>
+        <list id="id9064655" list-type="bulleted">
+          <item>Design a model of LMS Noise Reduction for the Texas Instruments C6000 family of DSP devices using MATLAB® and Simulink®.</item>
+          <item>Modify an existing Simulink demonstration model for use as a template.</item>
+          <item>Run the project on the Texas Instruments DSK6713 with a microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+      <section id="id8800226">
+        <title>Level</title>
+        <para id="id9218853">Intermediate - Assumes prior knowledge of MATLAB and Simulink. It also requires a theoretical understanding of matrices and the LMS algorithm.</para>
+      </section>
+      <section id="id8774988">
+        <title>Hardware and Software Requirements </title>
+        <para id="id8897173">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id9186354" list-type="bulleted">
+          <item>MATLAB R2006b with Embedded Target for TI C6000 and the Signal Processing Toolbox.</item>
+          <item>Code Composer Studio (CCS) v3.1</item>
+          <item>Texas Instruments DSK6713 hardware.</item>
+          <item>Microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation <link resource="AcousticNoiseCancellation.ppt">AcousticNoiseCancellation.ppt</link></item>
+<item>Simulink Model for Simulation- <link resource="AcousticNoiseCancellation.mdl">AcousticNoiseCancellation.mdl</link></item>
+<item>Simulink Model for Real-Time <link resource="AcousticNoiseCancellationDSKC6713.mdl">AcousticNoiseCancellationDSKC6713.mdl</link></item>
+</list>
+</section>
+
+    </section>
+    <section id="id8425432">
+      <title>Simulation</title>
+      <para id="id9792755">You will now start with a simple Simulink model and run it to see how it works.</para>
+      <section id="id8941428">
+        <title>Opening the Acoustic Noise Cancellation Model</title>
+        <para id="id9186320">Open the <link resource="AcousticNoiseCancellation.mdl">AcousticNoiseCancellation.mdl</link></para>
+        <figure id="id9721098"><media id="id4762527" alt=""><image src="../../media/graphics1-cdd6.jpg" mime-type="image/jpeg"/></media>
+<caption>Opening the AcousticNoiseCancellation Model</caption>
+</figure>
+
+        <para id="id9188561">Run the model. </para>
+      </section>
+      <section id="id8243077">
+        <title>Inputs and Outputs of LMS Filter</title>
+        <para id="id6883260">The output from the LMS Filter starts at zero and grows slowly. Initially, some of the sine wave information is lost as LMS Error. <figure id="id9549516"><media id="id4077794" alt=""><image src="../../media/graphics2-3a8b.jpg" mime-type="image/jpeg"/></media> <caption>LMS Filter Inputs and Outputs</caption></figure></para>
+             </section>
+      <section id="id7447301">
+        <title>LMS Filter Weights (Coefficients)</title>
+        <para id="id9772804">The LMS Filter Weights all start at zero and take several iterations to reach their final values.</para>
+        <figure id="id9069219">
+          <media id="id5151353" alt=""><image src="../../media/graphics3-637c.jpg" mime-type="image/jpeg"/></media><caption>LMS Filter Weights (Coefficients)</caption>
+        </figure>      </section>
+      <section id="id9455406">
+        <title>Tuning the Model</title>
+        <para id="id7473608">The critical variable in the LMS Filter is the “Step size (mu)”. This sets the rate of convergence of the LMS filter. </para>
+        <figure id="id9122925">
+          <media id="id4651294" alt=""><image src="../../media/graphics4-3b1d.jpg" mime-type="image/jpeg"/></media> <caption>Changing the Step size (mu) to 0.1</caption>
+        </figure>
+
+        <para id="id9462596">Double-click on the “LMS Filter” block and change the “Step size (mu) to 0.1 </para>
+        <para id="id6011207">Run the model. </para>
+      </section>
+      <section id="id6849829">
+        <title>Filter Outputs for Step size (mu) = 0.1</title>
+        <para id="id9142308">When the “Step size (mu)” is increased, LMS algorithm converges more quickly, but at the expense of granularity – the LMS Filter Output is not as smooth. </para>
+        <figure id="id6975127">
+          <media id="id4097889" alt=""><image src="../../media/graphics5-efb8.jpg" mime-type="image/jpeg"/></media>
+          <caption>Input and LMS Filter Outputs for Step size (mu) = 0.1</caption>
+        </figure>
+
+      </section>
+      <section id="id8375420">
+        <title>Filter Weights for Step size (mu) = 0.1</title>
+        <para id="id9029308">Note that the filter weights (coefficients) do not attain smooth values, as would be the case for smaller values of Step size (mu).</para>
+        <figure id="id8897218">
+          <media id="id5327353" alt=""><image src="../../media/graphics6-0544.jpg" mime-type="image/jpeg"/></media>
+<caption>LMS Filter Weights for Step size (mu) = 0.1</caption>
+        </figure>
+      </section>
+      <section id="id9393563">
+        <title>Changing the Delay</title>
+        <para id="id9186408">Part of the Acoustic Noise Algorithm is the delay. The delay should ideally be at least half a wavelength so the two inputs to the LMS Filter have different random noise.</para>
+        <figure id="id8246530">
+          <media id="id4216772" alt=""><image src="../../media/graphics7-9121.jpg" mime-type="image/jpeg"/></media>
+<caption>Changing the Delay</caption>
+        </figure>
+
+        <para id="id3677567">Experiment with different values of delay to see how it effects the operation of the LMS Filter.</para>
+      </section>
+      <section id="id9379399">
+        <title>Changing the Number of Weights</title>
+        <para id="id8329500">Double-click on the “LMS Block” and change the Filter Size (number of Weights). </para>
+        <para id="id8816410">If the number of Weights is large, the algorithm will be slow to run.</para>
+        <para id="id9913606">If the number of Weights is too small, the filter will not remove the noise properly. </para>
+        <figure id="id6996668">
+          <media id="id5241117" alt=""><image src="../../media/graphics8-4f79.jpg" mime-type="image/jpeg"/></media>
+<caption>Changing the Filter Length</caption>        </figure>
+
+      </section>
+      <section id="id9063488">
+        <title>Summary</title>
+        <para id="id9000000">From practical experience, you should now know how to use LMS algorithm and how you can adjust the Step size (mu), the filter delay and the number of weights to obtain optimum performance.</para>
+        <para id="id9424195">You will now apply this to building a real-time model.</para>
+      </section>
+    </section>
+    <section id="id3258350">
+      <title>Real-Time Model</title>
+      <para id="id9250360">You have now run the simulation and understand the operation of the LMS Filter.</para>
+      <para id="id8818072">You will now implement the Real-Time Acoustic Noise Cancellation Model using the Texas Instrument C6713.</para>
+      <section id="id9186093">
+        <title>Texas Instruments DSK6713 Setup </title>
+        <figure id="id7078948">
+          <media id="id6512381" alt=""><image src="../../media/fig9-f738.jpg" mime-type="image/jpeg"/></media>
+<caption>Texas Instruments DSK6713 Setup</caption>  
+        </figure>
+
+        <para id="id9095794">Alternatively, you can use computer loudspeakers. </para>
+      </section>
+      <section id="id7956470">
+        <title>Starting up Code Composer Studio </title>
+        <section id="id9186246">
+          <title>Connecting the DSK6713</title>
+          <para id="id9174077">Start Code Composer Studio for DSK6713 and use Debug -&gt; Connect</para>
+          <figure id="id9400669">
+            <media id="id4120581" alt=""><image src="../../media/fig10-54a2.JPG" mime-type="image/jpeg"/></media>
+<caption>Startup Screen for Code Composer Studio (CCS)</caption>
+          </figure>
+          <para id="id9109167"/>
+ 
+        </section>
+        <section id="id9531105">
+          <title>Opening an Existing Model</title>
+          <para id="id7974540">Start MATLAB 7.3.0 R2006b:</para>
+          <figure id="id9522295">
+            <media id="id14444495" alt=""><image src="../../media/graphics11-51fe.png" mime-type="image/png"/></media>
+<caption>Opening an Existing Demo</caption>
+          </figure>
+
+          <para id="id9144557">Click on “Demos”. The following screen will appear:</para>
+          <figure id="id7971278">
+            <media id="id12754368" alt=""><image src="../../media/graphics12-5ac8.jpg" mime-type="image/jpeg"/></media>
+<caption>Selecting the Audio Demo Models</caption>
+          </figure>
+          <para id="id8601562"/>
+
+          <para id="id8939356">Highlight “Embedded Target for TI C6000 DSP” then “Audio”. Click on “Wavelet Denoising”. We are going to use this as our template.</para>
+        </section>
+        <section id="id9211001">
+          <title>Viewing the Original Model</title>
+          <para id="id9720700">The “Wavelet Denoising” model is now displayed. </para>
+          <figure id="id9000076">
+            <media id="id9168361" alt=""><image src="../../media/graphics13-d124.jpg" mime-type="image/jpeg"/></media><caption>Wavelet Denoising Parent</caption>
+          </figure>
+
+        </section>
+        <section id="id8244462">
+          <title>Saving the Model</title>
+          <para id="id9058267">For convenience, save the model to the MATLAB “Work” directory, where most models are stored.</para>
+          <figure id="id9063971">
+            <media id="id14740170" alt=""><image src="../../media/graphics14-d4d7.jpg" mime-type="image/jpeg"/></media><caption>Saving the Model to the MATLAB “Work” directory</caption>
+          </figure>
+
+        </section>
+        <section id="id9472505">
+          <title>Changing the Title</title>
+          <para id="id8604694">Delete the “Info” box. Change the title to “LMS Noise Reduction”. You may also wish to move the “DSK6713” icon to the left hand side. </para>
+          <figure id="id9067411">
+            <media id="id3070758" alt=""><image src="../../media/graphics15-4e9e.jpg" mime-type="image/jpeg"/></media><caption>LMS Noise Reduction Parent</caption>
+          </figure>
+
+        </section>
+        <section id="id6807959">
+          <title>The Original Wavelet Noise Reduction Algorithm</title>
+          <para id="id8232983">Double-click on the “function()” box. The “Wavelet Noise Reduction Algorithm” model is now displayed.</para>
+          <figure id="id8132777">
+            <media id="id9253218" alt=""><image src="../../media/graphics16-78cf.jpg" mime-type="image/jpeg"/></media><caption>Wavelet Denoising Algorithm</caption></figure>
+        </section>
+        <section id="id9067452">
+          <title>Delete Blocks</title>
+          <para id="id8991708">Delete the blocks and connect the input directly to the output. Add a title.</para>
+          <figure id="id9026631">
+            <media id="id14821740" alt=""><image src="../../media/graphics17-0171.jpg" mime-type="image/jpeg"/></media><caption>LMS Denoising Algorithm Template</caption></figure>          
+        </section>
+        <section id="id8302016">
+          <title>Overview of the LMS Model</title>
+          <para id="id9012927">We are going to implement the model shown below.</para>
+          <para id="id8604257">We will now update the empty model by dragging-and-dropping some library components onto the model.</para>
+          <figure id="id8258379">
+            <media id="id14867636" alt=""><image src="../../media/graphics18-f823.jpg" mime-type="image/jpeg"/></media><caption>Overview of the LMS Algorithm</caption></figure>           
+        </section>
+        <section id="id9063995">
+          <title>Changing the Input to Microphone</title>
+          <para id="id8228243">Double-click on the blue box to the left marked “DSK6713 ADC”. The following screen will appear.</para>
+          <figure id="id9080324">
+            <media id="id14971376" alt=""><image src="../../media/graphics19-6b6f.jpg" mime-type="image/jpeg"/></media><caption>Setting up the ADC for Mono Microphone Input</caption> </figure>      
+
+          <para id="id7950531">Change the “ADC source” to “Mic In”. </para>
+          <para id="id9513999">If you have a quiet microphone, select “+20dB Mic gain boost”.</para>
+          <para id="id9464734">Set the “Sampling rate (Hz)” to “48 kHz”.</para>
+          <para id="id6933090">Set the “Samples per frame” to 64.</para>
+          <para id="id8561478">When done, click on “OK”. </para>
+          <para id="id8705696">Important: Make sure the “Stereo” box is empty. </para>
+        </section>
+        <section id="id9464688">
+          <title>The DAC Settings</title>
+          <para id="id8224569">The DAC settings need to match those of the ADC. Check that it uses the same sampling rates. Click on “OK”.</para>
+          <figure id="id9741143">
+            <media id="id14501571" alt=""><image src="../../media/graphics20-32a0.jpg" mime-type="image/jpeg"/></media><caption>Setting the DAC Parameters</caption> </figure>              
+        </section>
+        <section id="id8225495">
+          <title>Adding an LMS Block</title>
+          <para id="id8937926">The Simulink block for LMS is to be found in the “Signal Processing Toolbox”.</para>
+          <para id="id9465488">Select View -&gt; Library Browser -&gt; Signal Processing Blockset -&gt;Filtering-&gt; Adaptive Filters. </para>
+          <para id="id7956440">Highlight “Adaptive Filters”. Drag-and-drop the “LMS Filter” block onto the model.</para>
+          <figure id="id9856562">
+            <media id="id14832661" alt=""><image src="../../media/graphics21-34a7.png" mime-type="image/png"/></media><caption>Adding an LMS Filter Block</caption> </figure>               
+        </section>
+        <section id="id8299397">
+          <title>Setting the LMS Filter Parameters</title>
+          <para id="id8249941">The most critical variable in an LMS filter is the “Step size (mu)”. </para>
+          <para id="id9188821">If “mu” is too small, the filter has very fine resolution, but reacts too slowly to the audio signal. </para>
+          <para id="id8228895">If “mu” is too great, the filter reacts very quickly, but the error also remains large.</para>
+          <para id="id6845037">We will start with 0.005.</para>
+          <figure id="id8228880">
+            <media id="id8553079" alt=""><image src="../../media/graphics22-2eae.jpg" mime-type="image/jpeg"/></media><caption>Setting the Parameter “Set size (mu)”</caption> </figure>            
+        </section>
+        <section id="id9465184">
+          <title>Adding a Delay</title>
+          <para id="id9186097">From the “Signal Processing Blockset”, highlight “Signal Operations”. Drag-and-drop the “Delay”<footnote id="id15187747">Since we are working with frames, the delay from “Discrete Components” library will not work!</footnote> block onto the model.</para>
+          <figure id="id9717977">
+            <media id="id14902928" alt=""><image src="../../media/graphics23-da76.png" mime-type="image/png"/></media><caption>Adding a Delay</caption> </figure>            
+
+        </section>
+        <section id="id9078596">
+          <title>Setting the Delay Parameters</title>
+          <para id="id8225271">Because we are working with frames of 64 samples, it is convenient configure the delay using frames. Double-click on the “Delay” block.</para>
+          <para id="id9717967">Change the “Delay units” to Frames. </para>
+          <para id="id9717972">Set the “Delay (frames)” to 1. This makes the delay 64 samples.</para>
+          <figure id="id8564803">
+            <media id="id14945069" alt=""><image src="../../media/graphics24-2075.jpg" mime-type="image/jpeg"/></media><caption>Setting the Delay Size</caption> </figure> 
+        </section>
+        <section id="id8236069">
+          <title>Adding a DIP Switch and LED</title>
+          <para id="id9135544">So we can hear the difference without LMS denoising and with LMS noise reduction, we will use a DIP switch of the DSK6713.</para>
+          <figure id="id9136155">
+            <media id="id10151416" alt=""><image src="../../media/graphics25-327b.png" mime-type="image/png"/></media><caption>Adding a Switch and LED</caption> </figure> 
+
+          <para id="id9105179">Select View -&gt; Library Browser -&gt; Embedded Target for TI C6000 DSP. Highlight “DSK6713 Board Support”. </para>
+          <para id="id9720536">Drag-and-drop the “Switch” block onto the model. Also drag-and-drop the “LED” block onto the model.</para>
+        </section>
+        <section id="id9720540">
+          <title>DIP Switch Settings</title>
+          <para id="id8931081">The DIP switch needs to be configured. Double-click on the “Switch” block. </para>
+          <para id="id9792806">Select all the boxes and set “Data type” to Integer. The “Sample time” should also be set to “–1”.</para>
+          <figure id="id9247831">
+            <media id="id14692633" alt=""><image src="../../media/graphics26-1b26.jpg" mime-type="image/jpeg"/></media><caption>Setting up the DIP Switch Values</caption> </figure>           
+        </section>
+        <section id="id7974844">
+          <title>Adding a Constant, Switch and Relational Operator</title>
+          <para id="id9105130">We now need to setup a way to switch between straight through without noise reduction and with LMS noise reduction. </para>
+          <para id="id9387229">Select View -&gt; Library Browser -&gt; Simulink. Highlight “Commonly Used Blocks”. </para>
+          <para id="id9066340">Drag-and-drop a “Constant” onto the model.</para>
+          <para id="id6151344">Drag-and-drop a “Switch” block onto the model. </para>
+          <para id="id9266211">Drag-and-drop a “Relational Operator” block onto the model.</para>
+          <figure id="id9266216">
+            <media id="id7402869" alt=""><image src="../../media/graphics27-068d.png" mime-type="image/png"/></media><caption>Selecting the Commonly Used Blocks</caption> </figure>   
+
+        </section>
+        <section id="id9185409">
+          <title>Setting the Constant Value</title>
+          <para id="id8818016">The switch values lie between 0 and 15. We will use switch values 0 and 1. Double-click on the “Constant” block. Set the “Constant value” to 1 and the “Sample time” to “inf”. </para>
+          <figure id="id8816776">
+            <media id="id13641542" alt=""><image src="../../media/graphics28-89d6.jpg" mime-type="image/jpeg"/></media><caption>Setting the Echo Delay Gain</caption> </figure>           
+        </section>
+        <section id="id8254474">
+          <title>Setting the Constant Data Type </title>
+          <para id="id9133825">Click on the “Signal Data Types” tab. Set the “Output data type mode” to “int16”. This is compatible with the DAC on the DSK6713.</para>
+          <figure id="id9095803">
+            <media id="id14846513" alt=""><image src="../../media/graphics29-0aca.jpg" mime-type="image/jpeg"/></media><caption>Data Type Conversion to 16-bit Integer</caption> </figure>        </section>
+        <section id="id6853235">
+          <title>Setting the Relational Operator Type</title>
+          <para id="id6971119">Double click on the “Relational Operator” block. Change the “Relational operator” to “==”. Click on the “Signal Data Types” tab.</para>
+          <figure id="id8247260">
+            <media id="id6760670" alt=""><image src="../../media/graphics30-f62d.jpg" mime-type="image/jpeg"/></media><caption>Changing the Relational Operator</caption> </figure> 
+
+        </section>
+        <section id="id9718436">
+          <title>Setting the Relational Operator Data Type</title>
+          <para id="id9058896">Set the “Output data type mode” to “Boolean”. Click on “OK”.</para>
+          <figure id="id8306906">
+            <media id="id7368405" alt=""><image src="../../media/graphics31-7eec.jpg" mime-type="image/jpeg"/></media><caption>Changing the Output Data Type</caption> </figure>           
+        </section>
+        <section id="id8232806">
+          <title>Joining the Blocks</title>
+          <para id="id9056753">Move the blocks and join them as shown in the Figure below.</para>
+          <figure id="id9026316">
+            <media id="id15235909" alt=""><image src="../../media/graphics32-4e0d.jpg" mime-type="image/jpeg"/></media><caption>Joining the Blocks</caption> </figure>         </section>
+        <section id="id9824728">
+          <title>Returning to the Parent System</title>
+          <para id="id8774980">From the Toolbar, select the “Up Arrow” icon. This returns you to the next higher level. </para>
+          <figure id="id9144637">
+            <media id="id14354274" alt=""><image src="../../media/graphics33-bab3.jpg" mime-type="image/jpeg"/></media><caption>Returning to the Parent System</caption> </figure> 
+
+        </section>
+      </section>
+      <section id="id7956869">
+        <title>Building the Model </title>
+        <section id="id9455710">
+          <title>Selecting Real-Time Workshop</title>
+          <para id="id5172115">Select Tools -&gt; Real-Time Workshop -&gt; Build Model. </para>
+          <figure id="id3229023">
+            <media id="id14966434" alt=""><image src="../../media/graphics34-487c.jpg" mime-type="image/jpeg"/></media><caption>Building the Model</caption> </figure> 
+
+        </section>
+        <section id="id3240998">
+          <title>Frames Displayed on Model</title>
+          <para id="id9188543">When built, the single lines are replaced by double lines. This shows frames. </para>
+          <figure id="id8939376">
+            <media id="id14714953" alt=""><image src="../../media/graphics35-f823.jpg" mime-type="image/jpeg"/></media><caption>Frames</caption> </figure> 
+
+        </section>
+        <section id="id8953519">
+          <title>The Completed Model Running on Code Composer Studio</title>
+          <para id="id8983415">From the folders on the left, select the source code for the project. </para>
+          <figure id="id9466845">
+            <media id="id8789319" alt=""><image src="../../media/fig36.jpg" mime-type="image/jpeg"/></media><caption>The Completed Model Running in Code Composer Studio</caption> </figure>          
+        </section>
+      </section>
+      <section id="id9043976">
+        <title>Different Settings on the DSK6713 </title>
+        <section id="id9429362">
+          <title>Microphone Straight Through to Loudspeakers</title>
+          <para id="id5548985">To check out the microphone and loudspeakers, set the DIP switches on the DSK6713 as follows:</para>
+          <figure id="id7108760">
+            <media id="id10490737" alt=""><image src="../../media/fig37.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 0</caption> </figure>         
+         <para id="id3740018">The microphone is fed directly to the loudspeakers. There is no LMS noise reduction.</para>
+        </section>
+        <section id="id9865087">
+          <title>Switch Position for LMS Noise Reduction</title>
+          <para id="id5173134">To run the “LMS Noise Reduction” subsystem, set the DIP switch to 1.</para>
+          <figure id="id9133369">
+            <media id="id4223674" alt=""><image src="../../media/fig38.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 1 for LMS Noise Reduction</caption> </figure>           
+        </section>
+      </section>
+    </section>
+    <section id="id9298860">
+      <title>Some Things to Try</title>
+      <para id="id9260813">You may wish to experiment with different settings. Here are some suggestions.</para>
+      <section id="id9201037">
+        <title>Experiment with LMS Filter Settings</title>
+        <para id="id9174288">Change the value of “Step size (mu)” between 0.0001 and 0.5. This is the critical value.</para>
+        <para id="id8301804">Low values of mu give good resolution, but a slow reaction time. </para>
+        <para id="id8300785">High values of mu give less resolution, but faster reaction times.</para>
+        <para id="id9717926">Find the best value of mu for noise reduction on the TI DSK6713.</para>
+        <figure id="id8229913">
+          <media id="id15082438" alt=""><image src="../../media/graphics39-2eae.jpg" mime-type="image/jpeg"/></media><caption>Configuring the LMS Filter Block Parameter</caption></figure>         
+      </section>
+      <section id="id8235888">
+        <title>Experiment with LMS Filter Settings</title>
+        <para id="id8448956">Try different value of “Filter Length”. What is the minimum value that will allow the filter to work correctly?</para>
+      </section>
+      <section id="id9078935">
+        <title>Change from LMS Filter to RLS Filter</title>
+        <para id="id8931258">Inside the “Adaptive Filters” are different LMS types. Which are suitable for LMS denoising and which are not? </para>
+        <figure id="id9412054">
+          <media id="id14714383" alt=""><image src="../../media/graphics40-a725.png" mime-type="image/png"/></media><caption>Available Adaptive Filter Types</caption> </figure>              
+<para id="id9472585">Figure 40 – </para>
+        <para id="id9861593">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+      </section>
+    </section>
+  </content>
+</document>

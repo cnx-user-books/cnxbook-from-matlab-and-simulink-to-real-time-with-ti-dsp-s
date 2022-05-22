@@ -1,0 +1,45 @@
+<col:collection xmlns="http://cnx.rice.edu/collxml" xmlns:md="http://cnx.rice.edu/mdml" xmlns:col="http://cnx.rice.edu/collxml" xml:lang="en">
+  <metadata xmlns:md="http://cnx.rice.edu/mdml" mdml-version="0.5">
+    <md:content-id>col10713</md:content-id>
+    <md:title>From MATLAB and Simulink to Real-Time with TI DSP's</md:title>
+    <md:language>en</md:language>
+    <md:license url="http://creativecommons.org/licenses/by/2.0/">Creative Commons Attribution License</md:license>
+    <md:uuid>50020518-2df2-4ecd-ae03-c3afb08eeba0</md:uuid>
+<md:slug>from-matlab-and-simulink-to-real-time-with-ti-dsp-s</md:slug>
+</metadata>
+  <col:content>
+    <col:subcollection>
+      <md:title>Control</md:title>
+      <col:content>
+        <col:module document="m22943"/>
+        <col:module document="m22189"/>
+        <col:module document="m22177"/>
+        <col:module document="m24360"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Signal Processing and Communication</md:title>
+      <col:content>
+        <col:module document="m22178"/>
+        <col:module document="m22187"/>
+        <col:module document="m22185"/>
+        <col:module document="m22937"/>
+        <col:module document="m22940"/>
+        <col:module document="m22941"/>
+        <col:module document="m22942"/>
+        <col:module document="m23011"/>
+      </col:content>
+    </col:subcollection>
+    <col:subcollection>
+      <md:title>Video and Imaging</md:title>
+      <col:content>
+        <col:module document="m23996"/>
+        <col:module document="m23999"/>
+        <col:module document="m24404"/>
+        <col:module document="m24423"/>
+        <col:module document="m24470"/>
+      </col:content>
+    </col:subcollection>
+    <col:module document="m24680"/>
+  </col:content>
+</col:collection>

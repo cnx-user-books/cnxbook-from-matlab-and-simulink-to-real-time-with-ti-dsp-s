@@ -1,0 +1,239 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Permanent Magnet Synchronous Motor Control</title>
+  <metadata>
+  <md:content-id>m24360</md:content-id><md:title>Permanent Magnet Synchronous Motor Control</md:title>
+  <md:abstract>The objective of this module is to use the Embedded Target for the C2000, and the Digital Motor Control Library (DMClib) to control a Permanent Magnet Synchronous Motor (PMSM) with an encoder using the Field Oriented Control Technique.</md:abstract>
+  <md:uuid>ec91d5f4-8905-4057-847c-fe98fa13b902</md:uuid>
+</metadata>
+
+<content>
+    <section id="id4650481">
+      <title>Introduction</title>
+      <para id="id10408773">The objective of this module is to use the Embedded Target for the C2000, and the Digital Motor Control Library (DMClib) to control a Permanent Magnet Synchronous Motor (PMSM) with an encoder using the Field Oriented Control Technique. </para>
+    </section>
+    <section id="id4078292">
+      <title>System Overview</title>
+      <para id="id8693188">The following figure shows the complete application that we will implement step by step during the laboratory.</para>
+
+
+      <figure id="id3807481"><media id="id1164322432862" alt=""><image src="../../media/fig1-8bfd.JPG" mime-type="image/jpeg"/></media><caption>PMSM Control Block Diagram
+</caption></figure>
+
+<para id="id10408789"><title>Variables Description</title></para>
+
+<code id="first_codeblock" display="block">
+
+ias = Phase-a stator current 
+ibs = Phase-b stator current
+ias = Stationary a-axis stator current 
+ibs = Stationary b-axis stator current
+ids = Synchronously rotating d-axis stator current 
+iqs = Synchronously rotating q-axis stator current
+vas = Stationary a-axis stator voltage
+vbs = Stationary b-axis stator voltage
+vds = Synchronously rotating d-axis stator voltage
+vqs = Synchronously rotating q-axis stator voltage
+vdc = DC-bus voltage
+qlr = Rotor flux angle
+qm = Mechanical angle
+dir = Rotor direction
+wr = Rotor speed 
+Ta = Phase-a duty cycle ratio of PWM signal
+Tb = Phase-b duty cycle ratio of PWM signal
+Tc = Phase-c duty cycle ratio of PWM signal
+                                     </code>
+
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="PMSM_control.ppt">PMSM_control.ppt</link></item>
+<item>MATLAB script- <link resource="PMS_Motor_data.m">PMS_Motor_data.m</link></item>
+<item>Simulink Model for Space vector generation Simulation - <link resource="PMS_Motor_level1.mdl">PMS_Motor_level1.mdl</link></item>
+<item>Simulink Model for Open Loop Simulation - <link resource="PMS_Motor_level2.mdl">PMS_Motor_level2.mdl</link></item>
+<item>Simulink Model for current loop Simulation - <link resource="PMS_Motor_level3.mdl">PMS_Motor_level3.mdl</link></item>
+<item>Simulink Model for Encoder Verification Simulation - <link resource="PMS_Motor_level4.mdl">PMS_Motor_level4.mdl</link></item>
+<item>Simulink Model for Closed Loop Simulation - <link resource="PMS_Motor_level5.mdl">PMS_Motor_level5.mdl</link></item>
+<item>Simulink Model for Space vector generation - Real Time <link resource="PMS_Motor_level1eZDSPF2812.mdl">PMS_Motor_level1eZDSPF2812.mdl</link></item>
+<item>Simulink Model for Open Loop - Real Time - <link resource="PMS_Motor_level2eZDSPF2812.mdl">PMS_Motor_level2eZDSPF2812.mdl</link></item>
+<item>Simulink Model for current loop - Real Time - <link resource="PMS_Motor_level3eZDSPF2812.mdl">PMS_Motor_level3eZDSPF2812.mdl</link></item>
+<item>Simulink Model for Encoder Verification - Real Time - <link resource="PMS_Motor_level4eZDSPF2812.mdl">PMS_Motor_level4eZDSPF2812.mdl</link></item>
+<item>Simulink Model for Closed Loop - Real Time <link resource="PMS_Motor_level5eZDSPF2812.mdl">PMS_Motor_level5eZDSPF2812.mdl</link></item>
+</list>
+</section>
+
+    </section>
+    <section id="id10647923">
+      <title>Simulation</title>
+      <para id="id4571373">The simulation process will be based on a simulation model for the PMS Motor. </para>
+      <figure id="id9988786"><media id="id1164326985228" alt=""><image src="../../media/graphics3-e4b2.png" mime-type="image/png"/></media><caption>Permanent Magnet Synchronous Motor (PMSM) Simulink Model
+</caption></figure>
+      
+      <para id="id4805969">Based on this model, the simulation will comprise five steps as follows:</para>
+      <list id="id8037746" list-type="enumerated">
+        <item>Implementing the Forward Loop – Space Vector Generation</item>
+        <item>Running the PMSM in open loop</item>
+        <item>Closing the current loop</item>
+        <item>The speed measurement-Encoder</item>
+        <item>The Speed Closed Loop</item>
+      </list>
+      <section id="id4796224">
+        <title>Space vector generation</title>
+        <para id="id8934775">The diagram below highlights the modules used in the first step. This first incremental step confirms operation of peripheral and target independent modules on forward control path and the code framework.</para>
+      <figure id="id7929006"><media id="id1894716" alt=""><image src="../../media/fig3-6ef4.JPG" mime-type="image/jpeg"/></media><caption>Space Vector Generation
+</caption></figure>
+
+        <para id="id7819858">At this very first stage the goal is to generate a saw–tooth waveform with a varying frequency. This waveform is an emulation of the rotor angle, which is then passed into the Park transformation allowing us to check the correct computation of the Space Vector PWM needed for the Field Oriented Control.</para>
+        
+        <list id="id8197925" list-type="bulleted"><title>Key Modules</title><item>RMPCNTL (ramp control): this module used by the instantiation of the object rc1, structure for which we can access each variable, controls the acceleration and deceleration rate of the speed command speed_ref .This speed command is passed the input of the RMPCNTL module rc1.target_value. The output of this module is called rc1.setpt_value which represents the frequency of the saw-tooth we want to generate.This frequency information is then passed to the ramp generator module.</item>
+	<item>RAMPGEN (ramp generator): to use this module, we instantiate an object rg1. The input of this module is rg1.rmp_freq . The rotating angle we generate (saw-tooth waveform) is rg1.rmp_out. This angle is then used for the Inverse PARK transformation.</item>
+	<item>IPARK (Inverse Park Transformation): instance ipark1. Computed rotating angle is passed into the ipark1.ang variable. The d and q inputs to the inverse Park transformation control the command magnitude via the variables ipark1.de and ipark1.qe.</item>
+	<item>SVGENDQ (Space Vector Generation): instance svgen_dq1. This module takes the output of the IPARK module and calculates the modulation to be applied on the duty cycle of the three pairs of PWM connected to the three phases inverter bridge (svgen_dq1.Ta, svgen_dq1.Tb and svgen_dq1.Tc).</item>
+	<item>PWMGEN (Pulse Width Modulation Generation driver): this modules is the only one linked to the DSP peripherals. Duty-cycles previously calculated are passed into the DSP PWM registers via the instant pw1. PWMGEN takes care of the DSP PWM initialization (timer set-up, PWM polarity and so on).</item>
+</list>
+        <list id="id7064445" list-type="enumerated"><item>Run the <link resource="PMS_Motor_data.m">PMS_Motor_data</link> M-file. This file initializes the following variables:</item>
+</list>
+<code id="second_codeblock" display="block">
+%Mechanical system
+%Electrical part
+DC_voltage = 200;
+encoder_resolution = 2000;
+%PWM
+freq_max=75e6;
+%Controller
+Ts=5e-5;
+</code>
+        <list id="id4788696" list-type="enumerated"><item>Open the <link resource="PMS_Motor_level1.mdl">PMS_Motor_level1</link> Simulink® model.</item>
+</list>
+        <figure id="id7937376"><media id="id1164326529063" alt=""><image src="../../media/graphics4-cec0.png" mime-type="image/png"/></media><caption>Space vector generation model</caption></figure>
+        
+        <para id="id6443199">Vd Testing</para>
+        <list id="id7535973" list-type="enumerated">
+          <item>Run the model and double-click the “Stator Current” and “Rotor Speed” scopes.</item>
+        </list>
+        
+      <figure id="id4153144"><media id="id5384897" alt=""><image src="../../media/graphics5-9536.png" mime-type="image/png"/></media><caption>Stator Current
+</caption></figure>
+
+
+        <figure id="id4277987"><media id="id1164324766194" alt=""><image src="../../media/fig6-c19b.JPG" mime-type="image/jpeg"/></media><caption>Rotor Speed</caption></figure>
+       
+      </section>
+      <section id="id10501012">
+        <title>Running the PMSM in open loop</title>
+        <para id="id4208647">The purpose of this step is to simulate open–loop operation with power-stage and motor connected and to check out current sensing and feedback path.</para>
+              <figure id="id4275972"><media id="id8361344" alt=""><image src="../../media/fig7-6a4d.JPG" mime-type="image/jpeg"/></media><caption>Open Loop
+</caption></figure>
+
+        <para id="id4103883">Key Modules Used for this level</para>
+        <para id="id4103888">In addition to the modules used in the previous section, we now start to build the feedback loop using:</para>
+        <list id="id3794805" list-type="bulleted"><item>ILEG2DCBUSMEAS_VCON (current leg and DC bus measurement): This module initializes the ADC to start automatic conversions of channels selected by the user on timer 1 underflow. ADC conversion results are automatically formatted and stored into dedicated variables.</item>
+	<item>CLARKE (Clarke transform module): This module converts the measured current into CLARKE coordinates in the reference frame (α, β). </item>
+	<item>PARK (Park Transformation): This module converts the (α, β) coordinates into two DC quantities.</item>
+	<item>Open the <link resource="PMS_Motor_level2.mdl">PMS_Motor_level2</link> Simulink model.</item>
+</list>
+        <para id="id4686272"><figure id="id3820077"><media id="id1164322314300" alt=""><image src="../../media/graphics7-cd98.png" mime-type="image/png"/></media></figure>Vd Testing</para>
+        <para id="id4758439">Figure 8: Open Loop Model</para>
+        <list id="id4265576" list-type="enumerated">
+          <item>Run the model and double-click the “Stator Current” and “Rotor Speed” (same as previous section) and “Vd/Vq” scopes.</item>
+        </list>
+        <para id="id11240212"><figure id="id4331386"><media id="id1164324515123" alt=""><image src="../../media/graphics8-2e2b.png" mime-type="image/png" height="265" width="399"/></media></figure>Ramp GeneratorVq Testing</para>
+        <para id="id4246126">Figure 9: Current Sensing</para>
+        <list id="id4264902" list-type="enumerated">
+          <item>Now you may change the values of Vd and Vq, and check how it influences the graphs above.</item>
+        </list>
+      </section>
+      <section id="id8889408">
+        <title>Closing the current loop</title>
+        <para id="id3591497">The purpose of this step is to close the current loop and to set the PI regulators correctly to get a stable system while the motor is still running in speed open-loop.</para>
+
+              <figure id="id7834107"><media id="id8228289" alt=""><image src="../../media/fig10-5ce0.JPG" mime-type="image/jpeg"/></media><caption>Current Sensing</caption></figure>
+
+        <para id="id3747119">Key Modules:</para>
+        <para id="id4715381">In addition to the modules already used, we use the PI module:</para>
+        <list id="id10678963" list-type="bulleted"><item>PIDREG3 (Proportional Integrator Derivative regulator): This module regulates the two currents id and iq, generated in the Park module.</item>
+	<item>Open the <link resource="PMS_Motor_level3.mdl">PMS_Motor_level3.mdl</link> Simulink model.</item>
+</list>
+        <figure id="id9447210">
+          <media id="id5119067" alt=""><image src="../../media/graphics9-08bc.png" mime-type="image/png"/></media><caption>Figure 11: Closing the Loop with the PI</caption>
+        </figure>
+        <para id="id4057258">Vd Testing</para>
+             <list id="id3824448" list-type="enumerated">
+          <item>Run the model and double-click the “Stator Current” and “Rotor Speed” (same as previous section) and “Vd/Vq” scopes.</item>
+        </list>
+        <figure id="id3772619"><media id="id3447915" alt=""><image src="../../media/fig12-941d.JPG" mime-type="image/jpeg"/></media><caption>Stator Current</caption></figure>
+        
+        <para id="id5117449"><figure id="id8196270"><media id="id2604971" alt=""><image src="../../media/Newgraphics11.png" mime-type="image/png"/></media><caption>Rotor Speed</caption></figure>Ramp GeneratorVq Testing</para>
+        
+        <figure id="id4763539"><media id="id1302688" alt=""><image src="../../media/fig14.JPG" mime-type="image/jpeg"/></media><caption>Vd/Vq</caption></figure>
+        
+        <para id="id4313003">For ease of use, the default PID parameters are already tuned. You can still play with them and observe the results. Within the watch windows, the PID coefficients are displayed for both iq and id. Using the following picture will help you to interpret the variables.</para>
+      </section>
+      <section id="id4512416">
+        <title>The Speed measurement-Encoder</title>
+        <para id="id10128775">During this step we will check the encoder feedback and we will align the calculated angle with the shaft angle.</para>
+
+              <figure id="id410299989"><media id="id5758511" alt=""><image src="../../media/fig15.JPG" mime-type="image/jpeg"/></media><caption>The Speed Measurement Encoder
+</caption></figure>
+
+        <para id="id8879556">KEY MODULES:</para>
+        <para id="id5114263">In addition to the modules already used, we use:</para>
+        <list id="id5117592" list-type="bulleted"><item>QEP (Quadrature encoder pulse module): instance qep1. This module initializes the QEP DSP unit. This involves the associted timer (T2) set-up, the QEP DSP pins set-up and so on. Calling the initialization routine of the QEP module, the dedicated DSP registers are automatically configured with no waste of time for the user in reading through the documentation. This module outputs an electrical angle stored into the qep1.theta_elec variable which is then passed into the speed calculator module. The encoder mounted on the motor is a 2000 lines encoder. In addition to the traditional QEP signals (QEP1 and QEP2), it provides an index pulse, which toggles every complete mechanical round. This index is connected to the capture interrupt 3 of the DSP. In the corresponding served interrupt, we clear the timer 2 counter ensuring to keep it between 0 and 8000: this way we have a precise information on the rotor position. The QEP module also takes care of the capture unit initialization.</item>
+	<item>SPEED_MEAS_QEP (Speed measurement based on QEP information): instance speed1. Based on system information (number of poles pairs for instance), this module outputs the motor speed information.</item>
+	<item>Open the <link resource="PMS_Motor_level4.mdl">PMS_Motor_level4</link> Simulink model.
+<figure id="id4121555"><media id="id7849135" alt=""><image src="../../media/graphics13-e792.png" mime-type="image/png"/></media>
+			<caption>Figure 16: Using the QEP</caption>
+		</figure></item>
+</list>
+       
+        <list id="id4287338" list-type="enumerated">
+          <item>Run the model and double-click the “PWM dutycycles” and “Rotor Speed” scopes.</item>
+        </list>
+        <figure id="id3808823"><media id="id4481031" alt=""><image src="../../media/fig17-9f15.JPG" mime-type="image/jpeg"/></media><caption>PWM Duty Cycles</caption></figure>
+        
+        <figure id="id4162267"><media id="id8015906" alt=""><image src="../../media/fig18.JPG" mime-type="image/jpeg"/></media><caption>Rotor Speed</caption></figure>
+                <section id="id3718700">
+          <title>Align the sensed angle we the motor shaft.</title>
+          <para id="id3784964">Until now, the magnetic field in the motor was generated without taking care of the shaft position. Even if our motor is a synchronous motor, with no load and at load speed, it was easy to expect the shaft to start and to catch the magnetic field without problem. Now, if we want to close the speed loop, we need to know the shaft angle at every moment. The shaft position is given by the encoder but we still have to align the initial sensed position with the shaft.</para>
+          <para id="id4687642">For this, we use the Data Log module to display in real time the rmp_out variable (angle we used until now to create the magnetic field) and theta_elec (sensed angle).</para>
+        </section>
+      </section>
+      <section id="id8864982">
+        <title>Speed Closed Loop </title>
+
+              <figure id="id3920766"><media id="id8134768" alt=""><image src="../../media/fig19.JPG" mime-type="image/jpeg"/></media><caption>Speed Closed Loop
+</caption></figure>
+
+        <para id="id4066510">The purpose of this step is to verify the speed regulator, close the speed loop and tune up the gains for the speed regulator if necessary. All the modules previously described are used in this final step.</para>
+      </section>
+    </section>
+    <section id="id7346246">
+      <title>Real Time</title>
+      <para id="id9517710">The real-time software will run in the following hardware:</para>
+      <list id="id3820942" list-type="bulleted">
+        <item>eZdsp F2812 (DSP control board based on the F2812)</item>
+        <item>DMC 550 (power stage board for BLDC and PMSM from Spectrum Digital®)</item>
+        <item>PMSM from Applied Motion Product ®</item>
+      </list>
+      <para id="id8157433">For safety reason it is mandatory that you strictly respect the following picture to connect the DMC 550.</para>
+      <figure id="id4254129"><media id="id4350205" alt=""><image src="../../media/fig20-5a48.JPG" mime-type="image/jpeg"/></media>
+<caption>Hardware Setup</caption></figure>
+      
+      <para id="id4068781">During this build, the speed reference will be given to the DSP through a potentiometer placed on the DMC 550 (R66). To start with, please put the potentiometer around its midle position. </para>
+      <list id="id4143717" list-type="enumerated">
+        <item>MAKE SURE that the potentiometer is around its midle position</item>
+        <item>Generate the code in Simulink</item>
+        <item>Turn ON the PSU and set the voltage to 10V.</item>
+      </list>
+      <para id="id8267956">The motor should have good response time now thanks to the speed closed loop. As usual the PID controller is already tuned. Using the same graphical display we used during the lab 4 you can see the impact of the PID parameters.</para>
+      <para id="id3973800">Since all the kits are different, the default settings for the current and speed PID may not be suitable and the maximum command may be instable</para>
+      <para id="id3829122">Moving the speed potentiometer, you can appreciate the fast and smooth response time! </para>
+      <section id="id3780791">
+        <title>To Stop the system properly</title>
+        <list id="id4270559" list-type="enumerated">
+          <item>Turn OFF the PSU</item>
+          <item>Halt the DSP: From the pull-down menu, “Debug” → “Halt”; </item>
+          <item>Close the Model</item>
+        </list>
+      </section>
+    </section>
+  </content>
+</document>

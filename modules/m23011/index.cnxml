@@ -1,0 +1,412 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Wavelet Denoising</title>
+  <metadata>
+  <md:content-id>m23011</md:content-id><md:title>Wavelet Denoising</md:title>
+  <md:abstract>Wavelets can be used in a wide range of applications, one of which is noise reduction. 
+This module shows a real-time implementation of a wavelet-based noise reduction in the DSK6713. A Simulink model is created for simulation, and afterwards used for DSP code generation.</md:abstract>
+  <md:uuid>3c193019-5ded-4644-8581-8db10fce1069</md:uuid>
+</metadata>
+
+<content>
+    
+    <section id="id8783109">
+      <title>Introduction</title>
+      <para id="id8783115">Wavelets can be used in a range of applications, one of which is noise reduction. </para>
+      <para id="id8783121">This laboratory shows how to design a model of Wavelet Noise Reduction using Simulink and run it on a Texas Instruments C6000 DSP. </para>
+      <section id="id8783127">
+        <title>Objectives </title>
+        <list id="id8783134" list-type="bulleted">
+          <item>Design a model of Wavelet Noise Reduction for the Texas Instruments C6000 family of DSP devices using MATLAB® and Simulink®.</item>
+          <item>Modify an existing Simulink demonstration model.</item>
+          <item>Run the project on the Texas Instruments C6713 DSK with a microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+      <section id="id8783189">
+        <title>Level</title>
+        <para id="id8783196">Intermediate. Assumes prior knowledge of MATLAB and Simulink. It also requires a theoretical understanding of wavelets and some knowledge of Texas Instruments DSPs.</para>
+      </section>
+      <section id="id8783207">
+        <title>Hardware and Software Requirements </title>
+        <para id="id8783213">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id8783219" list-type="bulleted">
+          <item>MATLAB R2006b with Embedded Target for TI C6000.</item>
+          <item>Code Composer Studio (CCS) v3.1</item>
+          <item>Texas Instruments C6713 DSK hardware.</item>
+          <item>Microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation <link resource="WaveletDenoising.ppt">WaveletDenoising.ppt</link></item>
+<item>Simulink Model for Simulation- <link resource="WaveletDenoising.mdl">WaveletDenoising.mdl</link></item>
+<item>Simulink Model for Real-Time <link resource="WaveletDenoisingDSKC6713.mdl">WaveletDenoisingDSKC6713.mdl</link></item>
+</list>
+</section>
+    </section>
+    <section id="id8783250">
+      <title>Simulation</title>
+      <section id="id8783257">
+        <title>Simulink Model </title>
+        <para id="id8783264">The Simulink model described here is based on a MATLAB Demo.</para>
+        <section id="id8783272">
+          <title>Opening the Model</title>
+          <para id="id8783279">Open WaveletDenoising.mdl</para>
+          <figure id="id8783286">
+            <media id="id1166759765163" alt=""><image src="../../media/graphics1-6d13.jpg" mime-type="image/jpeg"/></media>
+ <caption>Opening WaveletDenoising.mdl</caption>
+          </figure>
+        </section>
+        <section id="id8783331">
+          <title>Running the Model</title>
+          <para id="id8783338">Run the model. The colors change to show the different filter channels. Green = high frequency.</para>
+          <figure id="id8783350">
+            <media id="id1166759765443" alt=""><image src="../../media/graphics2-dab2.jpg" mime-type="image/jpeg"/></media>
+ <caption>Wavelet Model Showing Color Coding</caption>
+          </figure>
+        </section>
+        <section id="id8783395">
+          <title>Scope Output</title>
+          <para id="id8783401">The scope output shows how the random noise has been separated out (Residual).</para>
+          <figure id="id8783410">
+            <media id="id1166759765693" alt=""><image src="../../media/graphics3-1660.jpg" mime-type="image/jpeg"/></media>
+ <caption>Scope Output</caption>
+          </figure>
+        </section>
+        <section id="id8783456">
+          <title>Monitoring the Dyadic Filter Outputs</title>
+          <para id="id8783462">Add an extra scope as shown in Figure 4 to display the Diadic Filter Outputs.</para>
+          <figure id="id8755295">
+            <media id="id1166759765943" alt=""><image src="../../media/graphics4-45c4.jpg" mime-type="image/jpeg"/></media>
+ <caption>Monitoring the Dyadic Filter Outputs</caption>
+          </figure>
+        </section>
+        <section id="id8755340">
+          <title>Analysis of Diadic Filter Outputs</title>
+          <para id="id8755346">It can be seen that the noise is on Out1, Out2 and Out3. The clean input signal is on Out4. </para>
+          <figure id="id8755355">
+            <media id="id1166759766194" alt=""><image src="../../media/graphics5-ad89.jpg" mime-type="image/jpeg"/></media>
+ <caption>Noise Levels at Dyadic Filter Outputs</caption>
+          </figure>
+        </section>
+        <section id="id8755401">
+          <title>Modifying the Dead Zone</title>
+          <para id="id8755407">Double-click on the “Soft Threshold” block. This is the actual noise reduction stage. The fields are in order Out1, Out2, Out3 and Out4.</para>
+          <figure id="id8755419">
+            <media id="id1166759766444" alt=""><image src="../../media/graphics6-818d.jpg" mime-type="image/jpeg"/></media>
+ <caption>Noise Levels at Dyadic Filter Outputs</caption>
+          </figure>
+          <para id="id8755463">Here Out1 has been given a threshold of 3. This means that only values &gt; 3 are let through.</para>
+          <para id="id8755470">Out2, Out3 and Out4 have been given the value of 0. This means the whole signal is let through.</para>
+          <para id="id8755476">The output is shown in Figure 6. Note that the noise associated with Out2 and Out3 have not been reduced.</para>
+          <figure id="id8755485">
+            <media id="id1166759766735" alt=""><image src="../../media/graphics7-b0c5.jpg" mime-type="image/jpeg"/></media>
+ <caption>Threshold only applied to Out1</caption>
+          </figure>
+        </section>
+        <section id="id8755530">
+          <title>Changing the Delay Alignment</title>
+          <para id="id8755537">Double-click on the “Delay Alignment” block. Temporarily remove the delays on Out1 and Out2.</para>
+          <figure id="id8755547">
+            <media id="id1166759767052" alt=""><image src="../../media/graphics8-5cb9.jpg" mime-type="image/jpeg"/></media>
+ <caption>Removing the Delay Alignments</caption>
+          </figure>
+          <para id="id8755592">Run the model to see the effect.</para>
+        </section>
+        <section id="id8755598">
+          <title>Summary of Simulation</title>
+          <para id="id8755604">From practical experimentation using the Simulink model, you should now understand how wavelet denoising works.</para>
+        </section>
+      </section>
+    </section>
+    <section id="id8755614">
+      <title>Real-Time Model for TI C6713 DSK</title>
+      <section id="id8755620">
+        <title>Texas Instruments C6713 DSK Setup </title>
+        <figure id="id8755629">
+          <media id="id1166759767552" alt=""><image src="../../media/fig9-654d.jpg" mime-type="image/jpeg"/></media>
+<caption>Texas Instruments C6713 DSK Setup</caption>      
+        </figure>
+        </section>
+      <section id="id8755675">
+        <title>Simulink Model for C6713 DSK </title>
+        <section id="id8755681">
+          <title>Starting Code Composer Studio</title>
+          <para id="id8755688">Start Code Composer Studio for C6713 DSK and use Debug -&gt; Connect.</para>
+          <figure id="id8755697">
+            <media id="id1166759767910" alt=""><image src="../../media/fig10.jpg" mime-type="image/jpeg"/></media>
+<caption>Startup Screen for Code Composer Studio (CCS)</caption>      
+        </figure>
+        </section>
+        <section id="id8755744">
+          <title>Opening an Existing Model</title>
+          <para id="id8755750">Start MATLAB 7.3.0 R2006b:</para>
+          <figure id="id8755760">
+            <media id="id1166759768195" alt=""><image src="../../media/graphics11-e5ca.jpg" mime-type="image/jpeg"/></media>
+<caption>Opening an Existing Demo</caption>      
+        </figure>
+          <para id="id8755805">Click on “Demos”. The following screen will appear:</para>
+          <figure id="id8755814">
+            <media id="id1166759768379" alt=""><image src="../../media/graphics12-5b27.jpg" mime-type="image/jpeg"/></media>
+<caption>Selecting the Audio Demo Models</caption>      
+        </figure>
+          <para id="id8755858">Highlight “Embedded Target for TI C6000 DSP” then “Audio”. Click on “Wavelet Denoising”. </para>
+        </section>
+        <section id="id8755867">
+          <title>Viewing the Wavelet Denoising Parent</title>
+          <para id="id8755874">The “Wavelet Denoising” model is now displayed. Double-click on the “function()” box.</para>
+          <figure id="id8755884">
+            <media id="id1166759768736" alt=""><image src="../../media/graphics13-fd40.jpg" mime-type="image/jpeg"/></media>
+<caption>Wavelet Denoising Parent</caption>      
+        </figure>        </section>
+        <section id="id8755930">
+          <title>The Original Wavelet Noise Reduction Algorithm</title>
+          <para id="id8755938">The “Wavelet Noise Reduction Algorithm” model is now displayed.</para>
+          <figure id="id8755947">
+            <media id="id1166759769022" alt=""><image src="../../media/graphics14-6c4d.png" mime-type="image/png"/></media>
+<caption>Wavelet Denoising Algorithm</caption>      
+        </figure>
+        </section>
+        <section id="id8755993">
+          <title>Copying the Model</title>
+          <para id="id8756000">For convenience, copy the model to the MATLAB “Work” directory where most models are stored.</para>
+          <figure id="id8756015">
+            <media id="id1166758197042" alt=""><image src="../../media/graphics15-1a52.jpg" mime-type="image/jpeg"/></media>
+<caption>Copying the Model to the MATLAB “Work” directory</caption>      
+        </figure>
+        </section>
+        <section id="id8756062">
+          <title>Overview of the Modified Model</title>
+          <para id="id8756069">In order to run the model on the C6713 DSK and be able to compare the performance with and without noise reduction, we will make some small modifications to the demo model.</para>
+          <figure id="id8756079">
+            <media id="id1166758197333" alt=""><image src="../../media/graphics16-58d5.jpg" mime-type="image/jpeg"/></media>
+<caption>The Modified Algorithm</caption>      
+        </figure>          
+<para id="id8756124">You will now update the existing model by dragging-and-dropping some library components onto the model.</para>
+        </section>
+        <section id="id8756131">
+          <title>Changing the Input to Microphone</title>
+          <para id="id8756137">Double-click on the blue box to the left marked “C6713 DSK ADC”. The following options will appear.</para>
+          <figure id="id8756149">
+            <media id="id1166758197690" alt=""><image src="../../media/graphics17-974b.jpg" mime-type="image/jpeg"/></media>
+<caption>Setting up the ADC for Microphone Input</caption>      
+        </figure>
+          <para id="id8756194">Change the “ADC source” to “Mic In” and tick the “Stereo” box. If you have a quiet microphone, tick the “+20dB Mic gain boost” box. When done, click on “OK”. </para>
+        </section>
+        <section id="id8756205">
+          <title>The DAC Settings</title>
+          <para id="id8756212">The DAC settings need to match those of the ADC. Check that they are the same. </para>
+          <figure id="id8756221">
+            <media id="id1166758198012" alt=""><image src="../../media/graphics18-aa8c.jpg" mime-type="image/jpeg"/></media>
+<caption>Setting the DAC Parameters</caption>      
+        </figure>
+        </section>
+        <section id="id8834183">
+          <title>Adding a DIP Switch and LED</title>
+          <para id="id8834190">To change between no wavelet denoising and with wavelet noise reduction, we will use a DIP switch of the C6713 DSK.</para>
+          <figure id="id8834199">
+            <media id="id1166758198298" alt=""><image src="../../media/graphics19-f3b3.jpg" mime-type="image/jpeg"/></media>
+<caption>Adding a Switch and LED</caption>      
+        </figure>
+          <para id="id8834244">Select View -&gt; Library Browser -&gt; Embedded Target for TI C6000 DSP. Highlight “C6713 DSK Board Support”. </para>
+          <para id="id8834252">Drag-and-drop the “Switch” block onto the model. Also drag-and-drop the “LED” block onto the model.</para>
+        </section>
+        <section id="id8834261">
+          <title>DIP Switch Settings</title>
+          <para id="id8834268">The DIP switch needs to be configured. Double-click on the “Switch” block. </para>
+          <para id="id8834275">Put at tick in all of the boxes and set “Data type” to Integer. The “Sample time” should also be set to “–1”.</para>
+          <figure id="id8834288">
+            <media id="id1166758198798" alt=""><image src="../../media/graphics20-9dfe.jpg" mime-type="image/jpeg"/></media>
+<caption>Setting up the DIP Switch Value</caption>      
+        </figure>
+        </section>
+        <section id="id8834333">
+          <title>Adding a Constant, Switch and Relational Operator</title>
+          <para id="id8834341">We now need to setup a way to switch between straight through without noise reduction and with wavelet noise reduction. </para>
+          <para id="id8834347">Select View -&gt; Library Browser -&gt; Simulink. Highlight “Commonly Used Blocks”. </para>
+          <para id="id8834353">Drag-and-drop a “Constant” onto the model.</para>
+          <para id="id8834359">Drag-and-drop a “Switch” block onto the model. </para>
+          <para id="id8834365">Drag-and-drop a “Relational Operator” block onto the model.</para>
+          <figure id="id8834374">
+            <media id="id1166758199298" alt=""><image src="../../media/graphics21-7b97.jpg" mime-type="image/jpeg"/></media>
+<caption>Selecting the Commonly Used Blocks</caption>      
+        </figure>
+        </section>
+        <section id="id8834420">
+          <title>Setting the Constant Value</title>
+          <para id="id8834427">The switch values lie between 0 and 15. We will use switch values 0 and 1. Double-click on the “Constant” block. Set the “Constant value” to 1 and the “Sample time” to “inf”. </para>
+          <figure id="id8834442">
+            <media id="id1166758199584" alt=""><image src="../../media/graphics22-c092.jpg" mime-type="image/jpeg"/></media>
+<caption>Setting the Echo Delay Gain</caption>      
+        </figure>
+        </section>
+        <section id="id8834487">
+          <title>Setting the Constant Data Type </title>
+          <para id="id8834494">Click on the “Signal Data Types” tab. Set the “Output data type mode” to “int16”. This is compatible with the DAC on the C6713 DSK. Click on “OK”.</para>
+          <figure id="id8834506">
+            <media id="id1166758199870" alt=""><image src="../../media/graphics23-52b5.jpg" mime-type="image/jpeg"/></media>
+<caption>Data Type Conversion to 16-bit Integer</caption>      
+        </figure>
+        </section>
+        <section id="id8834552">
+          <title>Setting the Relational Operator Type</title>
+          <para id="id8834559">Double click on the “Relational Operator” block. Change the “Relational operator” to “==”. Click on the “Signal Data Types” tab.</para>
+          <figure id="id8834571">
+            <media id="id1166758200156" alt=""><image src="../../media/graphics24-28b4.jpg" mime-type="image/jpeg"/></media>
+<caption>Changing the Relational Operator</caption>      
+        </figure>
+        </section>
+        <section id="id8834616">
+          <title>Setting the Relational Operator Data Type</title>
+          <para id="id8834623">Set the “Output data type mode” to “Boolean”.</para>
+          <figure id="id8834632">
+            <media id="id1166758200442" alt=""><image src="../../media/graphics25-1986.jpg" mime-type="image/jpeg"/></media>
+<caption>Changing the Output Data Type</caption>      
+        </figure>
+        </section>
+        <section id="id8834677">
+          <title>Joining the Blocks</title>
+          <para id="id8834684">Move the blocks and join them as shown in the Figure below.</para>
+          <figure id="id8834693">
+            <media id="id1166758200866" alt=""><image src="../../media/graphics26-58d5.jpg" mime-type="image/jpeg"/></media>
+<caption>Joining the Blocks</caption>      
+        </figure>
+        </section>
+        <section id="id8834739">
+          <title>Checking the Dyadic Analysis Filter Bank</title>
+          <para id="id8834745">Double click on the “Dyadic Analysis Filter Bank” block. The values of the Dyadic Analysis Filter Bank are shown below. You do not need to change them yet. Click on “OK”.</para>
+          <figure id="id8834759">
+            <media id="id1166758201293" alt=""><image src="../../media/graphics27-16b9.jpg" mime-type="image/jpeg"/></media>
+<caption>Checking the Dyadic Analysis Filter Bank</caption>      
+        </figure>
+        </section>
+        <section id="id8834804">
+          <title>Checking the Delay Alignment</title>
+          <para id="id8834811">The delay alignment is shown below, with different delay times for the different frequencies.</para>
+          <figure id="id8834820">
+            <media id="id1166758201722" alt=""><image src="../../media/graphics28-b399.jpg" mime-type="image/jpeg"/></media>
+<caption>Checking the Delay Alignment</caption>      
+        </figure>
+        </section>
+        <section id="id8834865">
+          <title>Checking the Soft Threshold</title>
+          <para id="id8834872">The “Soft Threshold” sets the threshold below which noise is ignored for each of the four channels. Zero means no noise reduction.</para>
+          <figure id="id8834884">
+            <media id="id1166758202156" alt=""><image src="../../media/graphics29-153c.jpg" mime-type="image/jpeg"/></media>
+<caption>Checking the Thresholds</caption>      
+        </figure>
+        </section>
+        <section id="id8834929">
+          <title>Checking the Dyadic Synthesis</title>
+          <para id="id8834936">Double-click on the “Dyadic Synthesis Filter Bank”. There is no need to change the values at this time. Click on “OK” when done.</para>
+          <figure id="id8834948">
+            <media id="id1166760104897" alt=""><image src="../../media/graphics30-68ea.jpg" mime-type="image/jpeg"/></media>
+<caption>Checking the Dyadic Synthesis Filter Bank</caption>      
+        </figure>
+        </section>
+        <section id="id8834993">
+          <title>Returning to the Parent System</title>
+          <para id="id8835000">From the Toolbar, select the “Up Arrow” icon. This returns you to the next higher level. </para>
+          <figure id="id8835010">
+            <media id="id1166760105327" alt=""><image src="../../media/graphics31-3d31.jpg" mime-type="image/jpeg"/></media>
+<caption>Returning to the Parent System</caption>      
+        </figure>
+         </section>
+      </section>
+      <section id="id8835057">
+        <title>Building the Model </title>
+        <section id="id8835064">
+          <title>Selecting Real-Time Workshop</title>
+          <para id="id8835070">Select Tools -&gt; Real-Time Workshop -&gt; Build Model. </para>
+          <figure id="id8835080">
+            <media id="id1166760105898" alt=""><image src="../../media/graphics32-df46.jpg" mime-type="image/jpeg"/></media>
+<caption>Building the Model</caption>      
+        </figure>
+        </section>
+        <section id="id8835125">
+          <title>The Completed Model Running on Code Composer Studio</title>
+          <para id="id8835133">From the folders on the left, select the source code for the project. </para>
+          <figure id="id8835147">
+            <media id="id1166760106327" alt=""><image src="../../media/fig33-b072.jpg" mime-type="image/jpeg"/></media>
+<caption>The Completed Model Running under Code Composer Studio</caption>      
+        </figure>
+        </section>
+      </section>
+      <section id="id7912354">
+        <title>Different Settings on the C6713 DSK </title>
+        <section id="id7912360">
+          <title>Microphone Straight Through to Loudspeakers</title>
+          <para id="id7912367">To check out the microphone and loudspeakers, set the DIP switches on the C6713 DSK as follows:</para>
+          <figure id="id7912376">
+            <media id="id1166760106895" alt=""><image src="../../media/graphics34-d244.jpg" mime-type="image/jpeg"/></media>
+<caption>Switch Position 0</caption>      
+        </figure>
+          <para id="id7912421">The microphone is fed directly to the loudspeakers. There is no noise reduction.</para>
+        </section>
+        <section id="id7912427">
+          <title>Switch Position for Wavelet Noise Reduction</title>
+          <para id="id7912434">To run the “Wavelet Noise Reduction” subsystem, set the DIP switch to 1.</para>
+          <figure id="id7912444">
+            <media id="id1166760107399" alt=""><image src="../../media/graphics35-923c.jpg" mime-type="image/jpeg"/></media>
+<caption>Switch Position 1 for Wavelet Noise Reduction</caption>      
+        </figure>
+        </section>
+      </section>
+      <section id="id7912491">
+        <title>Modifying the Model </title>
+        <para id="id7912498">The next stage is to modify the model. We will change the wavelet type to “Symlets”.</para>
+        <section id="id7912505">
+          <title>Changing the Filter Type</title>
+          <para id="id7912512">Double-click on the “Dyadic Analysis Filter Bank” block. Change the “Filter” field to “Symlets”. Click on “OK”.</para>
+          <figure id="id7912524">
+            <media id="id1166760108073" alt=""><image src="../../media/graphics36-f8a9.jpg" mime-type="image/jpeg"/></media>
+<caption>Dyadic Analysis Filter Bank set to Symlets</caption>      
+        </figure>
+        </section>
+        <section id="id7912569">
+          <title>Updating the Dyadic Synthesis Filter Bank</title>
+          <para id="id7912576">The wavelet type should be the same as that used in the Dyadic Analysis Filter Bank. Double-click on the “Dyadic Synthesis Filter Bank” block. Change the “Filter” field to “Symlets”. Click on “OK”. </para>
+          <figure id="id7912595">
+            <media id="id1166760108472" alt=""><image src="../../media/graphics37-e7c9.jpg" mime-type="image/jpeg"/></media>
+<caption>Configuring the Dyadic Synthesis Filter Bank</caption>      
+        </figure>
+        </section>
+        <section id="id7912641">
+          <title>Building the Model</title>
+          <para id="id7912648">Select Tools -&gt; Real-Time Workshop -&gt; Build Model.</para>
+          <figure id="id7912661">
+            <media id="id1166760108900" alt=""><image src="../../media/graphics38-df46.jpg" mime-type="image/jpeg"/></media>
+<caption>Building the Model</caption>      
+        </figure>        </section>
+        <section id="id7912707">
+          <title>Running the Updated Model</title>
+          <para id="id7912714">Run the updated model and listen to the effect of using different filter types.</para>
+        </section>
+      </section>
+    </section>
+    <section id="id7912723">
+      <title>Some Things to Try</title>
+      <para id="id7912730">You may wish to experiment with different settings. Here are some suggestions.</para>
+      <section id="id7912735">
+        <title>Change the Wavelet Types</title>
+        <para id="id7912742">Inside the “Dyadic Analysis Filter Bank” are different wavelet types. Which are suitable for wavelet denoising and which are not? Note: you will also have to alter the values used in the “Dyadic Synthesis Filter Bank”.</para>
+        <figure id="id7912757">
+          <media id="id1166760109788" alt=""><image src="../../media/graphics39-5cf2.jpg" mime-type="image/jpeg"/></media>
+<caption>Available Wavelet Types</caption>      
+        </figure>
+      </section>
+      <section id="id7912802">
+        <title>Change the Delay Alignment Times</title>
+        <para id="id7912809">Experiment with the delay alignment times. Try higher and lower values.</para>
+        <para id="id7912814">What is the effect of completely removing the “Delay Alignment” block?</para>
+      </section>
+      <section id="id7912822">
+        <title>Change the Noise Reduction Thresholds</title>
+        <para id="id7912829">In the “Soft Threshold” block, change the values. The existing vector of [3, 2, 1, 0] reduces high frequency noise, but does not affect low frequencies.</para>
+      </section>
+      <section id="id7912840">
+        <title>Create Your Own Subsystem</title>
+        <para id="id7912846">Add your own subsystem block controlled by the DIP switches and add your own wavelet denoising algorithm. Choose your own wavelet, number of channels, sampling frequency and thresholds.</para>
+      </section>
+    </section>
+  </content>
+</document>

@@ -1,0 +1,2221 @@
+Model {
+  Name			  "LaneDetection"
+  Version		  6.5
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.291"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "ibm-5348_P100-1997"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  on
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Wed Jul 21 13:59:18 2004"
+  Creator		  "mkhan"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "jacobf"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Tue Nov 06 18:53:54 2007"
+  ModelVersionFormat	  "1.%<AutoIncrement:291>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "32-bit Generic"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.2.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Version		  "1.2.0"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  SolverName		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.2.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    5
+	    Cell		    "ZeroExternalMemoryAtStartup"
+	    Cell		    "ZeroInternalMemoryAtStartup"
+	    Cell		    "InitFltsAndDblsToZero"
+	    Cell		    "OptimizeModelRefInitCode"
+	    Cell		    "NoFixptDivByZeroProtection"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  on
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  off
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode off
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  off
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.2.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "warning"
+	  MultiTaskCondExecSysMsg "none"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StrictBusMsg		  "None"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.2.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Undefined"
+	  ProdEndianess		  "Unspecified"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "32-bit Generic"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.2.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "IncludeHyperlinkInReport"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  SystemTargetFile	  "grt.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "grt_default_tmf"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  on
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Array {
+		Type			"Cell"
+		Dimension		9
+		Cell			"IgnoreCustomStorageClasses"
+		Cell			"InsertBlockDesc"
+		Cell			"SFDataObjDesc"
+		Cell			"SimulinkDataObjDesc"
+		Cell			"DefineNamingRule"
+		Cell			"SignalNamingRule"
+		Cell			"ParamNamingRule"
+		Cell			"InlinedPrmAccess"
+		Cell			"CustomSymbolStr"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses on
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.GRTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		12
+		Cell			"IncludeMdlTerminateFcn"
+		Cell			"CombineOutputUpdateFcns"
+		Cell			"SuppressErrorStatus"
+		Cell			"ERTCustomFileBanners"
+		Cell			"GenerateSampleERTMain"
+		Cell			"MultiInstanceERTCode"
+		Cell			"PurelyIntegerCode"
+		Cell			"SupportNonFinite"
+		Cell			"SupportComplex"
+		Cell			"SupportAbsoluteTime"
+		Cell			"SupportContinuousTime"
+		Cell			"SupportNonInlinedSFcns"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns off
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    off
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      on
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   on
+	      SupportNonInlinedSFcns  on
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      ExtMode		      off
+	      ExtModeStaticAlloc      off
+	      ExtModeTesting	      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTransport	      0
+	      ExtModeMexFile	      "ext_comm"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      GenerateASAP2	      off
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Optimization"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  WSDataSource		  "M-Code"
+  WSMCode		  "NumRows=81;"
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Bias
+      Bias		      "0"
+      SaturateOnIntegerOverflow	on
+    }
+    Block {
+      BlockType		      Concatenate
+      NumInputs		      "2"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
+    }
+    Block {
+      BlockType		      From
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Goto
+      IconDisplay	      "Tag"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      IconShape		      "rectangular"
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Selector
+      IndexMode		      "One-based"
+      InputPortWidth	      "-1"
+      OutputPortSize	      "1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Terminator
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "LaneDetection"
+    Location		    [266, 545, 997, 859]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.196850, 0.196850, 0.196850, 0.196850]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      Reference
+      Name		      "From Multimedia File"
+      Ports		      [0, 1]
+      Position		      [35, 65, 150, 155]
+      ShowName		      off
+      DialogController	      "dspDDGCreate"
+      DialogControllerArgs    "DataTag0"
+      SourceBlock	      "dspwin32/From Multimedia File"
+      SourceType	      "From Multimedia File"
+      inputFilename	      "viplane.avi"
+      loop		      on
+      numPlays		      "inf"
+      outputStreams	      "Video and audio"
+      videoDataType	      "single"
+      audioDataType	      "int16"
+      inheritSampleTime	      on
+      userDefinedSampleTime   "1/30"
+      noAudioOutput	      off
+      isIntensityVideo	      on
+      outputEOF		      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Input Image"
+      Ports		      [1]
+      Position		      [245, 205, 335, 295]
+      SourceBlock	      "vipsnks/To Video Display"
+      SourceType	      "To Video Display"
+      inputType		      "Intensity"
+      OutputDevice	      "On-screen video monitor"
+      fullScreen	      off
+      videoWindowX	      "176"
+      videoWindowY	      "466"
+      saveWindowSize	      off
+      videoWindowWidth	      "368"
+      videoWindowHeight	      "195"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lane Marker Detection\nand Tracking"
+      Ports		      [1, 1]
+      Position		      [205, 68, 340, 152]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Lane Marker Detection\nand Tracking"
+	Location		[22, 536, 1016, 986]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.196850, 0.196850, 0.196850, 0.196850]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "I"
+	  Position		  [50, 133, 80, 147]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Define ROI"
+	  Ports			  [1, 1]
+	  Position		  [170, 221, 240, 269]
+	  SourceBlock		  "dspmtrx3/Submatrix"
+	  SourceType		  "Submatrix"
+	  RowSpan		  "Range of rows"
+	  RowStartMode		  "Index"
+	  RowStartIndex		  "NumRows"
+	  RowEndMode		  "Last"
+	  RowEndIndex		  "1"
+	  ColSpan		  "All columns"
+	  ColStartMode		  "First"
+	  ColStartIndex		  "1"
+	  ColEndMode		  "Last"
+	  ColEndIndex		  "1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Embedded MATLAB\nRho-Theta\nCorrection"
+	  Ports			  [2, 2]
+	  Position		  [645, 204, 730, 271]
+	  BackgroundColor	  "lightBlue"
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    0
+	    PropName		    "AvailSigsLoadSave"
+	  }
+	  MaskHideContents	  off
+	  MaskType		  "Stateflow"
+	  MaskDescription	  "Embedded MATLAB block"
+	  MaskDisplay		  "disp('fcn');"
+	  MaskSelfModifiable	  on
+	  MaskIconFrame		  on
+	  MaskIconOpaque	  off
+	  MaskIconRotate	  "none"
+	  MaskIconUnits		  "autoscale"
+	  System {
+	    Name		    "Embedded MATLAB\nRho-Theta\nCorrection"
+	    Location		    [257, 457, 812, 717]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "rhos"
+	      Position		      [20, 101, 40, 119]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "thetas"
+	      Position		      [20, 136, 40, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Demux
+	      Name		      " Demux "
+	      Ports		      [1, 1]
+	      Position		      [270, 180, 320, 220]
+	      Outputs		      "1"
+	    }
+	    Block {
+	      BlockType		      "S-Function"
+	      Name		      " SFunction "
+	      Tag		      "Stateflow S-Function LaneDetection 2"
+	      Ports		      [2, 3]
+	      Position		      [180, 100, 230, 180]
+	      FunctionName	      "sf_sfun"
+	      PortCounts	      "[2 3]"
+	      Port {
+		PortNumber		2
+		Name			"Rhos"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	      Port {
+		PortNumber		3
+		Name			"Thetas"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      " Terminator "
+	      Position		      [460, 191, 480, 209]
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Rhos"
+	      Position		      [460, 101, 480, 119]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Thetas"
+	      Position		      [460, 136, 480, 154]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      " SFunction "
+	      SrcPort		      1
+	      Points		      [0, 85]
+	      DstBlock		      " Demux "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      " Demux "
+	      SrcPort		      1
+	      DstBlock		      " Terminator "
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "rhos"
+	      SrcPort		      1
+	      DstBlock		      " SFunction "
+	      DstPort		      1
+	    }
+	    Line {
+	      Name		      "Rhos"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      2
+	      DstBlock		      "Rhos"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "thetas"
+	      SrcPort		      1
+	      Points		      [120, 0]
+	      DstBlock		      " SFunction "
+	      DstPort		      2
+	    }
+	    Line {
+	      Name		      "Thetas"
+	      Labels		      [0, 0]
+	      SrcBlock		      " SFunction "
+	      SrcPort		      3
+	      DstBlock		      "Thetas"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Enhanced \nEdge \nDetection"
+	  Ports			  [1, 1]
+	  Position		  [310, 212, 430, 278]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Enhanced \nEdge \nDetection"
+	    Location		    [194, 96, 758, 345]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "ROI"
+	      Position		      [20, 123, 50, 137]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Edge Detection"
+	      Ports		      [1, 1]
+	      Position		      [195, 20, 295, 80]
+	      DialogController	      "vipDDGCreate"
+	      DialogControllerArgs    "DataTag1"
+	      SourceBlock	      "vipanalysis/Edge Detection"
+	      SourceType	      "Edge Detection"
+	      method		      "Sobel"
+	      outputType	      "Binary image"
+	      userDefinedThreshold    off
+	      thresholdSource	      "Input port"
+	      threshold		      "20"
+	      thresholdTuning	      "1"
+	      edgeThinning	      off
+	      threshold_canny	      "[0.25 0.60]"
+	      autoPercent	      "93"
+	      sigma		      "2"
+	      outputMode	      "Same as first input"
+	      outputWordLength	      "16"
+	      outputFracLength	      "4"
+	      accumMode		      "Same as product output"
+	      accumWordLength	      "32"
+	      accumFracLength	      "8"
+	      prodOutputMode	      "Binary point scaling"
+	      prodOutputWordLength    "32"
+	      prodOutputFracLength    "8"
+	      roundingMode	      "Floor"
+	      overflowMode	      off
+	      LockScale		      off
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "I: Histogram-based\nBinary Thresholding"
+	      Ports		      [1, 1]
+	      Position		      [200, 174, 270, 226]
+	      NamePlacement	      "alternate"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"I: Histogram-based\nBinary Thresholdi"
+"ng"
+		Location		[294, 414, 710, 562]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"usletter"
+		PaperUnits		"inches"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "I"
+		  Position		  [25, 28, 55, 42]
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Calculate threshold\nbased on histo"
+"gram"
+		  Ports			  [1, 1]
+		  Position		  [120, 56, 185, 114]
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  System {
+		    Name		    "Calculate threshold\nbased on his"
+"togram"
+		    Location		    [276, 557, 822, 650]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "usletter"
+		    PaperUnits		    "inches"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "Y"
+		    Position		    [25, 38, 55, 52]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "2-D Histogram"
+		    Ports		    [1, 1]
+		    Position		    [90, 26, 140, 64]
+		    DialogController	    "dspDDGCreate"
+		    DialogControllerArgs    "DataTag2"
+		    SourceBlock		    "vipstatistics/2-D Histogram"
+		    SourceType		    "2-D Histogram"
+		    umin		    "0"
+		    umax		    "1"
+		    nbins		    "256"
+		    normalized		    off
+		    run			    off
+		    reset		    on
+		    trigtype		    "Non-zero sample"
+		    additionalParams	    off
+		    allowOverrides	    on
+		    accumMode		    "Same as input"
+		    accumWordLength	    "32"
+		    accumFracLength	    "30"
+		    prodOutputMode	    "Same as input"
+		    prodOutputWordLength    "32"
+		    prodOutputFracLength    "30"
+		    roundingMode	    "Floor"
+		    overflowMode	    off
+		    LockScale		    off
+		    }
+		    Block {
+		    BlockType		    Bias
+		    Name		    "Bias"
+		    Position		    [320, 30, 360, 60]
+		    ShowName		    off
+		    Bias		    "single(30)"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    DataTypeConversion
+		    Name		    "Data Type \nConversion1"
+		    Position		    [255, 31, 285, 59]
+		    ShowName		    off
+		    OutDataTypeMode	    "single"
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [400, 30, 430, 60]
+		    Gain		    "1/256"
+		    ParameterDataTypeMode   "Inherit via internal rule"
+		    OutDataTypeMode	    "Inherit via internal rule"
+		    SaturateOnIntegerOverflow off
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Maximum"
+		    Ports		    [1, 1]
+		    Position		    [170, 27, 225, 63]
+		    DialogController	    "dspfixptddg.MinMax"
+		    DialogControllerArgs    "DataTag3"
+		    SourceBlock		    "dspstat3/Maximum"
+		    SourceType		    "Maximum"
+		    fcn			    "Index"
+		    reset		    "None"
+		    indexBase		    "One"
+		    operateOver		    "Each column"
+		    colComp		    on
+		    operation		    "maximum"
+		    additionalParams	    off
+		    allowOverrides	    on
+		    accumMode		    "Same as product output"
+		    accumWordLength	    "32"
+		    accumFracLength	    "30"
+		    prodOutputMode	    "Same as input"
+		    prodOutputWordLength    "32"
+		    prodOutputFracLength    "30"
+		    roundingMode	    "Floor"
+		    overflowMode	    off
+		    LockScale		    off
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Ythresh"
+		    Position		    [480, 38, 510, 52]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Ythresh"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Bias"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Data Type \nConversion1"
+		    SrcPort		    1
+		    DstBlock		    "Bias"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Maximum"
+		    SrcPort		    1
+		    DstBlock		    "Data Type \nConversion1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "2-D Histogram"
+		    SrcPort		    1
+		    DstBlock		    "Maximum"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Y"
+		    SrcPort		    1
+		    DstBlock		    "2-D Histogram"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  RelationalOperator
+		  Name			  "Relational\nOperator1"
+		  Position		  [265, 27, 295, 58]
+		  ShowName		  off
+		  InputSameDT		  off
+		  LogicOutDataTypeMode	  "Boolean"
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "I_Binary"
+		  Position		  [370, 38, 400, 52]
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  SrcBlock		  "Relational\nOperator1"
+		  SrcPort		  1
+		  DstBlock		  "I_Binary"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Calculate threshold\nbased on histo"
+"gram"
+		  SrcPort		  1
+		  Points		  [35, 0; 0, -35]
+		  DstBlock		  "Relational\nOperator1"
+		  DstPort		  2
+		}
+		Line {
+		  SrcBlock		  "I"
+		  SrcPort		  1
+		  Points		  [0, 0; 15, 0]
+		  Branch {
+		    Points		    [0, 50]
+		    DstBlock		    "Calculate threshold\nbased on his"
+"togram"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [125, 0]
+		    DstBlock		    "Relational\nOperator1"
+		    DstPort		    1
+		  }
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Logic
+	      Name		      "Logical\nOperator1"
+	      Ports		      [2, 1]
+	      Position		      [410, 112, 440, 143]
+	      ShowName		      off
+	      AllPortsSameDT	      off
+	      OutDataTypeMode	      "Boolean"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Binary \nImage"
+	      Position		      [500, 123, 530, 137]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "I: Histogram-based\nBinary Thresholding"
+	      SrcPort		      1
+	      Points		      [90, 0; 0, -65]
+	      DstBlock		      "Logical\nOperator1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Edge Detection"
+	      SrcPort		      1
+	      Points		      [65, 0; 0, 70]
+	      DstBlock		      "Logical\nOperator1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "ROI"
+	      SrcPort		      1
+	      Points		      [35, 0]
+	      Branch {
+		Points			[0, -80]
+		DstBlock		"Edge Detection"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 70]
+		DstBlock		"I: Histogram-based\nBinary Thresholdi"
+"ng"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Logical\nOperator1"
+	      SrcPort		      1
+	      DstBlock		      "Binary \nImage"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Lane Drawing \nand\nImage Construction"
+	  Ports			  [4, 1]
+	  Position		  [785, 119, 905, 266]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Lane Drawing \nand\nImage Construction"
+	    Location		    [127, 108, 872, 478]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "RGBall"
+	      Position		      [15, 63, 45, 77]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "I_low"
+	      Position		      [15, 143, 45, 157]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      Port {
+		PortNumber		1
+		ShowPropagatedSignals	"on"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Rhos"
+	      Position		      [15, 283, 45, 297]
+	      Port		      "3"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Thetas"
+	      Position		      [15, 243, 45, 257]
+	      Port		      "4"
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Draw Shapes"
+	      Ports		      [2, 1]
+	      Position		      [425, 124, 505, 226]
+	      DialogController	      "vipDDGCreate"
+	      DialogControllerArgs    "DataTag4"
+	      SourceBlock	      "viptextngfix/Draw Shapes"
+	      SourceType	      "Draw Shapes"
+	      inType		      "Intensity"
+	      shape		      "Polygons"
+	      fill		      on
+	      display		      "User-specified value"
+	      intensity		      "200"
+	      color		      "[0  1 1]"
+	      opacity		      "0.6"
+	      viewport		      "Entire image"
+	      antialiasing	      on
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Extraction"
+	      Ports		      [1, 1]
+	      Position		      [235, 50, 280, 90]
+	      SourceBlock	      "dspmtrx3/Submatrix"
+	      SourceType	      "Submatrix"
+	      RowSpan		      "Range of rows"
+	      RowStartMode	      "First"
+	      RowStartIndex	      "50"
+	      RowEndMode	      "Index"
+	      RowEndIndex	      "NumRows-1"
+	      ColSpan		      "All columns"
+	      ColStartMode	      "First"
+	      ColStartIndex	      "1"
+	      ColEndMode	      "Last"
+	      ColEndIndex	      "1"
+	      Port {
+		PortNumber		1
+		PropagatedSignals	"signal2"
+		ShowPropagatedSignals	"on"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Concatenate
+	      Name		      "Frame\nConcatenation1"
+	      Ports		      [2, 1]
+	      Position		      [565, 90, 645, 150]
+	      ShowName		      off
+	      Mode		      "Vertical matrix concatenation"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Hough Lines"
+	      Ports		      [3, 1]
+	      Position		      [135, 230, 235, 350]
+	      DialogController	      "vipDDGCreate"
+	      DialogControllerArgs    "DataTag5"
+	      SourceBlock	      "viptransforms/Hough Lines"
+	      SourceType	      "Hough Lines"
+	      sineCompMethod	      "Trigonometric function"
+	      thetaRes		      "pi/180"
+	      firstCoeffMode	      "Specify word length"
+	      firstCoeffWordLength    "16"
+	      firstCoeffFracLength    "15"
+	      accumMode		      "Same as product output"
+	      accumWordLength	      "32"
+	      accumFracLength	      "16"
+	      prodOutputMode	      "Binary point scaling"
+	      prodOutputWordLength    "32"
+	      prodOutputFracLength    "16"
+	      roundingMode	      "Nearest"
+	      overflowMode	      on
+	      LockScale		      off
+	    }
+	    Block {
+	      BlockType		      Concatenate
+	      Name		      "Matrix\nConcatenation1"
+	      Ports		      [3, 1]
+	      Position		      [355, 259, 395, 321]
+	      ShowName		      off
+	      NumInputs		      "3"
+	      Mode		      "Vertical matrix concatenation"
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector3"
+	      Ports		      [1, 1]
+	      Position		      [285, 283, 325, 297]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      ElementSrc	      "Internal"
+	      Elements		      "[1 3]"
+	      RowSrc		      "Internal"
+	      Rows		      "3:4"
+	      ColumnSrc		      "Internal"
+	      Columns		      "2"
+	      InputPortWidth	      "3"
+	      IndexIsStartValue	      off
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector4"
+	      Ports		      [1, 1]
+	      Position		      [285, 263, 325, 277]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      ElementSrc	      "Internal"
+	      Elements		      "[1 3]"
+	      RowSrc		      "Internal"
+	      Rows		      "-1"
+	      ColumnSrc		      "Internal"
+	      Columns		      "1"
+	      InputPortWidth	      "3"
+	      IndexIsStartValue	      off
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "Selector5"
+	      Ports		      [1, 1]
+	      Position		      [285, 303, 325, 317]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      ElementSrc	      "Internal"
+	      Elements		      "[1 3]"
+	      RowSrc		      "Internal"
+	      Rows		      "1:2"
+	      ColumnSrc		      "Internal"
+	      Columns		      "2"
+	      InputPortWidth	      "3"
+	      IndexIsStartValue	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "RwithMark"
+	      Position		      [685, 113, 715, 127]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Extraction"
+	      SrcPort		      1
+	      Points		      [250, 0; 0, 35]
+	      DstBlock		      "Frame\nConcatenation1"
+	      DstPort		      1
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "I_low"
+	      SrcPort		      1
+	      Points		      [65, 0]
+	      Branch {
+		DstBlock		"Draw Shapes"
+		DstPort			1
+	      }
+	      Branch {
+		Labels			[1, 0]
+		Points			[0, 180]
+		DstBlock		"Hough Lines"
+		DstPort			3
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Thetas"
+	      SrcPort		      1
+	      DstBlock		      "Hough Lines"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rhos"
+	      SrcPort		      1
+	      DstBlock		      "Hough Lines"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Frame\nConcatenation1"
+	      SrcPort		      1
+	      DstBlock		      "RwithMark"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Draw Shapes"
+	      SrcPort		      1
+	      Points		      [25, 0; 0, -40]
+	      DstBlock		      "Frame\nConcatenation1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "RGBall"
+	      SrcPort		      1
+	      DstBlock		      "Extraction"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Matrix\nConcatenation1"
+	      SrcPort		      1
+	      Points		      [10, 0]
+	      DstBlock		      "Draw Shapes"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Hough Lines"
+	      SrcPort		      1
+	      Points		      [5, 0]
+	      Branch {
+		Points			[0, 20]
+		DstBlock		"Selector5"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, -20]
+		DstBlock		"Selector4"
+		DstPort			1
+	      }
+	      Branch {
+		DstBlock		"Selector3"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "Selector5"
+	      SrcPort		      1
+	      DstBlock		      "Matrix\nConcatenation1"
+	      DstPort		      3
+	    }
+	    Line {
+	      SrcBlock		      "Selector3"
+	      SrcPort		      1
+	      DstBlock		      "Matrix\nConcatenation1"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Selector4"
+	      SrcPort		      1
+	      DstBlock		      "Matrix\nConcatenation1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Line Detection \nUsing the Hough Transform"
+	  Ports			  [1, 2]
+	  Position		  [470, 196, 600, 294]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Line Detection \nUsing the Hough Transfor"
+"m"
+	    Location		    [2, 82, 823, 340]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "usletter"
+	    PaperUnits		    "inches"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Edge"
+	      Position		      [25, 113, 55, 127]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Find Local Maxima"
+	      Ports		      [1, 2]
+	      Position		      [265, 79, 370, 121]
+	      SourceBlock	      "vipstatistics/Find Local Maxima"
+	      SourceType	      "Find Local Maxima"
+	      num_peaks		      "2"
+	      nhood_size	      "[21 39]"
+	      src_thresh	      "Specify via dialog"
+	      threshold		      "10"
+	      inputIsHough	      on
+	      dt_peak		      "uint32"
+	      dt_count		      "uint32"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From1"
+	      Position		      [530, 127, 565, 143]
+	      ShowName		      off
+	      GotoTag		      "rho"
+	    }
+	    Block {
+	      BlockType		      From
+	      Name		      "From2"
+	      Position		      [540, 27, 575, 43]
+	      ShowName		      off
+	      GotoTag		      "theta"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto1"
+	      Position		      [240, 193, 280, 207]
+	      ShowName		      off
+	      GotoTag		      "rho"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Goto
+	      Name		      "Goto2"
+	      Position		      [240, 168, 280, 182]
+	      ShowName		      off
+	      GotoTag		      "theta"
+	      TagVisibility	      "local"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Hough Transform"
+	      Ports		      [1, 3]
+	      Position		      [80, 91, 185, 149]
+	      DialogController	      "vipDDGCreate"
+	      DialogControllerArgs    "DataTag6"
+	      SourceBlock	      "viptransforms/Hough Transform"
+	      SourceType	      "Hough Transform"
+	      theta_res		      "pi/180"
+	      rho_res		      "2"
+	      out_theta_rho	      on
+	      outdtmode		      "single"
+	      firstCoeffMode	      "Binary point scaling"
+	      firstCoeffWordLength    "16"
+	      firstCoeffFracLength    "14"
+	      secondCoeffMode	      "Binary point scaling"
+	      secondCoeffWordLength   "32"
+	      secondCoeffFracLength   "16"
+	      outputMode	      "Binary point scaling"
+	      outputWordLength	      "16"
+	      outputFracLength	      "0"
+	      accumMode		      "Binary point scaling"
+	      accumWordLength	      "32"
+	      accumFracLength	      "20"
+	      prodOutputMode	      "Binary point scaling"
+	      prodOutputWordLength    "32"
+	      prodOutputFracLength    "20"
+	      memoryMode	      "Binary point scaling"
+	      memoryWordLength	      "32"
+	      memoryFracLength	      "16"
+	      roundingMode	      "Nearest"
+	      overflowMode	      on
+	      LockScale		      off
+	    }
+	    Block {
+	      BlockType		      Terminator
+	      Name		      "Terminator"
+	      Position		      [425, 190, 445, 210]
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Variable\nSelector2"
+	      Ports		      [2, 1]
+	      Position		      [650, 173, 735, 217]
+	      ShowName		      off
+	      SourceBlock	      "dspindex/Variable\nSelector"
+	      SourceType	      "Variable Selector"
+	      NumInputs		      "1"
+	      rowsOrCols	      "Columns"
+	      IdxMode		      "Variable"
+	      Elements		      "[1 3]"
+	      ZerOneIdxMode	      "Zero-based"
+	      errmode		      "Clip Index"
+	      FillMode		      on
+	      FillValues	      "0"
+	      ShowPortLabels	      on
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Variable\nSelector3"
+	      Ports		      [2, 1]
+	      Position		      [660, 58, 745, 102]
+	      ShowName		      off
+	      SourceBlock	      "dspindex/Variable\nSelector"
+	      SourceType	      "Variable Selector"
+	      NumInputs		      "1"
+	      rowsOrCols	      "Columns"
+	      IdxMode		      "Variable"
+	      Elements		      "[1 3]"
+	      ZerOneIdxMode	      "Zero-based"
+	      errmode		      "Clip Index"
+	      FillMode		      on
+	      FillValues	      "0"
+	      ShowPortLabels	      on
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "select rho"
+	      Ports		      [1, 1]
+	      Position		      [530, 196, 570, 214]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      ElementSrc	      "Internal"
+	      Elements		      "[1 3]"
+	      RowSrc		      "Internal"
+	      Rows		      "1"
+	      ColumnSrc		      "Internal"
+	      Columns		      "-1"
+	      InputPortWidth	      "3"
+	      IndexIsStartValue	      off
+	    }
+	    Block {
+	      BlockType		      Selector
+	      Name		      "select rho1"
+	      Ports		      [1, 1]
+	      Position		      [540, 81, 580, 99]
+	      ShowName		      off
+	      InputType		      "Matrix"
+	      ElementSrc	      "Internal"
+	      Elements		      "[1 3]"
+	      RowSrc		      "Internal"
+	      Rows		      "2"
+	      ColumnSrc		      "Internal"
+	      Columns		      "-1"
+	      InputPortWidth	      "3"
+	      IndexIsStartValue	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Rhos"
+	      Position		      [765, 188, 795, 202]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Thetas"
+	      Position		      [780, 73, 810, 87]
+	      Port		      "2"
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "Find Local Maxima"
+	      SrcPort		      2
+	      Points		      [15, 0; 0, 90]
+	      DstBlock		      "Terminator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hough Transform"
+	      SrcPort		      1
+	      DstBlock		      "Find Local Maxima"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Edge"
+	      SrcPort		      1
+	      DstBlock		      "Hough Transform"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Variable\nSelector3"
+	      SrcPort		      1
+	      DstBlock		      "Thetas"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Variable\nSelector2"
+	      SrcPort		      1
+	      DstBlock		      "Rhos"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "select rho1"
+	      SrcPort		      1
+	      DstBlock		      "Variable\nSelector3"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "From2"
+	      SrcPort		      1
+	      Points		      [65, 0]
+	      DstBlock		      "Variable\nSelector3"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Find Local Maxima"
+	      SrcPort		      1
+	      Points		      [115, 0]
+	      Branch {
+		DstBlock		"select rho1"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[0, 115]
+		DstBlock		"select rho"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      SrcBlock		      "select rho"
+	      SrcPort		      1
+	      DstBlock		      "Variable\nSelector2"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "From1"
+	      SrcPort		      1
+	      Points		      [65, 0]
+	      DstBlock		      "Variable\nSelector2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hough Transform"
+	      SrcPort		      2
+	      Points		      [35, 0]
+	      DstBlock		      "Goto2"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Hough Transform"
+	      SrcPort		      3
+	      Points		      [10, 0; 0, 60]
+	      DstBlock		      "Goto1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "IwithMark"
+	  Position		  [940, 188, 970, 202]
+	  NamePlacement		  "alternate"
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "I"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    DstBlock		    "Lane Drawing \nand\nImage Construction"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 105]
+	    DstBlock		    "Define ROI"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Lane Drawing \nand\nImage Construction"
+	  SrcPort		  1
+	  DstBlock		  "IwithMark"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Enhanced \nEdge \nDetection"
+	  SrcPort		  1
+	  DstBlock		  "Line Detection \nUsing the Hough Transform"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Define ROI"
+	  SrcPort		  1
+	  Points		  [20, 0]
+	  Branch {
+	    Points		    [0, -70]
+	    DstBlock		    "Lane Drawing \nand\nImage Construction"
+	    DstPort		    2
+	  }
+	  Branch {
+	    DstBlock		    "Enhanced \nEdge \nDetection"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Line Detection \nUsing the Hough Transform"
+	  SrcPort		  2
+	  Points		  [25, 0]
+	  DstBlock		  "Embedded MATLAB\nRho-Theta\nCorrection"
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "Line Detection \nUsing the Hough Transform"
+	  SrcPort		  1
+	  DstBlock		  "Embedded MATLAB\nRho-Theta\nCorrection"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Embedded MATLAB\nRho-Theta\nCorrection"
+	  SrcPort		  2
+	  Points		  [0, -10]
+	  DstBlock		  "Lane Drawing \nand\nImage Construction"
+	  DstPort		  4
+	}
+	Line {
+	  SrcBlock		  "Embedded MATLAB\nRho-Theta\nCorrection"
+	  SrcPort		  1
+	  Points		  [0, -10]
+	  DstBlock		  "Lane Drawing \nand\nImage Construction"
+	  DstPort		  3
+	}
+	Annotation {
+	  Position		  [380, 264]
+	  UseDisplayTextAsClickCallback	off
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Track lane"
+      Ports		      [1]
+      Position		      [475, 65, 565, 155]
+      SourceBlock	      "vipsnks/To Video Display"
+      SourceType	      "To Video Display"
+      inputType		      "Intensity"
+      OutputDevice	      "On-screen video monitor"
+      fullScreen	      off
+      videoWindowX	      "806"
+      videoWindowY	      "461"
+      saveWindowSize	      off
+      videoWindowWidth	      "368"
+      videoWindowHeight	      "195"
+    }
+    Line {
+      SrcBlock		      "From Multimedia File"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	DstBlock		"Lane Marker Detection\nand Tracking"
+	DstPort			1
+      }
+      Branch {
+	Points			[0, 140]
+	DstBlock		"Input Image"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Lane Marker Detection\nand Tracking"
+      SrcPort		      1
+      DstBlock		      "Track lane"
+      DstPort		      1
+    }
+  }
+}
+MatData {
+  NumRecords		  7
+  DataRecord {
+    Tag			    DataTag6
+    Data		    "  %)30     .    :     8    (     0         %    "
+"\"     $    !     0         .    .     8    (    !          %    \"     $    "
+"%     0         0    !0   $A/54=(    "
+  }
+  DataRecord {
+    Tag			    DataTag5
+    Data		    "  %)30     .    <     8    (     0         %    "
+"\"     $    !     0         .    0     8    (    !          %    \"     $    "
+"*     0         0    \"@   $AO=6=H3&EN97,        "
+  }
+  DataRecord {
+    Tag			    DataTag4
+    Data		    "  %)30     .    N     8    (     0         %    "
+"\"     $    \"     0         .    0     8    (    !          %    \"     $   "
+" *     0         0    \"@   $1R87=3:&%P97,        .    0     8    (    !     "
+"     %    \"     $    )     0         0    \"0   '9I<&1I86QO9P         "
+  }
+  DataRecord {
+    Tag			    DataTag3
+    Data		    "  %)30     .    ,     8    (    !@         %    "
+"\"                0         )          "
+  }
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    <     8    (     0         %    "
+"\"     $    !     0         .    0     8    (    !          %    \"     $    "
+")     0         0    \"0   $AI<W1O9W)A;0         "
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    <     8    (     0         %    "
+"\"     $    !     0         .    0     8    (    !          %    \"     $    "
+"-     0         0    #0   $5D9V5$971E8W1I;VX    "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    N     8    (     0         %    "
+"\"     $    \"     0         .    0     8    (    !          %    \"     $   "
+" *     0         0    \"@   $9R;VU-349I;&4        .    0     8    (    !     "
+"     %    \"     $    )     0         0    \"0   &1S<&1I86QO9P         "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.5 (R2006b) dated Aug  8 2006, 21:09:58
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"LaneDetection"
+		created              		"11-Mar-2007 22:09:31"
+		isLibrary            		0
+		firstTarget          		11
+		debug {
+		}
+		sfVersion            		65014000
+	}
+
+	chart {
+		id                                        		2
+		name                                      		"Lane Marker Detection\n"
+					"and Tracking/Embedded MATLAB\n"
+					"Rho-Theta\n"
+					"Correction"
+		windowPosition                            		[255.45 300 200.25 189.75]
+		viewLimits                                		[0 156.75 0 153.75]
+		screen                                    		[1 1 1024 768 1.333333333333333]
+		treeNode                                  		[0 3 0 0]
+		firstTransition                           		5
+		firstJunction                             		4
+		viewObj                                   		2
+		machine                                   		1
+		decomposition                             		CLUSTER_CHART
+		type                                      		EML_CHART
+		firstData                                 		6
+		chartFileNumber                           		2
+		disableImplicitCasting                    		1
+		eml {
+			name       		"fcn"
+		}
+	}
+
+	state {
+		id                           		3
+		labelString                  		"eML_blk_kernel()"
+		position                     		[18 64.5 118 66]
+		fontSize                     		12
+		chart                        		2
+		treeNode                     		[2 0 0 0]
+		superState                   		SUBCHART
+		subviewer                    		2
+		type                         		FUNC_STATE
+		decomposition                		CLUSTER_STATE
+		eml {
+			isEML                    		1
+			script                   		"function [Rhos, Thetas] = fcn(rhos, thetas)\n"
+						"% This block supports an embeddable subset of the MATLAB la"
+						"nguage.\n"
+						"% See the help menu for details.\n"
+						"\n"
+						"%initialise a frame count\n"
+						"persistent count;\n"
+						"if isempty(count)\n"
+						"    count = 0;\n"
+						"end\n"
+						"\n"
+						"%remember previous outputs\n"
+						"persistent lastRhos;\n"
+						"persistent lastThetas;\n"
+						"\n"
+						"%initialise to same as first input for first entry into fun"
+						"ction\n"
+						"if isempty(lastRhos)\n"
+						"    lastRhos = rhos;\n"
+						"end\n"
+						"if isempty(lastThetas)\n"
+						"    lastThetas = thetas;\n"
+						"end\n"
+						"\n"
+						"\n"
+						"%Assume that all is OK initially\n"
+						"Rhos = rhos;\n"
+						"Thetas = thetas;\n"
+						"\n"
+						"\n"
+						"if count == 4\n"
+						"    %after the 4th frame, engage the test logic\n"
+						"    for I = 1:length(rhos)\n"
+						"        if (abs(rhos(I) - lastRhos(I)) > 30) || (abs(thetas"
+						"(I) - lastThetas(I)) > 10*(pi/180))\n"
+						"            %too much change - just use the old values\n"
+						"%            outR(I) = lastRhos(I);\n"
+						"%            outT(I) = lastThetas(I);\n"
+						"            Rhos(I) = lastRhos(I);\n"
+						"            Thetas(I) = lastThetas(I);\n"
+						"        end\n"
+						"    end\n"
+						"\n"
+						"else\n"
+						"    %otherwise just output the computed values\n"
+						"    count = count+1;\n"
+						"end\n"
+						"\n"
+						"%assign outputs\n"
+						"%Rhos = outR;\n"
+						"%Thetas = outT;\n"
+						"\n"
+						"%remember outputs for next time\n"
+						"lastRhos = Rhos;\n"
+						"lastThetas = Thetas;"
+			editorLayout             		"100 M4x1[146 63 1032 746]"
+			treatIntsAsFixpt         		0
+		}
+	}
+
+	junction {
+		id         		4
+		position   		[23.5747 49.5747 7]
+		chart      		2
+		linkNode   		[2 0 0]
+		subviewer  		2
+		type       		CONNECTIVE_JUNCTION
+	}
+
+	transition {
+		id             		5
+		labelString    		"{eML_blk_kernel();}"
+		labelPosition  		[32.125 19.875 102.544 14.964]
+		fontSize       		12
+		src {
+			intersection		[0 0 1 0 23.5747 14.625 0 0]
+		}
+		dst {
+			id          		4
+			intersection		[7 0 -1 -1 23.5747 42.5747 0 0]
+		}
+		midPoint       		[23.5747 24.9468]
+		chart          		2
+		linkNode       		[2 0 0]
+		dataLimits     		[23.575 23.575 14.625 34.575]
+		subviewer      		2
+		drawStyle      		SMART
+		executionOrder 		1
+	}
+
+	data {
+		id                            		6
+		name                          		"rhos"
+		linkNode                      		[2 0 7]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity  		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		7
+		name                          		"Rhos"
+		linkNode                      		[2 6 8]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+			}
+			complexity  		SF_COMPLEX_INHERITED
+		}
+		dataType                      		"inherited"
+		fixptType {
+			slope   		1
+			baseType		SF_INT16_TYPE
+		}
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		8
+		name                          		"thetas"
+		linkNode                      		[2 7 9]
+		scope                         		INPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity  		SF_COMPLEX_INHERITED
+			frame       		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	data {
+		id                            		9
+		name                          		"Thetas"
+		linkNode                      		[2 8 0]
+		scope                         		OUTPUT_DATA
+		machine                       		1
+		props {
+			array {
+				size      		"-1"
+			}
+			type {
+				method    		SF_INHERITED_TYPE
+				primitive 		SF_DOUBLE_TYPE
+				isSigned  		1
+				wordLength		"16"
+			}
+			complexity  		SF_COMPLEX_INHERITED
+			frame       		SF_FRAME_INHERITED
+		}
+		dataType                      		"inherited"
+		complexity                    		SF_COMPLEX_INHERITED
+	}
+
+	instance {
+		id     		10
+		name   		"Lane Marker Detection\n"
+					"and Tracking/Embedded MATLAB\n"
+					"Rho-Theta\n"
+					"Correction"
+		machine		1
+		chart  		2
+	}
+
+	target {
+		id                        		11
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		machine                   		1
+		linkNode                  		[1 0 0]
+	}
+}

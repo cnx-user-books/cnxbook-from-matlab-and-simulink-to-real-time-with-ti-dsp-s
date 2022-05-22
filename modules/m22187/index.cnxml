@@ -1,0 +1,746 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Amplitude Modulation</title>
+  <metadata>
+  <md:content-id>m22187</md:content-id><md:title>Amplitude Modulation</md:title>
+  <md:abstract>This chapter presents the use of the DSK6713 to demonstrate the features of Amplitude Modulation (AM) transmission and reception. The model runs in real-time and enables the use to select the AM detector as well as the transmission and reception parameters (modulation index and carrier frequency).</md:abstract>
+  <md:uuid>6fc34b87-2f22-4224-89d9-398749edc94f</md:uuid>
+</metadata>
+
+<content>
+    <section id="id11111602">
+      <title>Introduction</title>
+      <para id="id13166226">This chapter presents the use of the DSK6713 to demonstrate the features of Amplitude Modulation (AM) transmission and reception. The model runs in real-time and enables the use to select:</para>
+      <list id="id12864538" list-type="enumerated">
+        <item>The AM algorithm</item>
+        <item>The transmission and reception parameters (modulation index and carrier frequency).</item>
+      </list>
+      <para id="id3261850">The process comprises:</para>
+      <list id="id13398274" list-type="enumerated">
+        <item>Creating a simulation model (not R-T) for the AM transmitter/receiver.</item>
+        <item>Migration to Real-time of the Simulation Model</item>
+        <item>Building a Graphic Users Interface (GUI) to operate the real-time implementation.</item>
+      </list>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted">
+<item>Powerpoint Presentation - <link resource="Amplitude Modulation.ppt">Amplitude Modulation.ppt</link></item>
+<item>Simulink Model for Simulation - <link resource="AM_Simulation.mdl"> AM_Simulation.mdl</link></item>
+<item>MATLAB GUI for Real-Time - <link resource="AM.fig"> AM.fig</link></item>
+<item>GUI m-file<link resource="AM.m">AM.m</link></item>
+<item>m-file for Selection of AM Reception<link resource="ChangeModel.m"> ChangeModel.m</link></item>
+<item>Simulink Model for Coherent Detection<link resource="AM_Coherent.mdl"> AM_Coherent.mdl</link></item>
+<item>Simulink Model for Square Root (SQRT) Detection<link resource="AM_Sqrt.mdl"> AM_Sqrt.mdl</link></item>
+<item>Configurable Carrier Simulink Model<link resource="Configurable_Carrier.mdl"> Configurable_Carrier.mdl</link></item>
+
+</list>
+</section>
+    </section>
+    <section id="id11965768">
+      <title>Simulation</title>
+      <section id="id12173060">
+        <title>The Environment </title>
+        <para id="id7773773">Figure 1 shows the data flow for the AM modulation simulation. The AM modulation model receives an input signal from an external signal generator, modulates it and displays the modulation on the scope.</para>
+        <figure id="id7917937"><media id="id1169063602977" alt=""><image src="../../media/graphics1-72a6.jpg" mime-type="image/jpeg"/></media><caption>Simulation Environment</caption></figure>
+        
+      </section>
+      <section id="id4434080">
+        <title>The Procedure</title>
+        <section id="id13534668">
+          <title>Building the Transmitter</title>
+          <para id="id12163357">The basic modulation mathematical description is given by:</para>
+          <table id="id12680632" summary="">
+            <tgroup cols="2">
+              <colspec colnum="1" colname="c1"/>
+              <colspec colnum="2" colname="c2"/>
+              <tbody>
+                <row>
+                  <entry namest="c1" nameend="c2">
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>y</m:mi>
+                                <m:mo stretchy="false">(</m:mo>
+                                <m:mi>t</m:mi>
+                                <m:mrow>
+                                  <m:mo stretchy="false">)</m:mo>
+                                  <m:mo stretchy="false">=</m:mo>
+                                  <m:mo stretchy="false">[</m:mo>
+                                </m:mrow>
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                  <m:mo stretchy="false">+</m:mo>
+                                  <m:mi>m</m:mi>
+                                </m:mrow>
+                                <m:mo stretchy="false">(</m:mo>
+                                <m:mi>t</m:mi>
+                                <m:mo stretchy="false">)</m:mo>
+                                <m:mo stretchy="false">]</m:mo>
+                                <m:mtext>cos</m:mtext>
+                                <m:mo stretchy="false">(</m:mo>
+                                <m:msub>
+                                  <m:mn>2πf</m:mn>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mi>c</m:mi>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                                <m:mi>t</m:mi>
+                                <m:mo stretchy="false">)</m:mo>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{y \( t \) = \[ 1+m \( t \)  \] "cos" \( 2πf rSub { size 8{c} } t \) } {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                </row>
+                <row>
+                  <entry>Where:</entry>
+                  <entry/>
+                </row>
+                <row>
+                  <entry>
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mtext>cos</m:mtext>
+                                <m:mo stretchy="false">(</m:mo>
+                                <m:msub>
+                                  <m:mn>2πf</m:mn>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mi>c</m:mi>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                                <m:mi>t</m:mi>
+                                <m:mo stretchy="false">)</m:mo>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{"cos" \( 2πf rSub { size 8{c} } t \) } {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                  <entry>- The carrier signal</entry>
+                </row>
+                <row>
+                  <entry>
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>m</m:mi>
+                                <m:mo stretchy="false">(</m:mo>
+                                <m:mi>t</m:mi>
+                                <m:mo stretchy="false">)</m:mo>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{m \( t \) } {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                  <entry>- The modulation index</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+          <figure id="id8459143"><media id="id1169062664468" alt=""><image src="../../media/graphics2-e360.jpg" mime-type="image/jpeg"/></media><caption>AM Transmission Principle</caption></figure>
+          <list id="id4630713" list-type="bulleted">
+            <item>Start by creating a new model in Simulink ®</item>
+            <item>Open the Simulink library browser and add the DSP sine-wave to your model. This blocks will represent the information signal m(t).</item>
+          </list>
+          <figure id="id9814966">
+            <media id="id5539461" alt=""><image src="../../media/graphics3-6b65.png" mime-type="image/png"/></media><caption>The Sine Wave Generator Block</caption></figure>
+          <para id="id10945970"/>
+
+          <list id="id12406268" list-type="bulleted">
+            <item id="id12405504">Configure the Sine Wave Generator Block (Double click on the DSP sine object). Set the sine frequency to 1000 Hz, sample time to 1/96000, samples per frame to 64 and close the box, and change its label to “information”.</item>
+          </list>
+          <figure id="id4782349">
+            <media id="id1169063356144" alt=""><image src="../../media/graphics4-42b4.png" mime-type="image/png"/></media><caption>Information Signal Configuration Parameters</caption></figure>
+          <para id="id11823119"/>
+          <list id="id12325600" list-type="bulleted">
+            <item>Use the same block to create the carrier signal. You may copy the block already created or select it form the Simulink library. Set the carrier frequency to 15,000 Hz. The remaining parameters are identical to the ones of the information signal. Change its label to “carrier”</item>
+            <item>Add new DSP-constant to your model:</item>
+          </list>
+          <figure id="id12395567">
+            <media id="id4703784" alt=""><image src="../../media/graphics5-ac17.png" mime-type="image/png"/></media><caption>Adding a DSP constant</caption></figure>  
+          <list id="id11137277" list-type="bulleted">
+            <item>Double-click on the constant object and set its constant value to 1.5:</item>
+          </list>
+          <figure id="id9126255">
+            <media id="id8500631" alt=""><image src="../../media/graphics6-43b9.png" mime-type="image/png"/></media><caption>Set a constant value</caption></figure>        
+          <list id="id13399309" list-type="bulleted">
+            <item>Add a new adder object from:</item>
+          </list>
+          <figure id="id12405253">
+            <media id="id6285371" alt=""><image src="../../media/graphics7-07fa.png" mime-type="image/png"/></media><caption>Addes</caption></figure>    
+          <list id="id8982527" list-type="bulleted">
+            <item>Add a new multiplexer from the same directory as the adder (choose “product”).</item>
+            <item>Add a new scope object:</item>
+          </list>
+          <figure id="id6156626">
+            <media id="id5492429" alt=""><image src="../../media/graphics8-3a4b.png" mime-type="image/png"/></media><caption>Scope</caption></figure>    
+          <list id="id12142219" list-type="bulleted">
+            <item>Set the number of frames parameter to 5. This parameter determines the horizontal scaling of the presented signal.</item>
+          </list>
+          <figure id="id8977081">
+            <media id="id6667679" alt=""><image src="../../media/graphics9-80c3.png" mime-type="image/png"/></media><caption>Vector Scope Configuration</caption></figure> 
+          <list id="id7317867" list-type="bulleted">
+            <item>Place the objects in the following way: </item>
+          </list>
+          <figure id="id10716234">
+            <media id="id1169063171903" alt=""><image src="../../media/graphics10-8c5c.png" mime-type="image/png"/></media><caption>The Transmitter Model</caption></figure> 
+
+          <list id="id10691480" list-type="bulleted">
+            <item>Run the model, pause the simulation and activate the scope window. The modulated signal should be displayed as follows: </item>
+          </list>
+
+<figure id="id12485287"><media id="id8787784" alt=""><image src="../../media/graphics11-7333.png" mime-type="image/png"/></media><caption>AM Modulation Signal</caption></figure>                  </section>
+        <section id="id5658126">
+          <title>The AM Receiver (Square Root Demodulator)</title>
+          <para id="id11720492">In this section you will create the model for an AM receiver based on Square Root (SQRT) demodulation. The principle of operation is shown Figure 1.</para>
+          <figure id="id13293820">
+            <media id="id3736146" alt=""><image src="../../media/graphics12-27b1.jpg" mime-type="image/jpeg"/></media><caption>SQRT Demodulation Principle of Operation</caption></figure> 
+
+          <list id="id12443884" list-type="bulleted">
+            <item>Add the new math function block to your model. This block can be configured to implement various mathematical functions. </item>
+          </list>
+          <figure id="id13166554">
+            <media id="id3216902" alt=""><image src="../../media/graphics13-4c51.png" mime-type="image/png"/></media><caption>Square Function</caption></figure>           
+          <list id="id12566931" list-type="bulleted">
+            <item>Configure the block to calculate the square:</item>
+          </list>
+          <figure id="id5102711">
+            <media id="id3127402" alt=""><image src="../../media/graphics14-02b3.png" mime-type="image/png"/></media><caption>Select Math  Function</caption></figure>
+          <para id="id10383035"/>
+          <list id="id6116226" list-type="bulleted">
+            <item>Use the math function block to create the Square root function. You may retrieve it from the library or copy the “square” block.</item>
+            <item>Add a digital filter design block. This block enables you to design filters using the MATLAB® FDATool. </item>
+          </list>
+          <figure id="id9151899">
+            <media id="id3115074" alt=""><image src="../../media/graphics15-d7de.png" mime-type="image/png"/></media><caption>Digital Filter Design</caption></figure>          
+
+          <list id="id11775218" list-type="bulleted">
+            <item>Configure the filter to be Low-Pass Filter. Since the carrier frequency (fc) is 15 KHz and the maximal frequency of the information is 1 KHz, the filter will be designed to pass frequencies below 5 KHz, and rejects frequencies higher than 10 KHz (please refer to Figure 16).</item>
+          </list>
+          <figure id="id11789567">
+            <media id="id2936426" alt=""><image src="../../media/graphics16-b24a.png" mime-type="image/png"/></media><caption>LPF Design Window</caption></figure>     
+
+          <list id="id12610381" list-type="bulleted">
+            <item>Add a "Multiplier" and a "Subtract"<footnote id="id2169001">The subtraction is created by reconfiguring the adder block, and choosing “+-“ instead of: “++”</footnote> block. </item>
+            <item>Add two "DSP Constant" blocks.</item>
+            <item>Add the matrices concatenation object. This object will enable the modulated and the de-modulated signals to be displayed simultaneously in the scope:</item>
+          </list>
+          <figure id="id12463734">
+            <media id="id4643998" alt=""><image src="../../media/graphics17-2bb2.png" mime-type="image/png"/></media><caption>Matrix Concatenate</caption></figure> 
+          <list id="id4606398" list-type="bulleted">
+            <item>The blocks should be connected as shown in Figure 18.</item>
+          </list>
+          <figure id="id10128883">
+            <media id="id3956981" alt=""><image src="../../media/graphics18-ca76.png" mime-type="image/png"/></media><caption>AM Simulation Model</caption></figure> 
+
+          <list id="id13133962" list-type="bulleted">
+            <item>Run the simulation (push the “play” button). Double click on the scope. Scale the display to fit the scope window (Choose from the menus: Axes=&gt;Autoscale). Choose a different color for each signal (Please refer to Figure 19).</item>
+          </list>
+          <figure id="id11800010">
+            <media id="id1169062369064" alt=""><image src="../../media/graphics19-00dc.png" mime-type="image/png"/></media><caption>Displaying the Modulated and Demodulated Signals</caption></figure> 
+
+          <para id="id8239499">You should get the signals presented bellow:</para>
+          <figure id="id12550038">
+            <media id="id6877934" alt=""><image src="../../media/graphics20-27f8.png" mime-type="image/png"/></media><caption>The Video Viewer Display</caption></figure> 
+          <list id="id4368873" list-type="bulleted">
+            <item>You may change the simulation parameters, and check their influence. </item>
+          </list>
+        </section>
+      </section>
+    </section>
+    <section id="id12988991">
+      <title>Real Time Implementation</title>
+      <section id="id4890577">
+        <title>The Environment </title>
+        <para id="id12953704">The real-time implementation model will be created upon the simulation model, after the following changes:</para>
+        <list id="id6176328" list-type="bulleted">
+          <item>The signal generator block will be replaced by the CODEC of the DSK6713</item>
+          <item>The virtual scope will be replaced also by the CODEC</item>
+          <item>A target definition block (DSK6713) will be added.</item>
+        </list>
+        <para id="id12300334">Figure 21 shows the block-diagram for the real time implementation.</para>
+        <figure id="id8680756"><media id="id1169062002503" alt=""><image src="../../media/fig21-a492.jpg" mime-type="image/jpeg"/></media><caption>Real Time Implementation Environment</caption></figure> 
+        <para id="id12464500">Equipment Used (shown in Figure 22):</para>
+        <list id="id13165566" list-type="bulleted">
+          <item>DSK6713</item>
+          <item>Dual Channel Oscilloscope</item>
+          <item>Signal Generator</item>
+        </list>
+        <figure id="id4710025">
+          <media id="id8814080" alt=""><image src="../../media/graphics22-e809.jpg" mime-type="image/jpeg"/></media><caption>Equipment Used</caption></figure>    
+        <para id="id12114029">We have 4 signals (4 cables):</para>
+        <list id="id8737918" list-type="bulleted">
+          <item>Information- the signal to be modulated</item>
+          <item>Modulated- the DSK creates a modulation of the given information</item>
+          <item>Feedback- since the transmitter and the receiver are running on the same platform, we need to perform a loopback from the transmitter to the receiver and this is exactly the feedback signal, the modulated signal that is broadcasted by the transmitter and used as input for the receiver.</item>
+          <item>Demodulated- the signal that the receiver outputs after the demodulation process.</item>
+        </list>
+      </section>
+      <section id="id12250865">
+        <title>The Procedure</title>
+        <list id="id12861911" list-type="bulleted">
+          <item>Open the model created in the previous chapter</item>
+          <item>Remove the scope and the “information” signal (the 1,000 Hz).</item>
+          <item>Open the Simulink library browser and add the "C6713DSK".</item>
+        </list>
+        <figure id="id13148707">
+          <media id="id6253517" alt=""><image src="../../media/graphics23-2412.png" mime-type="image/png"/></media><caption>The C6713DSK Block</caption></figure>
+
+        <list id="id8774385" list-type="bulleted">
+          <item>Add the “Analog to Digital” and “Digital to Analog” converters (ADC and DAC) to your model:</item>
+        </list>
+        <figure id="id11211965">
+
+          <media id="id7681631" alt=""><image src="../../media/Fig24.jpg" mime-type="image/jpeg"/></media><caption>A/D and D/A converters</caption></figure>
+
+        <list id="id4558123" list-type="bulleted">
+          <item>Add the multi-port selector, in order to split the stereo input.</item>
+        </list>
+        <figure id="id12364138">
+          <media id="id1169063811320" alt=""><image src="../../media/graphics26-d283.png" mime-type="image/png"/></media><caption>Multiport Selector</caption></figure>
+        <para id="id10738266"/>
+        <list id="id12252517" list-type="bulleted">
+          <item>After placing the selector, double-click to open the dialog box and choose “columns” in the “select” label and “{1,2}” in the “indices to output label.</item>
+        </list>
+        <figure id="id6114214">
+          <media id="id3800614" alt=""><image src="../../media/graphics27-46d0.png" mime-type="image/png"/></media><caption>Multiport Configuration</caption></figure>
+
+        <list id="id8727791" list-type="enumerated">
+          <item>Configure the ADC and DAC blocks to a sampling rate to 96 KHZ and 16-bit samples.</item>
+        </list>
+        <figure id="id12376045">
+          <media id="id1169063029090" alt=""><image src="../../media/Fig27.jpg" mime-type="image/jpeg"/></media><caption>DAC and ADC Configuration</caption></figure>
+
+        <list id="id11083171" list-type="bulleted">
+          <item>The final model should look as follows:</item>
+        </list>
+        <figure id="id10887777">
+          <media id="id2593694" alt=""><image src="../../media/graphics30-aa30.png" mime-type="image/png"/></media><caption>AM (SQRT) Real Time Model</caption></figure>
+
+        <list id="id9213825" list-type="bulleted">
+          <item>You should configure the DSP constants as shown in Figure 28. The frame period for all constants should be -1</item>
+        </list>
+        <figure id="id11735896">
+          <media id="id3140168" alt=""><image src="../../media/graphics31-f2b1.png" mime-type="image/png"/></media><caption>Constant Value Parameters</caption></figure>
+
+        <list id="id12267697" list-type="bulleted">
+          <item>Build the project and load the program to the DSK memory using ctrl+B.</item>
+          <item>Make sure that the signals generator amplitude is set to 1 Volt and frequency of [0.1,5] kHz.</item>
+          <item>Display the modulated and demodulated signals in the scope.</item>
+        </list>
+      </section>
+    </section>
+    <section id="id4739211">
+      <title>Model Extensions</title>
+      <para id="id6384696">In this section we will extend the functionality of the example. Adding two more features:</para>
+      <list id="id9152472" list-type="bulleted"><item>A variable frequency carrier generator (Please refer to secion "A Configurable Carrier Wave Generator" in the Appendix)</item>
+	<item>An additional model for AM detection (Please refer to secion "The Coherent Detector (in brief)" in the Appendix).</item>
+	<item>Build GUI that we will enable:
+          <list id="id5602416" list-type="bulleted">
+			<item>Changing the modulation index</item>
+			<item>Changing the carrier frequency</item>
+			<item>Selecting the detection scheme</item>
+		</list></item>
+</list>
+      <para id="id11724054">The modulation index and carrier frequency will be changed through RTDX.</para>
+      <list id="id13360620" list-type="bulleted">
+        <item>Open the model created in the previous section</item>
+        <item>Replace the constant modulation index by an RTDX input (Please refer to Figure 30), and name it InputModulation.</item>
+      </list>
+      <figure id="id13134153">
+        <media id="id8906068" alt=""><image src="../../media/graphics32-ef69.png" mime-type="image/png"/></media><caption>RTDX input</caption></figure>
+
+      <list id="id13384884" list-type="bulleted">
+        <item>Configure the RTDX input object to the values described bellow:</item>
+      </list>
+      <figure id="id5328804">
+        <media id="id4227539" alt=""><image src="../../media/graphics33-0610.png" mime-type="image/png"/></media><caption>RTDX Input Configuration</caption></figure>
+
+      <list id="id8798034" list-type="bulleted"><item>Replace the sine wave block used for the carrier by the configurable carrier blocks (you may find them in the <link resource="Configurable_Carrier.mdl">Configurable_Carrier.mdl</link> file)<footnote id="id3358614">The principle of operation of the Configurable Carrier Module is described in the Appendix.</footnote>, and create a subsystem for the carrier generator as shown in Figure 32. </item>
+</list>
+      <para id="id12406327">Your model should look as shown in Figure 33.</para>
+      <figure id="id5372899">
+        <media id="id4980346" alt=""><image src="../../media/graphics34-65e5.png" mime-type="image/png"/></media><caption>Inserting a Configurable Carrier</caption></figure>
+      <para id="id11761454">Figure 32 – Inserting a Configurable Carrier</para>
+      <figure id="id6940755"><media id="id7889290" alt=""><image src="../../media/fig33-f00b.jpg" mime-type="image/jpeg"/></media><caption>AM (SQRT) Model with Configurable Carrier</caption></figure>
+      <list id="id8564931" list-type="bulleted">
+        <item>Enter the Configuration Parameters menu (ctrl+E). Choose Real-Time Workshop=&gt;TIC6000 Code-Generator, In The Run-Time box change the Build Action to “Build”<footnote id="id8817322">The models will be loaded by the GUI script.</footnote>:</item>
+      </list>
+        <figure id="id8544331">
+          <media id="id4803181" alt=""><image src="../../media/graphics36-50c6.png" mime-type="image/png"/></media><caption>Simulation Parameters</caption></figure>
+
+      <para id="id8118791">Push the OK button and close the “Configuration Parameters” window. </para>
+      <para id="id7607217">Rebuild *.out file using ctrl+B.</para>
+      <list id="id8506591" list-type="bulleted">
+        <item>Open the <link resource="AM_Coherent.mdl">AM_Coherent.mdl</link> file, and repeat step  for this file. </item>
+      </list>
+      <para id="id10334075">You now have two load files each one corresponding to a different AM scheme.</para>
+      <section id="id13253470">
+        <title>Creating the GUI</title>
+        <list id="id11760129" list-type="bulleted">
+          <item>Open a new GUI (Enter GUIDE in the MATLAB command line)</item>
+          <item>Add 2 sliders and one list box to the GUI, so it would look like:</item>
+        </list>
+        <figure id="id11374915">
+          <media id="id3877423" alt=""><image src="../../media/graphics37-16b1.png" mime-type="image/png"/></media><caption>GUI Design Screen</caption></figure>
+
+        <list id="id8822174" list-type="bulleted">
+          <item>Now, double click on the list-box and change the string field:</item>
+        </list>
+        <figure id="id6617023">
+          <media id="id1169062646172" alt=""><image src="../../media/graphics38-b313.png" mime-type="image/png"/></media><caption>List Box Configuration Screen</caption></figure>
+
+        <para id="id11871308">Change the string field to: </para>
+        <para id="id12097408">Coherent</para>
+        <para id="id6218228">SQRT</para>
+        <list id="id9030772" list-type="bulleted">
+          <item>In the Modulation index slider set: Min=0.75, Max=1.5.</item>
+          <item>In the Carrier Frequency slider set: Min=1, Max=4.</item>
+          <item>Press the “play” button so you can save your GUI and open the GUI script m-file.</item>
+        </list>
+      </section>
+      <section id="id11013154">
+        <title>The script file</title>
+        <para id="id12584668">In the script we have to perform the following tasks:</para>
+        <list id="id9725102" list-type="bulleted">
+          <item>When the GUI is launched the DSK should be loaded with a default model (SQRT)</item>
+          <item>When the user selects a new model&gt; Its correspondent *.out file should be loaded to the DSP.</item>
+          <item>When the modulation index is changed, its new value should be written to the DSP through the correspondent RTDX channel.</item>
+          <item>When the carrier frequency modulation index is changed, its new value should be written to the DSP through the correspondent RTDX channel.</item>
+        </list>
+        <para id="id11374982">The following steps describe this implementation.</para>
+        <list id="id8583828" list-type="bulleted">
+          <item>The initialization routine “AM_OpeningFcn”:</item>
+ </list>
+<code id="id8012638" display="block">
+function AM_OpeningFcn(hObject, eventdata, handles, varargin)
+last_model=1;
+handles.last_model=last_model;
+modelName = gcs;
+%connect to the board
+CCS_Obj = connectToCCS(modelName);
+% Identify RTDX channel names/modes
+chan_struct(1).name = 'InputModulation';
+chan_struct(1).mode = 'w';
+chan_struct(2).name = 'freq';
+chan_struct(2).mode = 'w';
+handles.rtdx_chan1=chan_struct(1);
+handles.rtdx_chan2=chan_struct(2);
+% Identify RTDX host buffer parameters
+RTDX_config_struct.Buffsize= 32768;
+RTDX_config_struct.Nbuffers = 4;
+RTDX_config_struct.Mode = 'continuous';
+%building the full path of the file to be loaded
+CodegenDir = fullfile(pwd, ['AM_Coherent' '_c6000_rtw']);
+OutFile = fullfile(CodegenDir, ['AM_Coherent' '.out']);
+%Load is needed for rtdx setup
+CCS_Obj.load(OutFile,20);
+% Set up RTDX
+r = setupRTDX(CCS_Obj, chan_struct, RTDX_config_struct);
+handles.pipe=r;
+handles.CCS_Obj=CCS_Obj;
+%last_x and last_y are the initial values of
+%the Index and the carrier respectively 
+last_x=1;
+last_y=15000;
+handles.last_x=last_x;
+handles.last_y=last_y;
+handles.output = hObject;
+% Enable all RTDX channels
+r.enable('all');
+% Update handles structure
+guidata(hObject, handles);
+%use the change-model function in order to load the current model.
+%this function loads a model to the DSK after initiallization (= the code
+%above)
+ChangeModel(handles.last_model,handles.CCS_Obj,handles.pipe,handles.last_x,handles.last_y);
+
+)
+</code>
+
+<list id="id8512345" list-type="bulleted">
+                  <item>When you select a new model, the following code is invoked:</item>
+        </list>
+<code id="id13293188" display="block">
+function listbox1_Callback(hObject, eventdata, handles)
+handles.last_model=get(hObject,'Value') ;
+ChangeModel(handles.last_model,handles.CCS_Obj,handles.pipe,handles.last_x,handles.last_y);
+</code>
+        <para id="id6156293">An external function (written in the ChangeModel.m file) will be used to select the model:</para>
+        <code id="id5483948" display="block">
+%1. halts the current model
+%2. free the rtdx channel
+%3. redefine the rtdx channel
+%4. loads the current model
+%5. binds the rtdx to the current model
+%6. run the CCS and enable the rtdx.
+%7.writes the last given index modulation  to the rtdx 
+%parameters:
+%m - flag that tells if the model is coherential or sqrt
+%CCS_Obj - the target
+%r_old - the old  rtdx channel 
+%last_x - to keep the current Index
+%last_y - to keep the current carrier frequency
+function r=ChangeModel(m,CCS_Obj,r_old,last_x,last_y)
+%halt the current model
+CCS_Obj.halt;
+%free the curent rtdx channel
+cleanupRTDX(CCS_Obj,r_old);
+%redefine the rtdx:
+chan_struct(1).name = 'InputModulation';
+chan_struct(1).mode = 'w';
+chan_struct(2).name = 'freq';
+chan_struct(2).mode = 'w';
+handles.rtdx_chan1=chan_struct(1);
+handles.rtdx_chan2=chan_struct(2);
+% Identify RTDX host buffer parameters
+RTDX_config_struct.Buffsize= 32768;
+RTDX_config_struct.Nbuffers = 4;
+RTDX_config_struct.Mode = 'continuous';
+%reload the new model
+switch m
+    case 1
+    model='AM_Coherent';
+    case 2
+        model='AM_Sqrt';
+end         
+CodegenDir = fullfile(pwd, [model '_c6000_rtw']);
+OutFile = fullfile(CodegenDir, [model '.out']);
+CCS_Obj.load(OutFile,20);
+% set up the new rtdx channel and run the target
+r = setupRTDX(CCS_Obj, chan_struct, RTDX_config_struct);
+CCS_Obj.run;     
+r.enable('all');
+% keep the last Index and carrier frequency:
+if last_x~=1
+r.writemsg(chan_struct(2).name,1/last_x);  
+end
+</code>
+        <list id="id11208479" list-type="bulleted">
+          <item>Changing the modulation index:</item>
+        </list>
+        <code id="id12903354" display="block">
+function slider1_Callback(hObject, eventdata, handles)
+last_x=handles.last_x;
+r=handles.pipe;
+x=single(get(hObject,'Value'));
+     if or (y&lt;last_y,y&gt;last_y) %if the Index was changed:
+       r.writemsg(handles.rtdx_chan1.name,1/x);       
+       %the Index increases when the added amplitude decreases 
+       %and thats the reason that we write 1/x to the rtdx
+       handles.last_x=x;
+     end
+guidata(hObject, handles);
+</code>
+        <list id="id7330992" list-type="bulleted">
+          <item>Changing the carrier frequency:</item>
+        </list>
+<code id="id12864387" display="block">
+function slider2_Callback(hObject, eventdata, handles)
+last_y=handles.last_y;
+r=handles.pipe;
+y=single(get(hObject,'Value'));
+     if or (y&lt;last_y,y&gt;last_y)
+       r.writemsg(handles.rtdx_chan2.name,y);       
+       handles.last_y=y;
+     end
+guidata(hObject, handles);
+</code>
+        <figure id="id12628462">
+          <media id="id1169065502193" alt=""><image src="../../media/graphics39-ca9f.png" mime-type="image/png"/></media><caption>AM Model Graphic User Interface</caption></figure>        
+        <para id="id10484147">You may change the modulation index and frequency for both models, and observe its influence on the modulated and demodulated signals.</para>
+      </section>
+    </section>
+    <section id="id12142640">
+      <title>Appendix</title>
+      <section id="id7607622">
+        <title>A Configurable Carrier Wave Generator</title>
+        <para id="id11054773">The Simulink sine wave block cannot be configured during run-time; its frequency is a parameter that should be set in advance. We will introduce the implementation of a block where the frequency is a variable that can be set in real-time (In this case using RTDX). The block is based on the following relationship: </para>
+        <equation id="id11054777">
+          <m:math>
+            <m:semantics>
+              <m:mrow>
+                <m:mstyle fontsize="12pt">
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mtext>cos</m:mtext>
+                      <m:msub>
+                        <m:mi>ω</m:mi>
+                        <m:mstyle fontsize="8pt">
+                          <m:mrow>
+                            <m:mi>c</m:mi>
+                          </m:mrow>
+                        </m:mstyle>
+                      </m:msub>
+                      <m:mrow>
+                        <m:mi>t</m:mi>
+                        <m:mo stretchy="false">=</m:mo>
+                        <m:mtext>Re</m:mtext>
+                      </m:mrow>
+                      <m:mfenced open="[" close="]">
+                        <m:msup>
+                          <m:mi>e</m:mi>
+                          <m:mstyle fontsize="8pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi fontstyle="italic">jω</m:mi>
+                                  <m:mstyle fontsize="6pt">
+                                    <m:mrow>
+                                      <m:mi>c</m:mi>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                                <m:mi>t</m:mi>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:msup>
+                      </m:mfenced>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mstyle>
+                <m:mrow/>
+              </m:mrow>
+              <m:annotation encoding="StarMath 5.0"> size 12{"cos"ω rSub { size 8{c} } t="Re" left [e rSup { size 8{jω rSub { size 6{c} } t} }  right ]} {}</m:annotation>
+            </m:semantics>
+          </m:math>
+        </equation>
+        <para id="id10800761">In the discrete case the following relationship applies:</para>
+        <equation id="id13104862">
+          <m:math>
+            <m:semantics>
+              <m:mrow>
+                <m:mstyle fontsize="12pt">
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mtext>cos</m:mtext>
+                      <m:msub>
+                        <m:mi>ω</m:mi>
+                        <m:mstyle fontsize="8pt">
+                          <m:mrow>
+                            <m:mi>c</m:mi>
+                          </m:mrow>
+                        </m:mstyle>
+                      </m:msub>
+                      <m:mrow>
+                        <m:mstyle fontstyle="italic">
+                          <m:mrow>
+                            <m:msub>
+                              <m:mtext>nT</m:mtext>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mi>s</m:mi>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mo stretchy="false">=</m:mo>
+                        <m:mtext>cos</m:mtext>
+                      </m:mrow>
+                      <m:mn>2π</m:mn>
+                      <m:mfrac>
+                        <m:msub>
+                          <m:mi>f</m:mi>
+                          <m:mstyle fontsize="8pt">
+                            <m:mrow>
+                              <m:mi>c</m:mi>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:msub>
+                        <m:msub>
+                          <m:mi>f</m:mi>
+                          <m:mstyle fontsize="8pt">
+                            <m:mrow>
+                              <m:mi>s</m:mi>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:msub>
+                      </m:mfrac>
+                      <m:mrow>
+                        <m:mi>n</m:mi>
+                        <m:mo stretchy="false">=</m:mo>
+                        <m:mtext>Re</m:mtext>
+                      </m:mrow>
+                      <m:mfenced open="[" close="]">
+                        <m:msup>
+                          <m:mi>e</m:mi>
+                          <m:mstyle fontsize="8pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi fontstyle="italic">j2π</m:mi>
+                                <m:mfrac>
+                                  <m:msub>
+                                    <m:mi>f</m:mi>
+                                    <m:mstyle fontsize="6pt">
+                                      <m:mrow>
+                                        <m:mi>c</m:mi>
+                                      </m:mrow>
+                                    </m:mstyle>
+                                  </m:msub>
+                                  <m:msub>
+                                    <m:mi>f</m:mi>
+                                    <m:mstyle fontsize="6pt">
+                                      <m:mrow>
+                                        <m:mi>s</m:mi>
+                                      </m:mrow>
+                                    </m:mstyle>
+                                  </m:msub>
+                                </m:mfrac>
+                                <m:mi>n</m:mi>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                        </m:msup>
+                      </m:mfenced>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mstyle>
+                <m:mrow/>
+              </m:mrow>
+              <m:annotation encoding="StarMath 5.0"> size 12{"cos"ω rSub { size 8{c} }  ital "nT" rSub { size 8{s} } ="cos"2π {  {f rSub { size 8{c} } }  over  {f rSub { size 8{s} } } } n="Re" left [e rSup { size 8{j2π {  {f rSub { size 6{c} } }  over  {f rSub { size 6{s} } } } n} }  right ]} {}</m:annotation>
+            </m:semantics>
+          </m:math>
+        </equation>
+        <para id="id9145356"><m:math><m:semantics><m:mrow/><m:annotation encoding="StarMath 5.0">{}</m:annotation></m:semantics></m:math> The following model implements the last equation. Please note that a feedback path was included for phase continuity</para>
+        <figure id="id10851058">
+          <media id="id1169065783487" alt=""><image src="../../media/graphics40-ed6f.png" mime-type="image/png"/></media><caption>Carrier Wave Generator</caption></figure>
+      </section>
+      <section id="id12107028">
+        <title>The Coherent Detector (in brief)</title>
+        <para id="id12765274">The coherent detector principle of operation is in Figure 39. The AM example model (<link resource="AM_Coherent.mdl">AM_Coherent.mdl</link>) is shown in Figure 40. </para>
+        <figure id="id7896155">
+          <media id="id1169063362573" alt=""><image src="../../media/graphics41-e18c.jpg" mime-type="image/jpeg"/></media><caption>Coherent SQRT Demodulation Principle of Operation</caption></figure>
+
+        <figure id="id8521413"><media id="id1169064629364" alt=""><image src="../../media/fig40.jpg" mime-type="image/jpeg"/></media><caption>Amplitude Modulation Example with Coherent Detection</caption></figure>        <para id="id12107830"/>
+
+        <para id="id12009197">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+      </section>
+    </section>
+  </content>
+</document>

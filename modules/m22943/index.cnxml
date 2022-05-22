@@ -1,0 +1,254 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Vehicle Dynamics</title>
+  <metadata>
+  <md:content-id>m22943</md:content-id><md:title>Vehicle Dynamics</md:title>
+  <md:abstract>In this module, a physical model of vehicle engine management will be created. The model will be first simulated, and then used to create an implementation on the eZDSP-F2812. This board will emulate in real-time the behavior of a vehicle, under various stimuli.
+In this example, the environment is used to build a physical model of vehicle engine management in simulation, which is then used to create an implementation on the eZDSP-F2812. This board will emulate in real-time the behavior of a vehicle, under various stimuli.</md:abstract>
+  <md:uuid>f7e3dbb1-8b88-42fc-bfda-4ca483dee6a4</md:uuid>
+</metadata>
+
+<content>
+    <section id="id-306032013205">
+      <title>Introduction</title>
+      <para id="id7664939">The Texas Instruments C28x family of processors has been designed to implement control applications, for example digital motor control and un-interruptible power supplies. We shall start here with a simple application. In this Laboratory, you will build a simulation model of a vehicle dynamics using Simulink, and then emulate it using the eZDSP-F2812 board.
+
+</para>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="VehicleDynamics.ppt">VehicleDynamics.ppt</link></item>
+	<item>Simulink Model for PC Simulation - <link resource="VehicleDynamics.mdl">VehicleDynamics.mdl</link>
+	</item>
+	<item>Simulink Model for Simulation with DSKF2812 - <link resource="VehicleDynamicsF2812Simulation.mdl">VehicleDynamicsF2812Simulation.mdl</link>
+	</item>
+	<item>Simulink Model for Real-Time - <link resource="VehicleDynamicsDSKF2812.mdl">VehicleDynamicsDSKF2812.mdl</link>
+	</item>
+</list>
+</section>
+
+<section id="id-201168013988">
+        <title>Objectives </title>
+        <list id="id8462569" list-type="bulleted">
+          <item>Design a Simulink model of the motion of a vehicle.</item>
+          <item>Run the model using Simulink on a PC.</item>
+          <item>Modify the model for use with the Texas Instruments C28x Digital Signal Processor.</item>
+          <item>Run the modified model on the Texas Instruments F2812 ezDSP.</item>
+        </list>
+      </section>
+      <section id="id-106386244245">
+        <title>Level</title>
+        <para id="id7816449">Beginner; This is intended as the first complete project using Matlab and Simulink. </para>
+        <para id="id7654250">It is suitable for students who have only limited exposure to Texas Instruments DSPs before.</para>
+      </section>
+      <section id="id-640104551211">
+        <title>Requirements</title>
+        <para id="id7665851">In developing this Laboratory, the following hardware and software were used:</para>
+        <list id="id7737481" list-type="bulleted"><item>Matlab R2006b with Embedded Target for TI C2000.</item>
+	<item>Code Composer Studio (CCS) 3.1.</item>
+	<item>Spectrum Digital ezDSP F2812 Hardware</item>
+	<item>Some external electronic components costing about $2. </item>
+</list>
+      </section>
+    </section>
+    <section id="id-195751354247">
+      <title>Simulation</title>
+      <section id="id-66968657849">
+        <title>Running the Vehicle Dynamics Simulation</title>
+        <para id="id8259051">Open <link resource="VehicleDynamics.mdl">VehicleDynamics.mdl</link>.</para>
+        <para id="element-661"><figure id="figure-01"><media id="id2338262" alt=""><image src="../../media/fig1-9e1b.JPG" mime-type="image/jpeg"/></media><caption>Engine Management Subsystem</caption></figure></para>
+        
+        <para id="id8563204">Run the Model. </para>
+        <para id="id8156236">The input to the model is a ramp generator, which simulates smooth acceleration.</para>
+        <para id="id8462108">You will see the graphs of Horsepower and Vehicle Speed.</para>
+        <section id="id-188481886026">
+          <title>Changing the Vehicle Mass</title>
+          <para id="id7619957">Double click on the “Vehicle Dynamics” block. This models the equation of motion using Simulink Blocks.</para>
+          <figure id="id7619962"><media id="id1962454" alt=""><image src="../../media/graphics2-56dd.jpg" mime-type="image/jpeg"/></media><caption>Vehicle Dynamics</caption></figure>
+          
+          <para id="id8908889">At present, the vehicle mass is 8000 kg. </para>
+          <para id="id7672599">We will now simulate a small compact car. Change the 1/m gain block to 1/1000 and change the b/m block to 2/1000.</para>
+          <para id="id7667551">Run the model again and notice the effect on maximum vehicle speed and how long it takes to reach maximum vehicle speed</para>
+          <para id="id8478114">You might also like to simulate a 35,000 kg lorry. Change the 1/m block to 1/35000 and b/m to 10/35000.</para>
+        </section>
+        <section id="id-517262371738">
+          <title>Changing the Engine Power Profile</title>
+          <para id="id8747569">Double click on the “Engine Management” block. This models the gas in – horsepower out function of the engine.</para>
+          <figure id="id7813502"><media id="id1163777265131" alt=""><image src="../../media/graphics3-5846.jpg" mime-type="image/jpeg"/></media><caption>Engine Management Subsystem</caption></figure>
+          
+          <para id="id7863948">Double-click on the Power Transfer Function</para>
+          <figure id="id7863720"><media id="id3368488" alt=""><image src="../../media/graphics4-8b15.jpg" mime-type="image/jpeg"/></media><caption>Engine Power Transfer Function</caption></figure>
+          
+          <para id="id8302651">Change the shape of the Power Transfer Function. You may wish to change the gradient or make the plateau wider. Run the model.</para>
+        </section>
+        <section id="id-534880651569">
+          <title>Other Modifications to the Model</title>
+          <para id="id7690013">Go to the Website of an automobile manufacture, and obtain the actual engine power transfer function for a real car. Run this in the model.</para>
+          <para id="id7643040">Replace the ramp generator input with a step function. This simulates someone stamping on the gas!</para>
+        </section>
+      </section>
+    </section>
+    <section id="id-125598372347"><title>Reference Simulation for F2812</title><section id="id-750362834652">
+	<title>Running the Vehicle Dynamics Simulation</title>
+	<para id="id7781051">Open <link resource="VehicleDynamicsF2812Simulation.mdl">VehicleDynamicsF2812Simulation.mdl</link>.
+</para>
+	<figure id="id7874571"><media id="id9046146" alt=""><image src="../../media/graphics5-ae9f.jpg" mime-type="image/jpeg"/></media><caption>Modified Model for F2812</caption></figure>
+	<para id="id8348435">Run this model. This is the behavior that should be seen when the real-time model is run on the ezDSP for F2812. </para>
+</section>
+</section>
+
+<section id="id-473403379699">
+<title>Creating Your Own Models</title>
+<section id="id-48296405042">
+	<title>Creating a new Matlab Model</title>
+	<para id="id8362414">Start Matlab 7.3.0 R2006b</para>
+		<para id="id8362418">In the top left hand corner of the Matlab screen, select: File -&gt; New -&gt; Model.</para>
+		<figure id="id8456479"><media id="id3827934" alt=""><image src="../../media/graphics6-bd7f.png" mime-type="image/png"/></media><caption>A New MatLab Model</caption></figure>
+		<para id="id7436144">The following screen will appear.</para>
+		<figure id="id8234708"><media id="id9012546" alt=""><image src="../../media/graphics7-4fca.jpg" mime-type="image/jpeg"/></media><caption>An Empty MatLab Model</caption></figure>
+	<section id="id-830577055083">
+		<title>Saving the New Model</title>
+		<para id="id8138418">Save the model as “vehicle_dynamics.mdl”.</para>
+		<figure id="id7684449"><media id="id1163778715577" alt=""><image src="../../media/graphics8-fa38.jpg" mime-type="image/jpeg"/></media><caption>Saving the new model</caption></figure>
+	</section>
+	<section id="id-0710010973657">
+		<title>Opening the Library Browser</title>
+		<para id="id8606685">Select View-&gt; Library Browser</para>
+		<figure id="id7765868"><media id="id8199199" alt=""><image src="../../media/graphics9-8479.jpg" mime-type="image/jpeg"/></media><caption>Selecting the Library Browser</caption></figure>
+	</section>
+	<section id="id-39768055997">
+		<title>Selecting the Subsystems</title>
+		<para id="id7734935">A list of available blocks will appear. Select “Commonly used blocks”. Highlight “Subsystems”. Drag-and-drop two copies of this block into the model.</para>
+		<figure id="id8396661"><media id="id3893242" alt=""><image src="../../media/graphics10-9e7d.jpg" mime-type="image/jpeg"/></media><caption>The Simulink Library Browser</caption></figure>
+	</section>
+	<section id="id-127589557079">
+		<title>Subsystems Added</title>
+		<para id="id8134333">Rename the Subsystems to “Engine Management” and “Vehicle Dynamics”.</para>
+		<figure id="id8134338"><media id="id3583294" alt=""><image src="../../media/graphics11-7f9d.jpg" mime-type="image/jpeg"/></media><caption>Subsystems Added</caption></figure>
+		<para id="id7863071">Drag-and-drop a “saturation” block onto the model.</para>
+	</section>
+	<section id="id-528115859736">
+		<title>Adding a Ramp Generator</title>
+		<para id="id8244776">From the Simulink Library Browser, select “Sources”. Drag-and-drop the “Ramp” block onto the model.</para>
+		<figure id="id7645753"><media id="id1163777321808" alt=""><image src="../../media/graphics12-5cc0.jpg" mime-type="image/jpeg"/></media><caption>Adding a Ramp Generator</caption></figure>
+	</section>
+	<section id="id-844762640877">
+		<title>Adding Scope Blocks</title>
+		<para id="id8275558">From the Simulink Library Browser, select “Sinks”.</para>
+		<para id="id8317159">Drag-and-drop the “Scope” block onto the model twice.</para>
+		<para id="id8502265">Drag-and-drop the “Display” block onto the model twice.</para>
+		<figure id="id8331429"><media id="id3210904" alt=""><image src="../../media/graphics13-2afa.jpg" mime-type="image/jpeg"/></media><caption>Adding a Scope</caption></figure>
+	</section>
+	<section id="id-164769606352">
+		<title>Joining and Renaming the Blocks</title>
+		<para id="id8302565">Join the blocks as shown in the figure below. Change the names and add a title.</para>
+		<figure id="id8525359"><media id="id1163778710103" alt=""><image src="../../media/graphics14-6e94.jpg" mime-type="image/jpeg"/></media><caption>First Blocks Added</caption></figure>
+	</section>
+	<section id="id-808542049332">
+		<title>Setting the Solver</title>
+		<para id="id8362467">The ode45 solver is not suitable for use with DSP. “Fixed Point Discrete” is required.</para>
+		<figure id="id8011340"><media id="id1163777253768" alt=""><image src="../../media/figure15.jpg" mime-type="image/jpeg"/></media><caption>Configuring the Solver</caption></figure>
+	</section>
+</section><section id="id-589249098969">
+	<title>The Engine Management Subsystem </title>
+	<section id="id-914136678223">
+		<title>Overview of the Engine Management Subsystem</title>
+		<para id="id8348103">The first stage of the Engine Management Subsystem is a “Gain” block, which converts the Gas Pedal input (0-100%) to 0-4000 rpm.</para>
+		<para id="id8348108">The second stage is a lookup table. This converts from rpm to hp.</para>
+		<figure id="id8764247"><media id="id3191411" alt=""><image src="../../media/graphics16-6fb5.jpg" mime-type="image/jpeg"/></media><caption>The Engine Management Subsystem</caption></figure>
+	</section>
+	<section id="id-718490257668">
+		<title>Adding a Lookup Table</title>
+		<para id="id7699139">From the Simulink Lookup Tables, drag-and-drop the “Lookup Table” block onto the model.</para>
+		<figure id="id7686731"><media id="id1163778783343" alt=""><image src="../../media/graphics17-2cc3.png" mime-type="image/png"/></media><caption>Adding a Lookup Table</caption></figure>
+		<para id="id8962759">Double click on the “Lookup Table” block.</para>
+		<figure id="id8061377"><media id="id1163777266494" alt=""><image src="../../media/graphics18-1e0d.jpg" mime-type="image/jpeg"/></media><caption>Lookup Table Block Parameters</caption></figure>
+		<para id="id8244516">The values for the table can also be inserted as a table. Click on the “Edit” box.</para>
+		<figure id="id7444147"><media id="id3135592" alt=""><image src="../../media/graphics19-3935.jpg" mime-type="image/jpeg"/></media><caption>Lookup Table Values</caption></figure>
+		<para id="id7358608">Click on "Plot" as shown above, and you will see:</para>
+		<figure id="id8138459"><media id="id1163777275112" alt=""><image src="../../media/graphics20-7424.jpg" mime-type="image/jpeg"/></media><caption>Adjusting the Lookup Table</caption></figure>
+	</section>
+</section><section id="id-799936422838">
+	<title>The Vehicle Dynamics Subsystem </title>
+	<section id="id-126347742559">
+		<title>Overview of Vehicle Dynamics Subsystem</title>
+		<para id="id8845895">The C28x operates in discrete-time; therefore the continuous integrator must be replaced by a “Discrete Time Integrator” for DSP model implementation.</para>
+		<figure id="id7660731"><media id="id3648046" alt=""><image src="../../media/graphics21-6c79.jpg" mime-type="image/jpeg"/></media><caption>Vehicle Dynamics Subsystem</caption></figure>
+		<para id="id8645519">Select the “Main” tab. Change the “Constant value” to 0. Click on “OK”.
+</para>
+	</section>
+	<section id="id-558020473938">
+		<title>Running the Simulation </title>
+		<para id="id5919639">The ramp generator gently changes the Gas Pedal from 0% to 100%. This simulates smooth acceleration. The Horsepower and Vehicle Speed are shown on the graphs.</para>
+		<figure id="id5919643"><media id="id2699213" alt=""><image src="../../media/graphics22-5c01.jpg" mime-type="image/jpeg"/></media><caption>Running the Simulation</caption></figure>
+	</section>
+</section>
+</section><section id="id-856879259217">
+	<title>Modifications for ezDSP F2812 </title>
+	<para id="id8619826">In order to run the model on the ezDSP F2812, some additional blocks need to be added to the project:</para>
+	<list id="id7714628" list-type="bulleted">
+		<item>An Analog-to-Digital Converter (ADC) to allow a potentiometer input. </item>
+		<item>A block to scale the ADC input to the range 0 to 100%.</item>
+		<item>A Digital-to-Analog Converter (DAC) to convert the Vehicle Speed to an analog output in the range 0 to 3.3V</item>
+	</list>
+	<section id="id-594007138375">
+		<title>Connecting the F2812 ezDSP</title>
+		<para id="id6076174">For Matlab and Simulink to run correctly, you need to run the F2812 ezDSP. </para>
+		<para id="id5182857">Connect the F2812 hardware to the parallel port of the computer and turn on the supply to the board.</para>
+		<para id="id8307560">When the board is powered, the two green LED lights on the board will come on during self-test.</para>
+		<para id="id6769604">Start Code Composer Studio for F2812 ezDSP and use Debug -&gt; Connect</para>
+		<figure id="id8649315"><media id="id3539857" alt=""><image src="../../media/graphics23-18fb.jpg" mime-type="image/jpeg"/></media><caption>Startup Screen for Code Composer Studio (CCS)</caption></figure>
+	</section>
+	<section id="id-0375967039797">
+		<title>Opening the Library Browser</title>
+		<para id="id6025937">Select View-&gt; Library Browser</para>
+		<figure id="id8308002"><media id="id2635329" alt=""><image src="../../media/graphics24-8479.jpg" mime-type="image/jpeg"/></media><caption>Selecting the Library Browser</caption></figure>
+	</section>
+	<section id="id-855083431415">
+		<title>The Simulink Library Browser</title>
+		<para id="id7766052">A list of available blocks will appear. We are particularly interested in the “Embedded Target for TI C2000 DSP”. Click on this selection.</para>
+		<para id="id7766055">In the following sections we will select the building blocks for the DSP model shown in Figure 30.</para>
+		<figure id="id8157755"><media id="id2911244" alt=""><image src="../../media/graphics25-4943.jpg" mime-type="image/jpeg"/></media><caption>The Simulink Library Browser</caption></figure>
+	</section>
+	<section id="id-715488008932">
+		<title>Selecting Target Preferences</title>
+		<para id="id7897420">From the C2000 Target Preferences, select “F2812 ezDSP”. Drag-and-drop the icon onto the new model.</para>
+		<figure id="id5975159">
+			<media id="id1163777231320" alt=""><image src="../../media/graphics26-c5e0.png" mime-type="image/png" height="173" width="396"/></media>
+		</figure>
+		<para id="id8762732">Figure 26 – Selecting Target Preferences</para>
+		<para id="id6769565">When the following screen appears, it is important to select “Yes”.</para>
+		<figure id="id8251681"><media id="id9020404" alt=""><image src="../../media/graphics27-7763.jpg" mime-type="image/jpeg"/></media><caption>Initializing Simulation Parameters</caption></figure>
+	</section>
+	<section id="id-143654590793">
+		<title>Scaling the ADC Readings </title>
+		<para id="id5427457">To scale the ADC reading to the Gas Pedal 0 to 100% we will multiply the ADC input by 800 then divide by 32768. </para>
+		<figure id="id5427461">
+			<media id="id3153794" alt=""><image src="../../media/graphics28-513a.jpg" mime-type="image/jpeg" height="289" width="462"/></media>
+		</figure>
+		<para id="id8747389">Figure 28 – Scaling the ADC</para>
+	</section>
+	<section id="id-373546212987">
+		<title>Scaling the DAC Output</title>
+		<para id="id8072405">To scale the kph to the DAC output, we will multiply the kph input by 312.5. The “Saturation” block limits the output to 200 kph.</para>
+		<figure id="id8607164"><media id="id3473968" alt=""><image src="../../media/graphics29-136f.jpg" mime-type="image/jpeg"/></media><caption>Scaling the DAC</caption></figure>
+	</section>
+	<section id="id-327532864797">
+		<title>The Finished Model</title>
+		<para id="id8590520">To scale the kph to the DAC output, we will multiply the kph input by 312.5. </para>
+		<figure id="id8158413"><media id="id2837112" alt=""><image src="../../media/graphics30-ab2c.jpg" mime-type="image/jpeg"/></media><caption>The Final Model</caption></figure>
+	</section>
+	<section id="id-635126545572">
+		<title>Building the Model</title>
+		<para id="id7821383">Select Tools -&gt; Real-Time Workshop -&gt; Build Model.</para>
+		<figure id="id8261761"><media id="id3120962" alt=""><image src="../../media/graphics31-b0c2.jpg" mime-type="image/jpeg"/></media><caption>Building the Model</caption></figure><para id="element-886">You may find the final model <link resource="VehicleDynamicsDSKF2812.mdl"> here</link>.
+</para>
+	</section>
+	<section id="id-348902902471">
+		<title>Comparing Performance</title>
+		<para id="id7225761">The real-time model running on the ezDSP F2812 should now be behaving in the same way as the Simulation.</para>
+	</section>
+
+</section>
+    <section id="id-0239821099884"><title>References</title><list id="id6107985" list-type="enumerated"><item>Spectrum Digital Incorporated, "eZdspTM F2812 Technical Reference" Rev. F, September 2003. (<link url="http://c2000.spectrumdigital.com/ezf2812/docs/ezf2812_techref.pdf">http://c2000.spectrumdigital.com/ezf2812/docs/ezf2812_techref.pdf</link>)</item>
+</list></section>
+  </content>
+</document>

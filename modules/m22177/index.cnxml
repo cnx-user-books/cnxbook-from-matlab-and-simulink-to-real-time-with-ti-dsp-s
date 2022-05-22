@@ -1,0 +1,322 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>A DSP Based Class D Audio Amplifier</title>
+  <metadata>
+  <md:content-id>m22177</md:content-id><md:title>A DSP Based Class D Audio Amplifier</md:title>
+  <md:abstract>Class D amplifiers have proven a higher power efficiency performance against linear classes such as Class A, B and AB. Power losses on Class D amplifiers are mainly due to non-ideality of the output transistors, operating as switches, controlled by Pulse Width Modulators. 
+This example describes a method for utilizing both the Enhanced Pulse Width Modulator (ePWM) and the Analog-to-Digital Converter (ADC) of the TMS320F2808™ digital signal controller as D-Class Audio amplifier. The method involves analog full bridge D-class power amplifier and analog low-pass filtering the amplified PWM signal to remove high frequency components, leaving only the audio-frequency content.</md:abstract>
+  <md:uuid>68c8623a-208a-4384-a6cc-d12ae5592435</md:uuid>
+</metadata>
+
+<content>
+    <section id="id11812654">
+      <title>Introduction</title>
+      <para id="id11333843">Class D amplifiers have proven a higher power efficiency performance against linear classes such as Class A, B and AB. Power losses on Class D amplifiers are mainly due to non-ideality of the output transistors, operating as switches, controlled by Pulse Width Modulators. </para>
+      <para id="id11555723">This example describes a method for utilizing both the Enhanced Pulse Width Modulator (ePWM) and the Analog-to-Digital Converter (ADC) of the TMS320F2808™ digital signal controller as D-Class Audio amplifier. The method involves analog full bridge D-class power amplifier and analog low-pass filtering the amplified PWM signal to remove high frequency components, leaving only the audio-frequency content. </para>
+      <section id="id10584098">
+        <title>Hardware and Software Requirements </title>
+        <para id="id5436925">This example was originally developed using the following hardware and software:</para>
+        <list id="id11142406" list-type="bulleted">
+          <item>MatLab R2008a </item>
+          <item>Code Composer Studio (CCS) v3.3</item>
+          <item>eZDSP-F2808 board.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation <link resource="ClassD.ppt">ClassD.ppt</link></item>
+<item>Simulink Model for Real-Time - <link resource="eZDSPF2808_ClassD.mdl">eZDSPF2808_ClassD.mdl</link>
+	</item>
+</list>
+</section>
+
+    </section>
+    <section id="id3501306">
+      <title>Principle of Operation</title>
+      <para id="id10716876">The amplifier comprises three main blocks (shown in Figure 1):</para>
+      <figure id="id11650253"><media id="id39172843" alt=""><image src="../../media/Slide1-0655.JPG" mime-type="image/jpeg"/></media><caption>The Class-D Audio Amplifier</caption></figure>
+      
+      <section id="id11688373">
+        <title>Input Circuit: </title>
+        <para id="id11307014">This block interfaces with the audio source, attenuates it DC component and limits the input voltage to the ADC to the range 0 - 3.3V. The circuit contains also a DC-DC converter, for the DSP input buffer.</para>
+        <figure id="id11842890"><media id="id39172896" alt=""><image src="../../media/graphics2-f6bf.jpg" mime-type="image/jpeg"/></media><caption>Input Circuit Schematics</caption></figure>
+        
+      </section>
+      <section id="id13166438">
+        <title>Digital Signal Controller </title>
+        <para id="id11999368">The TMS320F2808, converts the analog signal to a pair of PWM signals that feed the output stage (Please refer to section ). It operates with 100 MHz. The ADC samples the input signal at a 97.656.25 Ksps rate. The ePWM, generates PWM signal with a period of 102.4 μs and duty cycle proportional to the input signal level. The ePWM coupled with a D-Class output stage and a second order passive RLC filter, provides a DAC equivalent.</para>
+        <section id="id3631791">
+          <title>Sampling the Analog Input</title>
+          <para id="id3280200">The analog signal is converted to PCM values as shown in . The conversion is performed as described in Table 1. The ADC operates in a sampling rate of 97.656 KHz (100 MHz/1024).</para>
+          <para id="id10984628">
+            <figure id="id8406898"><media id="id39173003" alt=""><image src="../../media/graphics3-7b7e.jpg" mime-type="image/jpeg"/></media><caption>Analog to Digital (PCM) Conversion</caption></figure>
+          </para>
+          
+          <para id="id11218813">Table 1: Analog to Digital Conversion</para>
+          <table id="id10541289" summary="">
+            <tgroup cols="2">
+              <colspec colnum="1" colname="c1"/>
+              <colspec colnum="2" colname="c2"/>
+              <tbody>
+                <row>
+                  <entry>Input Voltage (Vin)</entry>
+                  <entry>Digital Value(ADCRESULT)</entry>
+                </row>
+                <row>
+                  <entry>
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>V</m:mi>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mstyle fontstyle="italic">
+                                        <m:mrow>
+                                          <m:mtext>in</m:mtext>
+                                        </m:mrow>
+                                      </m:mstyle>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                                <m:mo stretchy="false">&lt;</m:mo>
+                                <m:mn>0V</m:mn>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{V rSub { size 8{ ital "in"} } &lt;0V} {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                  <entry>0</entry>
+                </row>
+                <row>
+                  <entry>
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mrow>
+                                  <m:mn>0</m:mn>
+                                  <m:mo stretchy="false">≤</m:mo>
+                                  <m:msub>
+                                    <m:mi>V</m:mi>
+                                    <m:mstyle fontsize="8pt">
+                                      <m:mrow>
+                                        <m:mstyle fontstyle="italic">
+                                          <m:mrow>
+                                            <m:mtext>in</m:mtext>
+                                          </m:mrow>
+                                        </m:mstyle>
+                                      </m:mrow>
+                                    </m:mstyle>
+                                  </m:msub>
+                                </m:mrow>
+                                <m:mo stretchy="false">&lt;</m:mo>
+                                <m:mn>3V</m:mn>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{0 &lt;= V rSub { size 8{ ital "in"} } &lt;3V} {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                  <entry><m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:mtext>4096</m:mtext><m:mo stretchy="false">∗</m:mo><m:mfrac><m:msub><m:mi>V</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:mtext>in</m:mtext></m:mrow></m:mstyle></m:mrow></m:mstyle></m:msub><m:mn>3</m:mn></m:mfrac></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{"4096"* {  {V rSub { size 8{ ital "in"} } }  over  {3} } } {}</m:annotation></m:semantics></m:math><!--Footnote can not be a child of a table cell.-->,<!--Footnote can not be a child of a table cell.--></entry>
+                </row>
+                <row>
+                  <entry>
+                    <m:math>
+                      <m:semantics>
+                        <m:mrow>
+                          <m:mstyle fontsize="12pt">
+                            <m:mrow>
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>V</m:mi>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mstyle fontstyle="italic">
+                                        <m:mrow>
+                                          <m:mtext>in</m:mtext>
+                                        </m:mrow>
+                                      </m:mstyle>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                                <m:mo stretchy="false">≥</m:mo>
+                                <m:mn>3V</m:mn>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mstyle>
+                          <m:mrow/>
+                        </m:mrow>
+                        <m:annotation encoding="StarMath 5.0"> size 12{V rSub { size 8{ ital "in"} }  &gt;= 3V} {}</m:annotation>
+                      </m:semantics>
+                    </m:math>
+                  </entry>
+                  <entry>4095</entry>
+                </row>
+              </tbody>
+            </tgroup>
+          </table>
+        </section>
+        <section id="id8652631">
+          <title>PCM → PWM </title>
+          <para id="id11043257">The PCM values are converted to PWM as shown in Figure 4. A period of 102.4 msecs (1024 clock cycles) was chosen. The relation PCM Value/Full Range is translated to the duty cycle of the PWM. A duty cycle of 512 (50 %) corresponds to 50% of the full range, for example. In this example sample values in the range 0-4095 will be mapped to duty cycle values (CMPA) in the range 0-1023, by dividing by 4 (shift right 2 bits), as shown in Figure 5.</para>
+          <para id="id5308639">
+            <figure id="id5308642"><media id="id38371240" alt=""><image src="../../media/graphics4-da7a.jpg" mime-type="image/jpeg"/></media><caption>PWM based Digital to Analog Conversion</caption></figure>
+          </para>
+          
+          <para id="id11940576">
+            <figure id="id11093430"><media id="id38371278" alt=""><image src="../../media/graphics5-9db9.jpg" mime-type="image/jpeg"/></media><caption>PCM to Duty Cycle Conversion</caption></figure>
+          </para>
+          
+        </section>
+        <section id="id11339642">
+          <title>The Interrupt Service Routine</title>
+          <para id="id10880021">The process described in the previous section is executed in the Interrupt Service Routine (ISR). The ADC conversion is triggered by the ePWM block when the PWM period starts (every 102.4 msecs). The ADC generates an interrupt at the end of conversion. The interrupt service routine updates the PWM duty cycle (CMPA value) on the value of this sample. The new duty cycle will be loaded in the beginning of the next PWM period. The process is described in Figure 6.</para>
+          <figure id="id10875355"><media id="id38371346" alt=""><image src="../../media/graphics6-b24e.jpg" mime-type="image/jpeg"/></media><caption>Timing Diagram</caption></figure>
+          
+        </section>
+      </section>
+      <section id="id11617733">
+        <title>Output Stage: </title>
+        <para id="id11949500">This module contains the H-bridge, and a Low Pass Filter to remove high frequency components, leaving only the audio-frequency content. This module basically implements a Digital to Analog Converter using a PWM signal generator and a Low Pass Filter as shown in . This method is described in . </para>
+        <para id="id10614479">
+          <figure id="id12008056"><media id="id40095205" alt=""><image src="../../media/graphics7-00f6.jpg" mime-type="image/jpeg"/></media><caption>PWM based Digital to Analog Conversion</caption></figure>
+        </para>
+        
+        <para id="element-882">The basic configuration of a D-Class amplifier is the Half-Bridge (H-Bridge) configuration. Two output transistors operate as switches, driven by complementary PWM signals. One of the transistors is off (current through it is close zero), while the remaining one is on (voltage across it is close to zero), keeping the power dissipation very low. </para><figure id="id7148941"><media id="id40095249" alt=""><image src="../../media/graphics8-dc5d.jpg" mime-type="image/jpeg"/></media><caption>H-Bridge Power Topology</caption></figure>
+        
+        
+        <para id="id10864754">The full-bridge Class D amplifier comprises two half bridges, driven by synchronized PWM signals, having two alternate conduction paths through the load, each one having a pair of transistor conducting while the remaining pair is off. </para>
+        <figure id="id12675139"><media id="id40095292" alt=""><image src="../../media/graphics9-90ca.jpg" mime-type="image/jpeg"/></media><caption>Output Stage Schematics</caption></figure>
+        
+      </section>
+    </section>
+    <section id="id10880126">
+      <title>Implementation</title>
+      <para id="id5354446">This section will describe the process of building a Simulink model for code generation according to description in chapter .</para>
+      <para id="id3501659">In the first part the framework for interrupt handling will be created. The second section will describe the creation of the Interrupt Service Routine.</para>
+      <section id="id13215584">
+        <title>Interrupt</title>
+        <list id="id11952189" list-type="enumerated">
+<item><label>Create a new Simulink model</label></item>
+<item><label>Add the "F2808 eZDSP" block from the Target Support Package TC2.</label> 
+<figure id="id11571523"><media id="id40095424" alt=""><image src="../../media/graphics10-2554.png" mime-type="image/png"/></media>
+<caption>The "F2808 eZDSP" block</caption></figure>
+</item>
+
+<item><label>Add the "Hardware Interrupt" block from the C2808 DSP Chip Support group of the Target Support Package TC2. </label> 
+<figure id="id8620672"><media id="id40095468" alt=""><image src="../../media/graphics11-161f.png" mime-type="image/png"/></media>
+<caption>The "Hardware Interrupt" Block</caption></figure>
+The Interrupt should be generated at the end of conversion of group A, (CPU Values=1 and PIE Values=1) as shown in Figure 12.
+<figure id="id7093160"><media id="id38376840" alt=""><image src="../../media/Interrupt Table.jpg" mime-type="image/jpeg"/></media>
+<caption>The "Hardware Interrupt" Selection Table</caption></figure>  
+</item>
+
+<item><label>Double-click the Hardware Interrupt block and configure it as follows:</label>
+<figure id="id10300587"><media id="id38376882" alt=""><image src="../../media/graphics13-2bab.png" mime-type="image/png"/></media>
+<caption>The Hardware Interrupt Configuration</caption></figure>
+</item>        
+
+<item><label>Add the "Function-Call Subsystem" block from the Ports and Subsystems group of the Simulink blockset.</label> 
+<figure id="id11020333"><media id="id38376926" alt=""><image src="../../media/graphics14-5b56.png" mime-type="image/png"/></media>
+<caption>The "Function-Call Subsystem" Block</caption></figure>
+</item>
+<item><label>Connect the blocks as shown in Figure 15. Save the model as "eZDSPF2808ClassD".</label><footnote id="id38376959">You may also change colors, and name the blocks as shown here.</footnote>  
+<figure id="id12027619"><media id="id38376979" alt=""><image src="../../media/graphics15-daaf.png" mime-type="image/png"/></media><caption>The Class-D Amplifier Model</caption></figure></item>
+</list>
+</section>
+      
+<section id="id6042081">
+<title>PCM to PWM Conversion</title>
+<list id="id12223486" list-type="enumerated">
+<item><label>Double-click the Function-Call Subsystem block and delete the "In1" and Out1 blocks.</label> 
+<figure id="id10132923"><media id="id38377054" alt=""><image src="../../media/graphics16-e3a3.png" mime-type="image/png"/></media></figure></item>
+
+<item><label>Add the "ADC" block from the C2808 DSP Chip Support group of the Target Support Package TC2.</label> 
+<figure id="id11494560"><media id="id38377088" alt=""><image src="../../media/graphics17-82ea.png" mime-type="image/png"/></media><caption>The "ADC" Block</caption></figure> 
+The block should be configured to use channel 0 of module A, triggered by ePWMxA, and post an interrupt at the end of conversion as shown:
+<figure id="id12990445">
+<subfigure id="subfigure-3">
+	<media id="id38377129" alt=""><image src="../../media/fig17_1.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<subfigure id="subfigure-4">
+	<media id="id38377150" alt=""><image src="../../media/fig17_2.JPG" mime-type="image/jpeg"/></media>
+</subfigure><caption>The "ADC" Configuration</caption></figure>
+ </item>
+
+<item><label>Add two copies of the "ePWM" block from the C2808 DSP Chip Support group of the Target Support Package TC2. Name them ePWM1 and ePWM2.</label>
+<figure id="id11604643"><media id="id38377194" alt=""><image src="../../media/graphics19-f00f.png" mime-type="image/png"/></media><caption>The "ePWM" block</caption></figure>
+The blocks should be configured as shown in the following figures:        <figure id="id12253531" orient="vertical"><subfigure id="subfigure-5">
+	<media id="id38377236" alt=""><image src="../../media/Slide_10.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<subfigure id="subfigure-6">
+	<media id="id38377258" alt=""><image src="../../media/Slide11.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<subfigure id="subfigure-7">
+	<media id="id38377279" alt=""><image src="../../media/Slide12.JPG" mime-type="image/jpeg"/></media>
+</subfigure><caption>The "ePWM1" block Configuration</caption></figure>
+        <figure id="id6777366" orient="vertical">
+<subfigure id="subfigure-10">
+	<media id="id38377321" alt=""><image src="../../media/Slide13.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<subfigure id="subfigure-8">
+	<media id="id38377342" alt=""><image src="../../media/Slide14.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<subfigure id="subfigure-9">
+	<media id="id38377364" alt=""><image src="../../media/Slide15.JPG" mime-type="image/jpeg"/></media>
+</subfigure>
+<caption>The "ePWM2" block Configuration</caption>
+</figure></item>
+
+
+
+<item><label>Add the "Shift Arithmetic" block from the Logic and Bit Operations group of the Simulink blockset, and configure it for shift 2 bits right. </label>
+<figure id="id13174436"><media id="id40532615" alt=""><image src="../../media/graphics22-79aa.png" mime-type="image/png"/></media><caption>The "Shift Arithmetic" Block</caption></figure>
+<figure id="id12225702"><media id="id40532643" alt=""><image src="../../media/graphics23-0ee1.png" mime-type="image/png"/></media><caption>The "Shift Arithmetic" Block Configuration</caption></figure>
+</item>       
+
+          <item><label>Connect the blocks as shown in Figure 22.</label>
+
+        <figure id="id3264537"><media id="id40532686" alt=""><image src="../../media/fig.JPG" mime-type="image/jpeg"/></media><caption>The Class D Amplifier Model</caption></figure>
+</item></list>        
+      </section>
+      <section id="id11744631">
+        <title>Running the model:</title>
+<list id="id7361653" list-type="enumerated">
+<item><label>Connect the system as shown in the following figures:</label>
+<figure id="id4883818"><media id="id40532760" alt=""><image src="../../media/Slide16.JPG" mime-type="image/jpeg"/></media><caption>The System</caption></figure>
+<figure id="id3336935"><media id="id40532788" alt=""><image src="../../media/Slide17.JPG" mime-type="image/jpeg"/></media><caption>Voltage Supply</caption></figure>
+</item>
+<item>Build and run the model "CTRL-B".</item>
+<item>The amplifier should start working, connect your audio source, and enjoy the music.</item>
+        </list>
+      </section>
+    </section>
+    <section id="id3253693">
+      <title>Things to Try</title>
+      <para id="id4917347">This example's objective was to show the use of the F2808 blocks, it is certainly not the best implementation, but it serves as the basis for additional features and enhancements like:</para>
+      <list id="id4869998" list-type="bulleted">
+        <item>Use Oversampling</item>
+        <item>Use the High-Resolution PWM</item>
+        <item>Add Signal Processing (Filtering, Equalization, Gain Control) features to the amplifier</item>
+      </list>
+    </section>
+    <section id="id3251855">
+      <title>References</title>
+      <list id="id11218908" list-type="enumerated"><item>"eZdspTM F2808 Technical Reference", Spectrum Digital, 2005 <link url="http://c2000.spectrumdigital.com/ezf2808/docs/2808_ezdspusb_techref_c.pdf">http://c2000.spectrumdigital.com/ezf2808/docs/2808_ezdspusb_techref_c.pdf</link></item>
+	<item>David M. Alter, " Using PWM Output as a Digital-to-Analog Converter on a TMS320F280x", TI Application Report SPRAA88 , September 2008 <link url="http://www.ti.com/litv/pdf/spraa88a">http://www.ti.com/litv/pdf/spraa88a</link></item>
+</list>
+    </section>
+  </content>
+</document>

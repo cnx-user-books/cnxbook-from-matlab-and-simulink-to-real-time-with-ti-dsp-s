@@ -1,0 +1,3686 @@
+Model {
+  Name			  "DTMF_DSK6713"
+  Version		  6.5
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.234"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1255"
+  PreLoadFcn		  "Framesize=256,Fs=8192"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  on
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  on
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  on
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks on
+  BrowserLookUnderMasks	  on
+  Created		  "Wed Dec 02 11:21:15 1998"
+  Creator		  "stuartm"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "dsp"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Wed Jul 23 15:09:47 2008"
+  ModelVersionFormat	  "1.%<AutoIncrement:234>"
+  ConfigurationManager	  "none"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "oneshot"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  off
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  off
+  ProdHWDeviceType	  "TI C6000"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.2.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "PositivePriorityOrder"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  StartTime		  "0"
+	  StopTime		  "20"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  SolverName		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  on
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.2.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  off
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "sigsOut"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.2.0"
+	  BlockReduction	  off
+	  BooleanDataType	  off
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  off
+	  BufferReuse		  off
+	  EnforceIntegerDowncast  off
+	  ExpressionFolding	  off
+	  FoldNonRolledExpr	  off
+	  LocalBlockOutputs	  off
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode on
+	  LifeSpan		  "inf"
+	  BufferReusableBoundary  on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.2.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "none"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "warning"
+	  MultiTaskCondExecSysMsg "none"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StrictBusMsg		  "None"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Version		  "1.2.0"
+	  ProdBitPerChar	  8
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  32
+	  ProdBitPerLong	  40
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  32
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "TI C6000"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "Specified"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.2.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "GenCodeOnly"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  SystemTargetFile	  "ti_c6000_ert.tlc"
+	  GenCodeOnly		  on
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "ti_c6000_ert.tmf"
+	  Description		  "Embedded Target for TI C6000 DSP (ERT)"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "ti_c6000_ert_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  on
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.2.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement on
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    TIC6000TgtPkg.C6000ERTTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		2
+		Cell			"GenerateSampleERTMain"
+		Cell			"FPopt"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant on
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns on
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    on
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   off
+	      SupportNonInlinedSFcns  off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      GenerateErtSFunction    off
+	      GenerateASAP2	      off
+	      ExtMode		      off
+	      ExtModeTransport	      0
+	      ExtModeStaticAlloc      off
+	      ExtModeStaticAllocSize  1000000
+	      ExtModeTesting	      off
+	      ExtModeMexFile	      "ext_comm"
+	      InlinedParameterPlacement	"NonHierarchical"
+	      TargetOS		      "BareBoardExample"
+	      MultiInstanceErrorCode  "Error"
+	      RateGroupingCode	      on
+	      RootIOFormat	      "Individual arguments"
+	      RTWCAPISignals	      off
+	      RTWCAPIParams	      off
+	      RTWCAPIStates	      off
+	      ERTSrcFileBannerTemplate "ert_code_template.cgt"
+	      ERTHdrFileBannerTemplate "ert_code_template.cgt"
+	      ERTDataSrcFileTemplate  "ert_code_template.cgt"
+	      ERTDataHdrFileTemplate  "ert_code_template.cgt"
+	      ERTCustomFileTemplate   "example_file_process.tlc"
+	      ModuleNamingRule	      "Unspecified"
+	      SignalDisplayLevel      10
+	      ParamTuneLevel	      10
+	      GlobalDataDefinition    "Auto"
+	      DataDefinitionFile      "global.c"
+	      GlobalDataReference     "Auto"
+	      DataReferenceFile	      "global.h"
+	      GRTInterface	      off
+	      EnableUserReplacementTypes off
+	      Array {
+		Type			"Struct"
+		Dimension		1
+		MATStruct {
+		  double		  ""
+		  single		  ""
+		  int32			  ""
+		  int16			  ""
+		  int8			  ""
+		  uint32		  ""
+		  uint16		  ""
+		  uint8			  ""
+		  boolean		  ""
+		  int			  ""
+		  uint			  ""
+		  char			  ""
+		}
+		PropName		"ReplacementTypes"
+	      }
+	      MemSecPackage	      "--- None ---"
+	      MemSecDataConstants     "Default"
+	      MemSecDataIO	      "Default"
+	      MemSecDataInternal      "Default"
+	      MemSecDataParameters    "Default"
+	      MemSecFuncInitTerm      "Default"
+	      MemSecFuncExecute	      "Default"
+	      exportCCSObj	      on
+	      ccsObjName	      "CCS_Obj"
+	      useDSPBIOS	      on
+	      ProfileGenCode	      on
+	      InlineDSPBlks	      on
+	      FPopt		      off
+	      memModel		      "Far_Aggregate"
+	      optLevel		      "Function(-o2)"
+	      CompilerVerbosity	      "Quiet"
+	      InterruptThreshOnC6x    off
+	      SymbolicDebugOnC6x      off
+	      RetainAsmFiles	      off
+	      RetainObjFiles	      on
+	      CreateMapFile	      on
+	      UserStackSize	      8192
+	      c6000BuildAction	      "Build"
+	      OverrunAction	      "Notify_and_continue"
+	      OverrunNotificationMethod	"Turn_on_LEDs"
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      ExtraOptions	      "-aUserStackSize=8192 "
+      CurrentDlgPage	      "Real-Time Workshop/TIC6000 Compiler//Linker"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      Abs
+    }
+    Block {
+      BlockType		      Concatenate
+      NumInputs		      "2"
+    }
+    Block {
+      BlockType		      Constant
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      FrameConversion
+      OutFrame		      "Frame based"
+    }
+    Block {
+      BlockType		      Fcn
+      Expr		      "sin(u[1])"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Logic
+      Operator		      "AND"
+      Inputs		      "2"
+      IconShape		      "rectangular"
+      AllPortsSameDT	      on
+      OutDataTypeMode	      "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Lookup
+    }
+    Block {
+      BlockType		      Lookup2D
+      RowIndex		      "[0 1]"
+      ColumnIndex	      "[0 1]"
+      OutputValues	      "[0 0;0 0]"
+      LookUpMeth	      "Interpolation-Extrapolation"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+      LUTDesignTableMode      "Redesign Table"
+      LUTDesignDataSource     "Block Dialog"
+      LUTDesignFunctionName   "sqrt(x)"
+      LUTDesignUseExistingBP  on
+      LUTDesignRelError	      "0.01"
+      LUTDesignAbsError	      "1e-6"
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      RelationalOperator
+      Operator		      ">="
+      InputSameDT	      on
+      LogicOutDataTypeMode    "Logical (see Configuration Parameters: Optimiza"
+"tion)"
+      LogicDataType	      "uint(8)"
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Scope
+      ModelBased	      off
+      TickLabels	      "OneTimeTick"
+      ZoomMode		      "on"
+      Grid		      "on"
+      TimeRange		      "auto"
+      YMin		      "-5"
+      YMax		      "5"
+      SaveToWorkspace	      off
+      SaveName		      "ScopeData"
+      LimitDataPoints	      on
+      MaxDataPoints	      "5000"
+      Decimation	      "1"
+      SampleInput	      off
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      TriggerPort
+      TriggerType	      "rising"
+      StatesWhenEnabling      "inherit"
+      ShowOutputPort	      off
+      OutputDataType	      "auto"
+      SampleTimeType	      "triggered"
+      SampleTime	      "1"
+      ZeroCross		      on
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Helvetica"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Helvetica"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "DTMF_DSK6713"
+    Location		    [38, 265, 805, 570]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    128
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "usletter"
+    PaperUnits		    "inches"
+    TiledPaperMargins	    [0.196850, 0.196850, 0.196850, 0.196850]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "D:\\Applications\\MatlabR11\\toolbox\\rptgenext\\"
+"simulink-images.rpt"
+    Block {
+      BlockType		      Reference
+      Name		      "ADC"
+      Ports		      [0, 1]
+      Position		      [15, 188, 105, 232]
+      SourceBlock	      "c6713dsklib/ADC"
+      SourceType	      "C6713DSK ADC"
+      ADCsource		      "Line In"
+      MicGain		      off
+      Stereo		      off
+      SampleRate	      "8 kHz"
+      CodecDataFormat	      "16-bit"
+      OutputDataType	      "Double"
+      Scaling		      "Normalize"
+      SourceGain	      " 0.0"
+      FrameSize		      "256"
+      inheritSampleTime	      off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "C6713DSK"
+      Tag		      "C6000 TARGET PREFERENCES BLOCK"
+      Ports		      []
+      Position		      [620, 35, 686, 80]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      SourceBlock	      "c6000tgtpreflib/C6713DSK"
+      SourceType	      "C6000 Target Preferences"
+      ShowPortLabels	      on
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "DTMF Receiver"
+      Ports		      [1, 1]
+      Position		      [435, 163, 580, 257]
+      ShowName		      off
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"DTMF Receiver"
+	Location		[191, 152, 1007, 551]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [20, 63, 50, 77]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Abs
+	  Name			  "Abs"
+	  Position		  [130, 55, 160, 85]
+	  SaturateOnIntegerOverflow on
+	  ZeroCross		  on
+	  SampleTime		  "-1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Bandpass and decode"
+	  Ports			  [1, 1]
+	  Position		  [135, 260, 225, 330]
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  Port {
+	    PortNumber		    1
+	    Name		    "Digit"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  System {
+	    Name		    "Bandpass and decode"
+	    Location		    [330, 183, 958, 460]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Input"
+	      Position		      [20, 93, 50, 107]
+	      IconDisplay	      "Port number"
+	      Port {
+		PortNumber		1
+		Name			"Input Tones"
+		RTWStorageClass		"Auto"
+		DataLoggingNameMode	"SignalName"
+	      }
+	    }
+	    Block {
+	      BlockType		      Lookup2D
+	      Name		      "Calculate\nDigit"
+	      Position		      [415, 92, 445, 128]
+	      RowIndex		      "[1:4]"
+	      ColumnIndex	      "[1:3]"
+	      OutputValues	      "[1 2 3;4 5 6;7 8 9;10 0 11]"
+	      LookUpMeth	      "Use Input Nearest"
+	      OutDataTypeMode	      "double"
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Column"
+	      Ports		      [1, 1]
+	      Position		      [230, 175, 300, 245]
+	      FontName		      "MS Sans Serif"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Calculate Column"
+		Location		[24, 127, 786, 511]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [15, 97, 45, 113]
+		  NamePlacement		  "alternate"
+		  FontName		  "MS Sans Serif"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Bit to Integer\nConverter1"
+		  Ports			  [1, 1]
+		  Position		  [495, 178, 575, 222]
+		  SourceBlock		  "commutil2/Bit to Integer\nConverter"
+		  SourceType		  "Bit to Integer Converter"
+		  nbits			  "3"
+		  outDtype		  "Same as input"
+		}
+		Block {
+		  BlockType		  Lookup
+		  Name			  "Col=f(Tone)"
+		  Position		  [650, 185, 680, 215]
+		  InputValues		  "[0:7]"
+		  OutputValues		  "[0 1 2 0 3 0 0 0]"
+		  LookUpMeth		  "Use Input Nearest"
+		  OutDataTypeMode	  "Same as input"
+		  OutDataType		  "sfix(16)"
+		  OutScaling		  "2^0"
+		  LockScale		  off
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow on
+		  SampleTime		  "-1"
+		  LUTDesignTableMode	  "Redesign Table"
+		  LUTDesignDataSource	  "Block Dialog"
+		  LUTDesignFunctionName	  "sqrt(x)"
+		  LUTDesignUseExistingBP  on
+		  LUTDesignRelError	  "0.01"
+		  LUTDesignAbsError	  "1e-6"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone"
+		  Ports			  [1, 1]
+		  Position		  [240, 90, 310, 120]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|1477"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone"
+		    Location		    [71, 373, 868, 666]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone2"
+		  Ports			  [1, 1]
+		  Position		  [240, 185, 310, 215]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|1336"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone2"
+		    Location		    [71, 373, 868, 666]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone3"
+		  Ports			  [1, 1]
+		  Position		  [240, 280, 310, 310]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|1209"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone3"
+		    Location		    [77, 367, 874, 660]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Frame Status\nConversion1"
+		  Ports			  [1, 1]
+		  Position		  [595, 184, 630, 216]
+		  ShowName		  off
+		  SourceBlock		  "dspobslib/Frame Status\nConversion"
+		  SourceType		  "Frame Status Conversion"
+		  ShowPortLabels	  off
+		  SystemSampleTime	  "-1"
+		  FunctionWithSeparateData off
+		  RTWMemSecFuncInitTerm	  "Inherit from model"
+		  RTWMemSecFuncExecute	  "Inherit from model"
+		  RTWMemSecDataConstants  "Inherit from model"
+		  RTWMemSecDataInternal	  "Inherit from model"
+		  RTWMemSecDataParameters "Inherit from model"
+		  growRefPort		  off
+		  outframe		  "Sample-based"
+		}
+		Block {
+		  BlockType		  Concatenate
+		  Name			  "Matrix\nConcatenation1"
+		  Ports			  [3, 1]
+		  Position		  [390, 55, 440, 345]
+		  NumInputs		  "3"
+		  Mode			  "Vertical matrix concatenation"
+		  Port {
+		    PortNumber		    1
+		    Name		    "YN"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [705, 193, 735, 207]
+		  FontName		  "MS Sans Serif"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "YN"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Matrix\nConcatenation1"
+		  SrcPort		  1
+		  DstBlock		  "Bit to Integer\nConverter1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Bit to Integer\nConverter1"
+		  SrcPort		  1
+		  DstBlock		  "Frame Status\nConversion1"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Frame Status\nConversion1"
+		  SrcPort		  1
+		  DstBlock		  "Col=f(Tone)"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation1"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone2"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation1"
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone3"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation1"
+		  DstPort		  3
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [0, 0; 40, 0]
+		  Branch {
+		    Points		    [0, 95]
+		    Branch {
+		    DstBlock		    "Detect tone2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 95]
+		    DstBlock		    "Detect tone3"
+		    DstPort		    1
+		    }
+		  }
+		  Branch {
+		    DstBlock		    "Detect tone"
+		    DstPort		    1
+		  }
+		}
+		Line {
+		  SrcBlock		  "Col=f(Tone)"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      SubSystem
+	      Name		      "Calculate Row"
+	      Ports		      [1, 1]
+	      Position		      [230, 71, 300, 139]
+	      FontName		      "MS Sans Serif"
+	      MinAlgLoopOccurrences   off
+	      RTWSystemCode	      "Auto"
+	      FunctionWithSeparateData off
+	      MaskHideContents	      off
+	      System {
+		Name			"Calculate Row"
+		Location		[157, 135, 927, 603]
+		Open			off
+		ModelBrowserVisibility	off
+		ModelBrowserWidth	200
+		ScreenColor		"white"
+		PaperOrientation	"landscape"
+		PaperPositionMode	"auto"
+		PaperType		"A4"
+		PaperUnits		"centimeters"
+		TiledPaperMargins	"[0.500000, 0.500000, 0.500000, 0.5000"
+"00]"
+		TiledPageScale		1
+		ShowPageBoundaries	off
+		ZoomFactor		"100"
+		Block {
+		  BlockType		  Inport
+		  Name			  "In1"
+		  Position		  [15, 58, 45, 72]
+		  FontName		  "MS Sans Serif"
+		  IconDisplay		  "Port number"
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone"
+		  Ports			  [1, 1]
+		  Position		  [225, 50, 295, 80]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|941"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone"
+		    Location		    [18, 513, 815, 806]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone1"
+		  Ports			  [1, 1]
+		  Position		  [225, 155, 295, 185]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|852"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone1"
+		    Location		    [23, 811, 820, 1104]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone2"
+		  Ports			  [1, 1]
+		  Position		  [230, 260, 300, 290]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|770"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone2"
+		    Location		    [175, 227, 1085, 546]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  SubSystem
+		  Name			  "Detect tone3"
+		  Ports			  [1, 1]
+		  Position		  [235, 365, 305, 395]
+		  AttributesFormatString  "%<F> Hz"
+		  MinAlgLoopOccurrences	  off
+		  RTWSystemCode		  "Auto"
+		  FunctionWithSeparateData off
+		  MaskHideContents	  off
+		  MaskPromptString	  "Sample Rate (Hz)|Frequency"
+		  MaskStyleString	  "edit,edit"
+		  MaskTunableValueString  "on,on"
+		  MaskCallbackString	  "|"
+		  MaskEnableString	  "on,on"
+		  MaskVisibilityString	  "on,on"
+		  MaskToolTipString	  "on,on"
+		  MaskVarAliasString	  ","
+		  MaskVariables		  "Fs=@1;F=@2;"
+		  MaskIconFrame		  on
+		  MaskIconOpaque	  on
+		  MaskIconRotate	  "none"
+		  MaskIconUnits		  "autoscale"
+		  MaskValueString	  "Fs|697"
+		  MaskTabNameString	  ","
+		  Port {
+		    PortNumber		    1
+		    Name		    "row 1"
+		    PropagatedSignals	    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		  System {
+		    Name		    "Detect tone3"
+		    Location		    [85, 446, 882, 739]
+		    Open		    off
+		    ModelBrowserVisibility  off
+		    ModelBrowserWidth	    200
+		    ScreenColor		    "white"
+		    PaperOrientation	    "landscape"
+		    PaperPositionMode	    "auto"
+		    PaperType		    "A4"
+		    PaperUnits		    "centimeters"
+		    TiledPaperMargins	    "[0.500000, 0.500000, 0.500000, 0."
+"500000]"
+		    TiledPageScale	    1
+		    ShowPageBoundaries	    off
+		    ZoomFactor		    "100"
+		    Block {
+		    BlockType		    Inport
+		    Name		    "In1"
+		    Position		    [40, 93, 70, 107]
+		    IconDisplay		    "Port number"
+		    }
+		    Block {
+		    BlockType		    Abs
+		    Name		    "Abs"
+		    Position		    [250, 85, 280, 115]
+		    SaturateOnIntegerOverflow on
+		    ZeroCross		    on
+		    SampleTime		    "-1"
+		    }
+		    Block {
+		    BlockType		    Constant
+		    Name		    "Constant"
+		    Position		    [515, 140, 545, 170]
+		    Value		    ".6"
+		    VectorParams1D	    on
+		    SamplingMode	    "Sample based"
+		    OutDataTypeMode	    "Inherit from 'Constant value'"
+		    OutDataType		    "sfix(16)"
+		    ConRadixGroup	    "Use specified scaling"
+		    OutScaling		    "2^0"
+		    SampleTime		    "inf"
+		    FramePeriod		    "inf"
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design1"
+		    Ports		    [1, 1]
+		    Position		    [325, 72, 395, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Butterworth"
+		    filttype		    "Lowpass"
+		    N			    "4"
+		    Wlo			    "100/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Reference
+		    Name		    "Digital IIR\nFilter Design2"
+		    Ports		    [1, 1]
+		    Position		    [130, 72, 200, 128]
+		    SourceBlock		    "dspddes3/Digital IIR\nFilter Desi"
+"gn"
+		    SourceType		    "Digital IIR Filter Design"
+		    ShowPortLabels	    on
+		    SystemSampleTime	    "-1"
+		    FunctionWithSeparateData off
+		    RTWMemSecFuncInitTerm   "Inherit from model"
+		    RTWMemSecFuncExecute    "Inherit from model"
+		    RTWMemSecDataConstants  "Inherit from model"
+		    RTWMemSecDataInternal   "Inherit from model"
+		    RTWMemSecDataParameters "Inherit from model"
+		    method		    "Chebyshev I"
+		    filttype		    "Bandpass"
+		    N			    "4"
+		    Wlo			    "(F-10)/(Fs/2)"
+		    Whi			    "(F+10)/(Fs/2)"
+		    Rp			    "1"
+		    Rs			    "20"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Band Passed"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Gain
+		    Name		    "Gain"
+		    Position		    [510, 86, 555, 114]
+		    Gain		    "1/Framesize"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    RelationalOperator
+		    Name		    "Relational\nOperator"
+		    Position		    [620, 92, 650, 123]
+		    Port {
+		    PortNumber		    1
+		    Name		    "Y/N"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Sum
+		    Name		    "Sum1"
+		    Ports		    [1, 1]
+		    Position		    [455, 90, 475, 110]
+		    ShowName		    off
+		    IconShape		    "round"
+		    Inputs		    "1"
+		    Port {
+		    PortNumber		    1
+		    Name		    "Detected"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		    }
+		    }
+		    Block {
+		    BlockType		    Outport
+		    Name		    "Out1"
+		    Position		    [750, 103, 780, 117]
+		    IconDisplay		    "Port number"
+		    BusOutputAsStruct	    off
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design1"
+		    SrcPort		    1
+		    DstBlock		    "Sum1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Y/N"
+		    Labels		    [0, 0; 1, 0]
+		    SrcBlock		    "Relational\nOperator"
+		    SrcPort		    1
+		    DstBlock		    "Out1"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "Constant"
+		    SrcPort		    1
+		    Points		    [0, -40]
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    2
+		    }
+		    Line {
+		    SrcBlock		    "Abs"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design1"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Band Passed"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Digital IIR\nFilter Design2"
+		    SrcPort		    1
+		    DstBlock		    "Abs"
+		    DstPort		    1
+		    }
+		    Line {
+		    SrcBlock		    "In1"
+		    SrcPort		    1
+		    DstBlock		    "Digital IIR\nFilter Design2"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Sum1"
+		    SrcPort		    1
+		    DstBlock		    "Gain"
+		    DstPort		    1
+		    }
+		    Line {
+		    Name		    "Detected"
+		    Labels		    [0, 0]
+		    SrcBlock		    "Gain"
+		    SrcPort		    1
+		    DstBlock		    "Relational\nOperator"
+		    DstPort		    1
+		    }
+		  }
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "Frame Status\nConversion"
+		  Ports			  [1, 1]
+		  Position		  [565, 209, 610, 241]
+		  ShowName		  off
+		  SourceBlock		  "dspobslib/Frame Status\nConversion"
+		  SourceType		  "Frame Status Conversion"
+		  ShowPortLabels	  off
+		  SystemSampleTime	  "-1"
+		  FunctionWithSeparateData off
+		  RTWMemSecFuncInitTerm	  "Inherit from model"
+		  RTWMemSecFuncExecute	  "Inherit from model"
+		  RTWMemSecDataConstants  "Inherit from model"
+		  RTWMemSecDataInternal	  "Inherit from model"
+		  RTWMemSecDataParameters "Inherit from model"
+		  growRefPort		  off
+		  outframe		  "Sample-based"
+		}
+		Block {
+		  BlockType		  Reference
+		  Name			  "MSB First"
+		  Ports			  [1, 1]
+		  Position		  [445, 203, 525, 247]
+		  SourceBlock		  "commutil2/Bit to Integer\nConverter"
+		  SourceType		  "Bit to Integer Converter"
+		  nbits			  "4"
+		  outDtype		  "Same as input"
+		}
+		Block {
+		  BlockType		  Concatenate
+		  Name			  "Matrix\nConcatenation"
+		  Ports			  [4, 1]
+		  Position		  [365, 13, 420, 432]
+		  NumInputs		  "4"
+		  Mode			  "Vertical matrix concatenation"
+		  Port {
+		    PortNumber		    1
+		    Name		    "YN"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Lookup
+		  Name			  "Row=f(Tone)"
+		  Position		  [635, 210, 665, 240]
+		  InputValues		  "[0:15]"
+		  OutputValues		  "[0 1 2 0 3 0 0 0 4 0 0 0 0 0 0 0]"
+		  LookUpMeth		  "Use Input Nearest"
+		  OutDataTypeMode	  "Same as input"
+		  OutDataType		  "sfix(16)"
+		  OutScaling		  "2^0"
+		  LockScale		  off
+		  RndMeth		  "Floor"
+		  SaturateOnIntegerOverflow on
+		  SampleTime		  "-1"
+		  LUTDesignTableMode	  "Redesign Table"
+		  LUTDesignDataSource	  "Block Dialog"
+		  LUTDesignFunctionName	  "sqrt(x)"
+		  LUTDesignUseExistingBP  on
+		  LUTDesignRelError	  "0.01"
+		  LUTDesignAbsError	  "1e-6"
+		  Port {
+		    PortNumber		    1
+		    Name		    "row"
+		    RTWStorageClass	    "Auto"
+		    DataLoggingNameMode	    "SignalName"
+		  }
+		}
+		Block {
+		  BlockType		  Outport
+		  Name			  "Out1"
+		  Position		  [720, 218, 750, 232]
+		  FontName		  "MS Sans Serif"
+		  IconDisplay		  "Port number"
+		  BusOutputAsStruct	  off
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "YN"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Matrix\nConcatenation"
+		  SrcPort		  1
+		  DstBlock		  "MSB First"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "MSB First"
+		  SrcPort		  1
+		  DstBlock		  "Frame Status\nConversion"
+		  DstPort		  1
+		}
+		Line {
+		  SrcBlock		  "Frame Status\nConversion"
+		  SrcPort		  1
+		  DstBlock		  "Row=f(Tone)"
+		  DstPort		  1
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone1"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation"
+		  DstPort		  2
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone2"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation"
+		  DstPort		  3
+		}
+		Line {
+		  Name			  "row 1"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Detect tone3"
+		  SrcPort		  1
+		  DstBlock		  "Matrix\nConcatenation"
+		  DstPort		  4
+		}
+		Line {
+		  SrcBlock		  "In1"
+		  SrcPort		  1
+		  Points		  [0, 0; 30, 0]
+		  Branch {
+		    DstBlock		    "Detect tone"
+		    DstPort		    1
+		  }
+		  Branch {
+		    Points		    [0, 105]
+		    Branch {
+		    DstBlock		    "Detect tone1"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 105]
+		    Branch {
+		    DstBlock		    "Detect tone2"
+		    DstPort		    1
+		    }
+		    Branch {
+		    Points		    [0, 105]
+		    DstBlock		    "Detect tone3"
+		    DstPort		    1
+		    }
+		    }
+		  }
+		}
+		Line {
+		  Name			  "row"
+		  FontName		  "MS Sans Serif"
+		  Labels		  [0, 0]
+		  SrcBlock		  "Row=f(Tone)"
+		  SrcPort		  1
+		  DstBlock		  "Out1"
+		  DstPort		  1
+		}
+	      }
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Output"
+	      Position		      [555, 103, 585, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      Name		      "Input Tones"
+	      Labels		      [1, 0]
+	      SrcBlock		      "Input"
+	      SrcPort		      1
+	      Points		      [110, 0]
+	      Branch {
+		Points			[0, 110]
+		DstBlock		"Calculate Column"
+		DstPort			1
+	      }
+	      Branch {
+		Points			[50, 0]
+		DstBlock		"Calculate Row"
+		DstPort			1
+	      }
+	    }
+	    Line {
+	      Labels		      [0, 0]
+	      SrcBlock		      "Calculate\nDigit"
+	      SrcPort		      1
+	      DstBlock		      "Output"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Calculate Row"
+	      SrcPort		      1
+	      Points		      [0, -5]
+	      DstBlock		      "Calculate\nDigit"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Calculate Column"
+	      SrcPort		      1
+	      Points		      [95, 0]
+	      DstBlock		      "Calculate\nDigit"
+	      DstPort		      2
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [255, 55, 285, 85]
+	  Gain			  "1/Framesize"
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Integer Delay1"
+	  Ports			  [1, 1]
+	  Position		  [455, 52, 500, 88]
+	  ShowName		  off
+	  SourceBlock		  "dspobslib/Integer Delay"
+	  SourceType		  "Integer Delay"
+	  delay			  "1"
+	  ic			  "0"
+	  reset_popup		  "None"
+	  Port {
+	    PortNumber		    1
+	    Name		    "Delayed edge"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Leading Edge\nDetector"
+	  Ports			  [1, 1]
+	  Position		  [330, 47, 410, 93]
+	  NamePlacement		  "alternate"
+	  FontSize		  12
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Leading Edge\nDetector"
+	    Location		    [326, 181, 987, 339]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "Env"
+	      Position		      [40, 43, 70, 57]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Binary\nTo Bipolar"
+	      Position		      [240, 44, 285, 76]
+	      Expr		      "2*u-1"
+	    }
+	    Block {
+	      BlockType		      Constant
+	      Name		      "Constant"
+	      Position		      [80, 80, 110, 110]
+	      Value		      ".5"
+	      VectorParams1D	      on
+	      SamplingMode	      "Sample based"
+	      OutDataTypeMode	      "Inherit from 'Constant value'"
+	      OutDataType	      "sfix(16)"
+	      ConRadixGroup	      "Use specified scaling"
+	      OutScaling	      "2^0"
+	      SampleTime	      "inf"
+	      FramePeriod	      "inf"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Direct-Form II\nTranspose Filter"
+	      Ports		      [1, 1]
+	      Position		      [305, 38, 375, 82]
+	      SourceBlock	      "dsparch3/Direct-Form II\nTranspose Filt"
+"er"
+	      SourceType	      "Direct-Form II Transpose Filter"
+	      num		      "[ones(1,4) -ones(1,4)]"
+	      den		      "1"
+	      ic		      "0"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Edge\nDetector1"
+	      Ports		      [1, 1]
+	      Position		      [470, 40, 520, 80]
+	      SourceBlock	      "dspswit3/Edge\nDetector"
+	      SourceType	      "Edge Detector"
+	      ShowPortLabels	      on
+	      SystemSampleTime	      "-1"
+	      FunctionWithSeparateData off
+	      RTWMemSecFuncInitTerm   "Inherit from model"
+	      RTWMemSecFuncExecute    "Inherit from model"
+	      RTWMemSecDataConstants  "Inherit from model"
+	      RTWMemSecDataInternal   "Inherit from model"
+	      RTWMemSecDataParameters "Inherit from model"
+	    }
+	    Block {
+	      BlockType		      RelationalOperator
+	      Name		      "Relational\nOperator"
+	      Position		      [175, 42, 205, 73]
+	      ShowName		      off
+	    }
+	    Block {
+	      BlockType		      Fcn
+	      Name		      "Rising Edge\nStart"
+	      Position		      [395, 45, 455, 75]
+	      Expr		      "u>5"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Edge"
+	      Position		      [550, 53, 580, 67]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	      InitialOutput	      "0"
+	    }
+	    Line {
+	      SrcBlock		      "Edge\nDetector1"
+	      SrcPort		      1
+	      DstBlock		      "Edge"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Direct-Form II\nTranspose Filter"
+	      SrcPort		      1
+	      DstBlock		      "Rising Edge\nStart"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Binary\nTo Bipolar"
+	      SrcPort		      1
+	      DstBlock		      "Direct-Form II\nTranspose Filter"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Rising Edge\nStart"
+	      SrcPort		      1
+	      DstBlock		      "Edge\nDetector1"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Env"
+	      SrcPort		      1
+	      DstBlock		      "Relational\nOperator"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Constant"
+	      SrcPort		      1
+	      Points		      [45, 0]
+	      DstBlock		      "Relational\nOperator"
+	      DstPort		      2
+	    }
+	    Line {
+	      SrcBlock		      "Relational\nOperator"
+	      SrcPort		      1
+	      DstBlock		      "Binary\nTo Bipolar"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Scope
+	  Name			  "Scope"
+	  Ports			  [1]
+	  Position		  [640, 54, 670, 86]
+	  Floating		  off
+	  Location		  [65, 305, 650, 544]
+	  Open			  off
+	  NumInputPorts		  "1"
+	  List {
+	    ListType		    AxesTitles
+	    axes1		    "%<SignalLabel>"
+	  }
+	  DataFormat		  "StructureWithTime"
+	  LimitDataPoints	  off
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [1, 1]
+	  Position		  [200, 60, 220, 80]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "1"
+	}
+	Block {
+	  BlockType		  SubSystem
+	  Name			  "Triggered\nSubsystem"
+	  Ports			  [1, 1, 0, 1]
+	  Position		  [445, 253, 675, 337]
+	  TreatAsAtomicUnit	  on
+	  MinAlgLoopOccurrences	  off
+	  RTWSystemCode		  "Auto"
+	  FunctionWithSeparateData off
+	  MaskHideContents	  off
+	  System {
+	    Name		    "Triggered\nSubsystem"
+	    Location		    [401, 346, 899, 646]
+	    Open		    off
+	    ModelBrowserVisibility  off
+	    ModelBrowserWidth	    200
+	    ScreenColor		    "white"
+	    PaperOrientation	    "landscape"
+	    PaperPositionMode	    "auto"
+	    PaperType		    "A4"
+	    PaperUnits		    "centimeters"
+	    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+	    TiledPageScale	    1
+	    ShowPageBoundaries	    off
+	    ZoomFactor		    "100"
+	    Block {
+	      BlockType		      Inport
+	      Name		      "In1"
+	      Position		      [110, 103, 140, 117]
+	      IconDisplay	      "Port number"
+	    }
+	    Block {
+	      BlockType		      TriggerPort
+	      Name		      "Trigger"
+	      Ports		      []
+	      Position		      [225, 20, 245, 40]
+	      StatesWhenEnabling      "held"
+	    }
+	    Block {
+	      BlockType		      Reference
+	      Name		      "Buffer"
+	      Ports		      [1, 1]
+	      Position		      [220, 85, 270, 135]
+	      SourceBlock	      "dspbuff3/Buffer"
+	      SourceType	      "Buffer"
+	      N			      "11"
+	      V			      "10"
+	      ic		      "0"
+	    }
+	    Block {
+	      BlockType		      Outport
+	      Name		      "Out1"
+	      Position		      [360, 103, 390, 117]
+	      IconDisplay	      "Port number"
+	      BusOutputAsStruct	      off
+	    }
+	    Line {
+	      SrcBlock		      "In1"
+	      SrcPort		      1
+	      DstBlock		      "Buffer"
+	      DstPort		      1
+	    }
+	    Line {
+	      SrcBlock		      "Buffer"
+	      SrcPort		      1
+	      DstBlock		      "Out1"
+	      DstPort		      1
+	    }
+	  }
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [760, 288, 790, 302]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  Points		  [15, 0]
+	  Branch {
+	    DstBlock		    "Abs"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 225]
+	    DstBlock		    "Bandpass and decode"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Abs"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Leading Edge\nDetector"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Triggered\nSubsystem"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Delayed edge"
+	  Labels		  [0, 1]
+	  SrcBlock		  "Integer Delay1"
+	  SrcPort		  1
+	  Points		  [55, 0]
+	  Branch {
+	    DstBlock		    "Scope"
+	    DstPort		    1
+	  }
+	  Branch {
+	    DstBlock		    "Triggered\nSubsystem"
+	    DstPort		    trigger
+	  }
+	}
+	Line {
+	  Name			  "Digit"
+	  Labels		  [0, 0]
+	  SrcBlock		  "Bandpass and decode"
+	  SrcPort		  1
+	  DstBlock		  "Triggered\nSubsystem"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Leading Edge\nDetector"
+	  SrcPort		  1
+	  DstBlock		  "Integer Delay1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "Digital DC Offset Removal"
+      Ports		      [1, 1]
+      Position		      [255, 183, 340, 237]
+      DialogController	      "dspdialog.DigitalFilter"
+      DialogControllerArgs    "DataTag1"
+      SourceBlock	      "dsparch4/Digital Filter"
+      SourceType	      "Digital Filter"
+      TypePopup		      "FIR (all zeros)"
+      IIRFiltStruct	      "Direct form II transposed"
+      AllPoleFiltStruct	      "Direct form"
+      FIRFiltStruct	      "Direct form"
+      CoeffSource	      "Specify via dialog"
+      NumCoeffs		      "[0.5 -0.5]"
+      DenCoeffs		      "[1 0.1]"
+      BiQuadCoeffs	      "[1 0.3 0.4 1 0.1 0.2]"
+      LatticeCoeffs	      "[0.2 0.4]"
+      denIgnore		      on
+      FiltPerSampPopup	      "One filter per frame"
+      IC		      "0"
+      ICnum		      "0"
+      ICden		      "0"
+      additionalParams	      off
+      allowOverrides	      on
+      showCoeff		      off
+      firstCoeffMode	      "Same word length as input"
+      firstCoeffWordLength    "16"
+      firstCoeffFracLength    "15"
+      secondCoeffMode	      "Same as numerator"
+      secondCoeffWordLength   "16"
+      secondCoeffFracLength   "15"
+      thirdCoeffMode	      "Same as input"
+      thirdCoeffWordLength    "16"
+      thirdCoeffFracLength    "15"
+      showOut		      off
+      outputMode	      "Same as accumulator"
+      outputWordLength	      "16"
+      outputFracLength	      "15"
+      showAcc		      off
+      accumMode		      "Same as product output"
+      accumWordLength	      "32"
+      accumFracLength	      "30"
+      showMpy		      off
+      prodOutputMode	      "Same as input"
+      prodOutputWordLength    "32"
+      prodOutputFracLength    "30"
+      showMem		      off
+      memoryMode	      "Same as accumulator"
+      memoryWordLength	      "16"
+      memoryFracLength	      "15"
+      roundingMode	      "Floor"
+      overflowMode	      off
+      ScaleValues	      "1"
+      scaleValueFracLength    "14"
+      tapSumMode	      "Same as input"
+      tapSumWordLength	      "32"
+      tapSumFracLength	      "30"
+      stageIOMode	      "Same as input"
+      stageIOWordLength	      "16"
+      stageInFracLength	      "15"
+      stageOutFracLength      "15"
+      LockScale		      off
+      FilterSource	      "Specify via dialog"
+      dfiltObjectName	      "dfilt.dffir([1 2 1])"
+      multiplicandMode	      "Same as output"
+      multiplicandWordLength  "32"
+      multiplicandFracLength  "30"
+    }
+    Block {
+      BlockType		      Gain
+      Name		      "Gain"
+      Position		      [155, 195, 185, 225]
+      Gain		      "300"
+      ParameterDataTypeMode   "Inherit via internal rule"
+      OutDataTypeMode	      "Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "To RTDX"
+      Ports		      [1]
+      Position		      [640, 190, 720, 230]
+      SourceBlock	      "rtdxBlocks/To RTDX"
+      SourceType	      "To RTDX"
+      channelNameStr	      "OutputDigit"
+      isBlocking	      on
+      isChannelEnabled	      on
+    }
+    Line {
+      SrcBlock		      "Digital DC Offset Removal"
+      SrcPort		      1
+      DstBlock		      "DTMF Receiver"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "DTMF Receiver"
+      SrcPort		      1
+      DstBlock		      "To RTDX"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Gain"
+      SrcPort		      1
+      DstBlock		      "Digital DC Offset Removal"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ADC"
+      SrcPort		      1
+      DstBlock		      "Gain"
+      DstPort		      1
+    }
+    Annotation {
+      Position		      [169, 210]
+      UseDisplayTextAsClickCallback off
+    }
+  }
+}
+MatData {
+  NumRecords		  2
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    ,     8    (    !          %    "
+"\"     $    \"     0         0  ( 6UT   "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    :\"T   8    (     @         %    "
+"\"     $    !     0         %  0 #@    $   \"H    8VAI<$EN9F\\       !M96T   "
+"           &-A8VAE            8V-S0F]A<F1.86UE  !C8W-0<F]C3F%M90   &)O87)D5'E"
+"P90      :7-3:6UU;&%T;W(   !E;F%B;&5(4U)41%@  '9E<G-I;VY.=6UB97( 9'-P8FEO<P  "
+"      !L87-T17)R         &-U<W1O;4-O9&4     #@   $@%   &    \"     (         "
+"!0    @    !     0    $         !0 $ !     !    4    &1E=FEC94E$          !I;"
+"G1-96T             <W5B1F%M:6QY         &UV4W=I=&-H          !C<'5#;&]C:U)A=&"
+"5-2'H #@   #     &    \"     0         !0    @    !    !     $         $  $ #"
+"8W,3,.    R ,   8    (     @         %    \"     $    !     0         %  0 \""
+"0    $    2    8F%N:P      ;G5M0F%N:W,         #@   # #   &    \"     (      "
+"   !0    @    !     0    $         !0 $  D    !    -@   &AE87       &YA;64   "
+"   &%D9'(      '-I>F4      &-O;G1E;G1S '-P86-E        #@   ' !   &    \"     "
+"(         !0    @    !     0    $         !0 $  P    !    ,    &-R96%T94AE87 "
+"  &AE87!3:7IE     &1E9FEN94QA8F5L &AE87!,86)E;     X    X    !@    @    &    "
+"      4    (     0    $    !          D    (               .    .     8    ( "
+"   !@         %    \"     $    !     0         )    \"            '! #@   #@ "
+"   &    \"     8         !0    @    !     0    $         \"0    @            "
+"   X   !     !@    @    $          4    (     0    P    !         !     ,    "
+"<V5G;65N=%]N86UE      X    X    !@    @    $          4    (     0    4    ! "
+"        !     %    25-204T    .    .     8    (    !@         %    \"     $  "
+"  !     0         )    \"               #@   #@    &    \"     8         !0  "
+"  @    !     0    $         \"0    @            000X   !     !@    @    $    "
+"      4    (     0    L    !         !     +    0V]D92 F($1A=&$       X    X "
+"   !@    @    $          4    (     0    @    !         !     (    26YT97)N86"
+"P.    .     8    (    !@         %    \"     $    !     0         )    \"    "
+"        / _#@   #     &    \"     0         !0    @    !    !     $         $"
+"  $ #8W,7@.    .     8    (    !          %    \"     $    &     0         0 "
+"   !@   &UV-C<Q,   #@   #@    &    \"     8         !0    @    !     0    $  "
+"       \"0    @          \"!L0 X   !H(   !@    @    \"          4    (     0 "
+"   $    !          4 !  )     0   \"T   !N=6U\"86YK<P!B86YK      !C;VUP:6QE<@"
+"!D<W!B:6]S  !C=7-T;VT        .    .     8    (    !@         %    \"     $   "
+" !     0         )    \"             ! #@   # '   &    \"     (         !0   "
+" @    !     @    $         !0 $ !     !    @    &AE87                !N86UE  "
+"              861D<@               '-I>F4               !C;VYT96YT<P         "
+" <W!A8V4              &ES<F5M;W9A8FQE      !I<V-O;G1E;G1S9FEX960 #@   ' !   &"
+"    \"     (         !0    @    !     0    $         !0 $  P    !    ,    &-R"
+"96%T94AE87   &AE87!3:7IE     &1E9FEN94QA8F5L &AE87!,86)E;     X    X    !@   "
+" @    &          4    (     0    $    !          D    (               .    . "
+"    8    (    !@         %    \"     $    !     0         )    \"            "
+"'! #@   #@    &    \"     8         !0    @    !     0    $         \"0    @ "
+"              X   !     !@    @    $          4    (     0    P    !         "
+"!     ,    <V5G;65N=%]N86UE      X    P    !@    @    $          4    (     0"
+"    0    !         !  ! !)4D%-#@   #@    &    \"     8         !0    @    !  "
+"   0    $         \"0    @               X    X    !@    @    &          4   "
+" (     0    $    !          D    (            \"$$.    0     8    (    !     "
+"     %    \"     $    +     0         0    \"P   $-O9&4@)B!$871A       .    ."
+"     8    (    !          %    \"     $    (     0         0    \"    $EN=&5R"
+";F%L#@   #@    &    \"     8         !0    @    !     0    $         \"0    @"
+"               X    X    !@    @    &          4    (     0    $    !        "
+"  D    (               .    < $   8    (     @         %    \"     $    !    "
+" 0         %  0 #     $    P    8W)E871E2&5A<   :&5A<%-I>F4     9&5F:6YE3&%B9"
+"6P :&5A<$QA8F5L    #@   #@    &    \"     8         !0    @    !     0    $  "
+"       \"0    @           #P/PX    X    !@    @    &          4    (     0   "
+" $    !          D    (             $$.    .     8    (    !@         %    \""
+"     $    !     0         )    \"            / _#@   $     &    \"     0     "
+"    !0    @    !    #     $         $     P   !%6%1%4DY!3$A%05      #@   #@  "
+"  &    \"     0         !0    @    !    !0    $         $     4   !31%)!30   "
+" X    X    !@    @    &          4    (     0    $    !          D    (      "
+"      X$$.    .     8    (    !@         %    \"     $    !     0         )  "
+"  \"            &!!#@   $     &    \"     0         !0    @    !    \"P    $ "
+"        $     L   !#;V1E(\"8@1&%T80      #@   #@    &    \"     0         !0 "
+"   @    !    \"     $         $     @   !%34E&($-%, X    X    !@    @    &   "
+"       4    (     0    $    !          D    (            \\#\\.    .     8   "
+" (    !@         %    \"     $    !     0         )    \"               #@   "
+" @,   &    \"     (         !0    @    !     0    $         !0 $  P    !    &"
+"    '-E8W1I;VX      &YU;5-E8W1I;VYS  X   !P\"P  !@    @    \"          4    ("
+"     0    L    !          4 !  ,     0   #    !N86UE          !P;&%C96UE;G0  "
+" !D97-C<FEP=&EO;@!C;VYT96YT<P     .    .     8    (    !          %    \"    "
+" $    %     0         0    !0   \"YT97AT    #@   #@    &    \"     0         "
+"!0    @    !    !0    $         $     4   !31%)!30    X    X    !@    @    $ "
+"         4    (     0    8    !         !     &    0R!C;V1E   .    ,     8   "
+" (    !          %    \"     $    $     0         0  0 0V]D90X    X    !@    "
+"@    $          4    (     0    <    !         !     '    +G-W:71C:  .    .  "
+"   8    (    !          %    \"     $    %     0         0    !0   %-$4D%-   "
+" #@   $     &    \"     0         !0    @    !    \"P    $         $     L   "
+"!*=6UP('1A8FQE<P      #@   #     &    \"     0         !0    @    !    !     "
+"$         $  $ $1A=&$.    ,     8    (    !          %    \"     $    $     0"
+"         0  0 +F)S<PX    X    !@    @    $          4    (     0    4    !   "
+"      !     %    4T1204T    .    0     8    (    !          %    \"     $    "
+"0     0         0    $    $=L;V)A;\"!V87)I86)L97,.    ,     8    (    !      "
+"    %    \"     $    $     0         0  0 1&%T80X    P    !@    @    $       "
+"   4    (     0    0    !         !  !  N9F%R#@   #@    &    \"     0        "
+" !0    @    !    !0    $         $     4   !31%)!30    X   !     !@    @    $"
+"          4    (     0    T    !         !     -    1F%R('9A<FEA8FQE<P    X  "
+"  P    !@    @    $          4    (     0    0    !         !  ! !$871A#@   #"
+"@    &    \"     0         !0    @    !    !@    $         $     8    N8VEN:7"
+"0   X    X    !@    @    $          4    (     0    4    !         !     %   "
+" 4T1204T    .    2     8    (    !          %    \"     $    5     0         "
+"0    %0   $EN:71I86QI>F5D('9A<FEA8FQE<P    X    P    !@    @    $          4 "
+"   (     0    0    !         !  ! !$871A#@   #@    &    \"     0         !0  "
+"  @    !    !@    $         $     8    N<&EN:70   X    X    !@    @    $     "
+"     4    (     0    4    !         !     %    4T1204T    .    4     8    (  "
+"  !          %    \"     $    :     0         0    &@   $=L;V)A;\"!O8FIE8W0@8"
+"V]N<W1R=6-T;W)S        #@   #     &    \"     0         !0    @    !    !    "
+" $         $  $ $1A=&$.    .     8    (    !          %    \"     $    &     "
+"0         0    !@   \"YC;VYS=   #@   #@    &    \"     0         !0    @    !"
+"    !0    $         $     4   !31%)!30    X   !     !@    @    $          4  "
+"  (     0    D    !         !     )    0V]N<W1A;G1S          X    P    !@    "
+"@    $          4    (     0    0    !         !  ! !$871A#@   #@    &    \" "
+"    0         !0    @    !    !0    $         $     4    N9&%T80    X    X   "
+" !@    @    $          4    (     0    4    !         !     %    4T1204T    ."
+"    0     8    (    !          %    \"     $    ,     0         0    #    %!R"
+";V=R86T@9&%T80     .    ,     8    (    !          %    \"     $    $     0  "
+"       0  0 1&%T80X    P    !@    @    $          4    (     0    0    !     "
+"    !  !  N8VEO#@   #@    &    \"     0         !0    @    !    !0    $      "
+"   $     4   !31%)!30    X   !(    !@    @    $          4    (     0   !0   "
+" !         !     4    4W1A;F1A<F0@22]/(&)U9F9E<G,     #@   #     &    \"     "
+"0         !0    @    !    !     $         $  $ $1A=&$.    .     8    (    !  "
+"        %    \"     $    '     0         0    !P   \"YS>7-M96T #@   #@    &  "
+"  \"     0         !0    @    !    !0    $         $     4   !31%)!30    X   "
+"!0    !@    @    $          4    (     0   !L    !         !     ;    365M;W)"
+"Y(&9O<B!M86QL;V,@9G5N8W1I;VYS       .    ,     8    (    !          %    \"  "
+"   $    $     0         0  0 1&%T80X    X    !@    @    $          4    (    "
+" 0    8    !         !     &    +G-T86-K   .    ,     8    (    !          % "
+"   \"     $    $     0         0  0 25)!30X   !     !@    @    $          4  "
+"  (     0    P    !         !     ,    <WES=&5M('-T86-K      X    P    !@    "
+"@    $          4    (     0    0    !         !  ! !D871A#@   #@    &    \" "
+"    8         !0    @    !     0    $         \"0    @            F0 X   \"@"
+"\"P  !@    @    \"          4    (     0    $    !          4 !  .     0   #@"
+"   !S96-T:6]N         &YU;5-E8W1I;VYS    8V]D94]B:F5C=$UE;0!D871A3V)J96-T365M"
+"  X   !H\"@  !@    @    \"          4    (     0    H    !          4 !  ,   "
+"  0   #    !N86UE          !D97-C<FEP=&EO;@!P;&%C96UE;G0   !C;VYT96YT<P     ."
+"    .     8    (    !          %    \"     $    %     0         0    !0   \"Y"
+"A<F=S    #@   $     &    \"     0         !0    @    !    #P    $         $  "
+"   \\   !!<F=U;65N=\"!B=69F97( #@   #     &    \"     0         !0    @    ! "
+"   !     $         $  $ $E204T.    ,     8    (    !          %    \"     $  "
+"  $     0         0  0 1&%T80X    X    !@    @    $          4    (     0    "
+"@    !         !     (    +F=B;&EN:70.    4     8    (    !          %    \" "
+"    $    >     0         0    '@   $134\"]\"24]3(&EN:71I86QI>F%T:6]N('1A8FQE<"
+"P  #@   #     &    \"     0         !0    @    !    !     $         $  $ $E20"
+"4T.    ,     8    (    !          %    \"     $    $     0         0  0 1&%T8"
+"0X    X    !@    @    $          4    (     0    @    !         !     (    +G"
+"1R8V1A=&$.    4     8    (    !          %    \"     $    ?     0         0  "
+"  'P   %120R!M87-K('9A<FEA8FQE(&EN:71I86P@=F%L=64 #@   #     &    \"     0   "
+"      !0    @    !    !     $         $  $ $E204T.    ,     8    (    !      "
+"    %    \"     $    $     0         0  0 1&%T80X    X    !@    @    $       "
+"   4    (     0    @    !         !     (    +G-Y<V1A=&$.    2     8    (    "
+"!          %    \"     $    5     0         0    %0   $134\"]\"24]3(&ME<FYE;"
+"\"!S=&%T90    X    P    !@    @    $          4    (     0    0    !         "
+"!  ! !)4D%-#@   #     &    \"     0         !0    @    !    !     $         $"
+"  $ $1A=&$.    ,     8    (    !          %    \"     $    $     0         0 "
+" 0 +F]B:@X   !(    !@    @    $          4    (     0   !8    !         !    "
+" 6    1%-0+T))3U,@8V]N9FEG=7)A=&EO;@  #@   #     &    \"     0         !0    "
+"@    !    !     $         $  $ $E204T.    ,     8    (    !          %    \" "
+"    $    $     0         0  0 1&%T80X    X    !@    @    $          4    (   "
+"  0    4    !         !     %    +F)I;W,    .    0     8    (    !          %"
+"    \"     $    -     0         0    #0   $134\"]\"24]3(&-O9&4    .    ,     "
+"8    (    !          %    \"     $    $     0         0  0 25)!30X    P    !@"
+"    @    $          4    (     0    0    !         !  ! !#;V1E#@   #@    &   "
+" \"     0         !0    @    !    \"     $         $     @    N<WES:6YI= X   "
+"!0    !@    @    $          4    (     0   !\\    !         !     ?    1%-0+T"
+"))3U,@<W1A<G1U<\"!I;FET:6%L:7IA=&EO;@ .    ,     8    (    !          %    \""
+"     $    $     0         0  0 25)!30X    P    !@    @    $          4    (  "
+"   0    0    !         !  ! !#;V1E#@   #     &    \"     0         !0    @   "
+" !    !     $         $  $ \"YH=VD.    2     8    (    !          %    \"    "
+" $    6     0         0    %@   $134\"]\"24]3(&1I<W!A=&-H(&-O9&4   X    P    "
+"!@    @    $          4    (     0    0    !         !  ! !)4D%-#@   #     & "
+"   \"     0         !0    @    !    !     $         $  $ $-O9&4.    .     8  "
+"  (    !          %    \"     $    (     0         0    \"    \"YH=VE?=F5C#@ "
+"  $@    &    \"     0         !0    @    !    $@    $         $    !(   !$4U "
+"O0DE/4R!)4U(@=&%B;&4        .    ,     8    (    !          %    \"     $    "
+"$     0         0  0 25)!30X    P    !@    @    $          4    (     0    0 "
+"   !         !  ! !#;V1E#@   $     &    \"     0         !0    @    !    \"@ "
+"   $         $     H    N<G1D>%]T97AT        #@   $@    &    \"     0        "
+" !0    @    !    %     $         $    !0   !#;V1E(&9O<B!25$18(&UO9'5L90     ."
+"    ,     8    (    !          %    \"     $    $     0         0  0 25)!30X "
+"   P    !@    @    $          4    (     0    0    !         !  ! !#;V1E#@   "
+"#@    &    \"     8         !0    @    !     0    $         \"0    @         "
+"   D0 X    X    !@    @    $          4    (     0    4    !         !     % "
+"   4T1204T    .    .     8    (    !          %    \"     $    %     0       "
+"  0    !0   %-$4D%-    #@   ,@    &    \"     (         !0    @    !     0   "
+" $         !0 $  P    !    &    &YU;5-E8W1I;VYS '-E8W1I;VX       X    X    !@"
+"    @    &          4    (     0    $    !          D    (               .   "
+" ,     8    (    !@         %    \"                0         )          X   #"
+"0    !@    @    \"          4    (     0    $    !          4 !  ,     0   !@"
+"   !E;F%B;&5#86-H90!C86-H95-I>F4    .    .     8    (    !@         %    \"  "
+"   $    !     0         )    \"            / _#@   #@    &    \"     0       "
+"  !0    @    !    !0    $         $     4    V-\"!K8@    X   !     !@    @   "
+" $          4    (     0    D    !         !     )    0S8W,3,@1%-+          X"
+"    X    !@    @    $          4    (     0    4    !         !     %    0U!5"
+"7S$    .    .     8    (    !          %    \"     $    (     0         0    "
+"\"    $,V-S$S1%-+#@   #     &    \"     D\"        !0    @    !     0    $   "
+"       @ !       .    ,     8    (    \"0(        %    \"     $    !     0   "
+"      \"  $       X    P    !@    @    $          4    (     0    ,    !     "
+"    !   P R+C  #@   \"@\"   &    \"     (         !0    @    !     0    $    "
+"     !0 $  X    !    *@   &5N86)L90          5%-+              !S8VAE9'5L97)4"
+">7!E          X    P    !@    @    $          4    (     0    (    !         "
+"!   @!O;@  #@   #@!   &    \"     (         !0    @    !     0    $         !"
+"0 $ !<    !    10   '-T86-K4VEZ90                  <W1A=&EC4W1A8VM-96U396=M96"
+"YT  !D>6YA;6EC4W1A8VM-96U396=M96YT      X    X    !@    @    &          4    "
+"(     0    $    !          D    (            L$ .    ,     8    (    !       "
+"   %    \"     $    $     0         0  0 25)!30X    X    !@    @    $        "
+"  4    (     0    4    !         !     %    4T1204T    .    0     8    (    !"
+"          %    \"     $    -     0         0    #0   %)A=&4@<')I;W)I='D    . "
+"   L     8    (     @         %    \"     $    !     0         %  0 !P    $  "
+"  .    97)R260  &5R<DUS9P    X    P    !@    @    &          4    (          "
+"     !          D         #@   \"@    &    \"     $         !0    @          "
+"     $         #@   ) !   &    \"     (         !0    @    !     0    $      "
+"   !0 $ !0    !    9    '-O=7)C949I;&5S            :6YC;'5D95!A=&AS          "
+"!L:6)R87)I97,              &EN:71I86QI>F5&=6YC=&EO;G, =&5R;6EN871E1G5N8W1I;VY"
+"S        #@   \"@    &    \"     $         !0    @               $         #@"
+"   \"@    &    \"     $         !0    @               $         #@   \"@    &"
+"    \"     $         !0    @               $         #@   \"@    &    \"     "
+"$         !0    @               $         #@   \"@    &    \"     $         !"
+"0    @               $         "
+  }
+}
+
+# Finite State Machines
+#
+#    Stateflow Version 6.5 (R2006b) dated Aug  8 2006, 21:09:58
+#
+#
+
+Stateflow {
+
+	machine {
+		id                   		1
+		name                 		"DTMF_DSK6713"
+		created              		"29-Aug-2000 14:09:45"
+		isLibrary            		0
+		firstTarget          		2
+		sfVersion            		65014000
+	}
+
+	target {
+		id                        		2
+		name                      		"sfun"
+		description               		"Default Simulink S-Function Target."
+		codeFlags                 		" debug=1 telemetry=0 preservenames=0 preservenameswithparent"
+						"=0 exportcharts=0 project=0 multiinstanced=0 statebitsets=0 "
+						"databitsets=0 comments=1 echo=1 initializer=1 ioformat=1"
+		machine                   		1
+		linkNode                  		[1 0 3]
+	}
+
+	target {
+		id                        		3
+		name                      		"rtw"
+		codeFlags                 		" comments=0 preservenames=0 preservenameswithparent=0 export"
+						"charts=0 statebitsets=0 databitsets=1"
+		machine                   		1
+		linkNode                  		[1 2 0]
+	}
+}

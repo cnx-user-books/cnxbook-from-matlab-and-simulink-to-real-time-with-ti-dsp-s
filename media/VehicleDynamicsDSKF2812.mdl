@@ -1,0 +1,1484 @@
+Model {
+  Name			  "C28x_Vehicle_Dynamics_"
+  Version		  6.5
+  MdlSubVersion		  0
+  GraphicalInterface {
+    NumRootInports	    0
+    NumRootOutports	    0
+    ParameterArgumentNames  ""
+    ComputedModelVersion    "1.22"
+    NumModelReferences	    0
+    NumTestPointedSignals   0
+  }
+  SavedCharacterEncoding  "windows-1252"
+  SaveDefaultBlockParams  on
+  SampleTimeColors	  off
+  LibraryLinkDisplay	  "none"
+  WideLines		  off
+  ShowLineDimensions	  off
+  ShowPortDataTypes	  off
+  ShowLoopsOnError	  on
+  IgnoreBidirectionalLines off
+  ShowStorageClass	  off
+  ShowTestPointIcons	  on
+  ShowViewerIcons	  on
+  SortedOrder		  off
+  ExecutionContextIcon	  off
+  ShowLinearizationAnnotations on
+  ScopeRefreshTime	  0.035000
+  OverrideScopeRefreshTime on
+  DisableAllScopes	  off
+  DataTypeOverride	  "UseLocalSettings"
+  MinMaxOverflowLogging	  "UseLocalSettings"
+  MinMaxOverflowArchiveMode "Overwrite"
+  BlockNameDataTip	  off
+  BlockParametersDataTip  off
+  BlockDescriptionStringDataTip	off
+  ToolBar		  on
+  StatusBar		  on
+  BrowserShowLibraryLinks off
+  BrowserLookUnderMasks	  off
+  Created		  "Tue Jan 02 17:46:06 2007"
+  Creator		  "Dell"
+  UpdateHistory		  "UpdateHistoryNever"
+  ModifiedByFormat	  "%<Auto>"
+  LastModifiedBy	  "Dell"
+  ModifiedDateFormat	  "%<Auto>"
+  LastModifiedDate	  "Mon Jan 08 18:16:41 2007"
+  ModelVersionFormat	  "1.%<AutoIncrement:22>"
+  ConfigurationManager	  "None"
+  LinearizationMsg	  "none"
+  Profile		  off
+  ParamWorkspaceSource	  "MATLABWorkspace"
+  AccelSystemTargetFile	  "accel.tlc"
+  AccelTemplateMakefile	  "accel_default_tmf"
+  AccelMakeCommand	  "make_rtw"
+  TryForcingSFcnDF	  off
+  RecordCoverage	  off
+  CovPath		  "/"
+  CovSaveName		  "covdata"
+  CovMetricSettings	  "dw"
+  CovNameIncrementing	  off
+  CovHtmlReporting	  on
+  covSaveCumulativeToWorkspaceVar on
+  CovSaveSingleToWorkspaceVar on
+  CovCumulativeVarName	  "covCumulativeData"
+  CovCumulativeReport	  off
+  CovReportOnPause	  on
+  ExtModeBatchMode	  off
+  ExtModeEnableFloating	  on
+  ExtModeTrigType	  "manual"
+  ExtModeTrigMode	  "normal"
+  ExtModeTrigPort	  "1"
+  ExtModeTrigElement	  "any"
+  ExtModeTrigDuration	  1000
+  ExtModeTrigDurationFloating "auto"
+  ExtModeTrigHoldOff	  0
+  ExtModeTrigDelay	  0
+  ExtModeTrigDirection	  "rising"
+  ExtModeTrigLevel	  0
+  ExtModeArchiveMode	  "off"
+  ExtModeAutoIncOneShot	  off
+  ExtModeIncDirWhenArm	  off
+  ExtModeAddSuffixToVar	  off
+  ExtModeWriteAllDataToWs off
+  ExtModeArmWhenConnect	  on
+  ExtModeSkipDownloadWhenConnect off
+  ExtModeLogAll		  on
+  ExtModeAutoUpdateStatusClock on
+  BufferReuse		  on
+  ProdHWDeviceType	  "TI C2000"
+  ShowModelReferenceBlockVersion off
+  ShowModelReferenceBlockIO off
+  Array {
+    Type		    "Handle"
+    Dimension		    1
+    Simulink.ConfigSet {
+      $ObjectID		      1
+      Version		      "1.2.0"
+      Array {
+	Type			"Handle"
+	Dimension		7
+	Simulink.SolverCC {
+	  $ObjectID		  2
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    1
+	    Cell		    "PositivePriorityOrder"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  StartTime		  "0.0"
+	  StopTime		  "inf"
+	  AbsTol		  "auto"
+	  FixedStep		  "auto"
+	  InitialStep		  "auto"
+	  MaxNumMinSteps	  "-1"
+	  MaxOrder		  5
+	  ConsecutiveZCsStepRelTol "10*128*eps"
+	  MaxConsecutiveZCs	  "1000"
+	  ExtrapolationOrder	  4
+	  NumberNewtonIterations  1
+	  MaxStep		  "auto"
+	  MinStep		  "auto"
+	  MaxConsecutiveMinStep	  "1"
+	  RelTol		  "1e-3"
+	  SolverMode		  "Auto"
+	  Solver		  "FixedStepDiscrete"
+	  SolverName		  "FixedStepDiscrete"
+	  ZeroCrossControl	  "UseLocalSettings"
+	  AlgebraicLoopSolver	  "TrustRegion"
+	  SolverResetMethod	  "Fast"
+	  PositivePriorityOrder	  off
+	  AutoInsertRateTranBlk	  off
+	  SampleTimeConstraint	  "Unconstrained"
+	  RateTranMode		  "Deterministic"
+	}
+	Simulink.DataIOCC {
+	  $ObjectID		  3
+	  Version		  "1.2.0"
+	  Decimation		  "1"
+	  ExternalInput		  "[t, u]"
+	  FinalStateName	  "xFinal"
+	  InitialState		  "xInitial"
+	  LimitDataPoints	  on
+	  MaxDataPoints		  "1000"
+	  LoadExternalInput	  off
+	  LoadInitialState	  off
+	  SaveFinalState	  off
+	  SaveFormat		  "Array"
+	  SaveOutput		  off
+	  SaveState		  off
+	  SignalLogging		  on
+	  InspectSignalLogs	  off
+	  SaveTime		  off
+	  StateSaveName		  "xout"
+	  TimeSaveName		  "tout"
+	  OutputSaveName	  "yout"
+	  SignalLoggingName	  "logsout"
+	  OutputOption		  "RefineOutputTimes"
+	  OutputTimes		  "[]"
+	  Refine		  "1"
+	}
+	Simulink.OptimizationCC {
+	  $ObjectID		  4
+	  Version		  "1.2.0"
+	  BlockReduction	  on
+	  BooleanDataType	  on
+	  ConditionallyExecuteInputs on
+	  InlineParams		  off
+	  InlineInvariantSignals  off
+	  OptimizeBlockIOStorage  on
+	  BufferReuse		  on
+	  EnforceIntegerDowncast  on
+	  ExpressionFolding	  on
+	  FoldNonRolledExpr	  on
+	  LocalBlockOutputs	  on
+	  ParameterPooling	  on
+	  RollThreshold		  5
+	  SystemCodeInlineAuto	  off
+	  StateBitsets		  off
+	  DataBitsets		  off
+	  UseTempVars		  off
+	  ZeroExternalMemoryAtStartup on
+	  ZeroInternalMemoryAtStartup on
+	  InitFltsAndDblsToZero	  on
+	  NoFixptDivByZeroProtection off
+	  EfficientFloat2IntCast  off
+	  OptimizeModelRefInitCode on
+	  LifeSpan		  "1"
+	  BufferReusableBoundary  on
+	}
+	Simulink.DebuggingCC {
+	  $ObjectID		  5
+	  Version		  "1.2.0"
+	  RTPrefix		  "error"
+	  ConsistencyChecking	  "none"
+	  ArrayBoundsChecking	  "none"
+	  SignalInfNanChecking	  "none"
+	  ReadBeforeWriteMsg	  "UseLocalSettings"
+	  WriteAfterWriteMsg	  "UseLocalSettings"
+	  WriteAfterReadMsg	  "UseLocalSettings"
+	  AlgebraicLoopMsg	  "warning"
+	  ArtificialAlgebraicLoopMsg "warning"
+	  CheckSSInitialOutputMsg on
+	  CheckExecutionContextPreStartOutputMsg off
+	  CheckExecutionContextRuntimeOutputMsg	off
+	  SignalResolutionControl "TryResolveAllWithWarning"
+	  BlockPriorityViolationMsg "warning"
+	  MinStepSizeMsg	  "warning"
+	  TimeAdjustmentMsg	  "none"
+	  MaxConsecutiveZCsMsg	  "error"
+	  SolverPrmCheckMsg	  "warning"
+	  InheritedTsInSrcMsg	  "warning"
+	  DiscreteInheritContinuousMsg "warning"
+	  MultiTaskDSMMsg	  "error"
+	  MultiTaskCondExecSysMsg "error"
+	  MultiTaskRateTransMsg	  "error"
+	  SingleTaskRateTransMsg  "none"
+	  TasksWithSamePriorityMsg "warning"
+	  SigSpecEnsureSampleTimeMsg "warning"
+	  CheckMatrixSingularityMsg "none"
+	  IntegerOverflowMsg	  "warning"
+	  Int32ToFloatConvMsg	  "warning"
+	  ParameterDowncastMsg	  "error"
+	  ParameterOverflowMsg	  "error"
+	  ParameterUnderflowMsg	  "none"
+	  ParameterPrecisionLossMsg "warning"
+	  UnderSpecifiedDataTypeMsg "none"
+	  UnnecessaryDatatypeConvMsg "none"
+	  VectorMatrixConversionMsg "none"
+	  InvalidFcnCallConnMsg	  "error"
+	  FcnCallInpInsideContextMsg "Use local settings"
+	  SignalLabelMismatchMsg  "none"
+	  UnconnectedInputMsg	  "warning"
+	  UnconnectedOutputMsg	  "warning"
+	  UnconnectedLineMsg	  "warning"
+	  SFcnCompatibilityMsg	  "none"
+	  UniqueDataStoreMsg	  "none"
+	  BusObjectLabelMismatch  "warning"
+	  RootOutportRequireBusObject "warning"
+	  AssertControl		  "UseLocalSettings"
+	  EnableOverflowDetection off
+	  ModelReferenceIOMsg	  "none"
+	  ModelReferenceVersionMismatchMessage "none"
+	  ModelReferenceIOMismatchMessage "none"
+	  ModelReferenceCSMismatchMessage "none"
+	  ModelReferenceSimTargetVerbose off
+	  UnknownTsInhSupMsg	  "warning"
+	  ModelReferenceDataLoggingMessage "warning"
+	  ModelReferenceSymbolNameMessage "warning"
+	  ModelReferenceExtraNoncontSigs "error"
+	  StrictBusMsg		  "Warning"
+	}
+	Simulink.HardwareCC {
+	  $ObjectID		  6
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    2
+	    Cell		    "ProdHWDeviceType"
+	    Cell		    "ProdEndianess"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  ProdBitPerChar	  16
+	  ProdBitPerShort	  16
+	  ProdBitPerInt		  16
+	  ProdBitPerLong	  32
+	  ProdIntDivRoundTo	  "Zero"
+	  ProdEndianess		  "LittleEndian"
+	  ProdWordSize		  16
+	  ProdShiftRightIntArith  on
+	  ProdHWDeviceType	  "TI C2000"
+	  TargetBitPerChar	  8
+	  TargetBitPerShort	  16
+	  TargetBitPerInt	  32
+	  TargetBitPerLong	  32
+	  TargetShiftRightIntArith on
+	  TargetIntDivRoundTo	  "Undefined"
+	  TargetEndianess	  "Unspecified"
+	  TargetWordSize	  32
+	  TargetTypeEmulationWarnSuppressLevel 0
+	  TargetPreprocMaxBitsSint 32
+	  TargetPreprocMaxBitsUint 32
+	  TargetHWDeviceType	  "32-bit Generic"
+	  TargetUnknown		  off
+	  ProdEqTarget		  on
+	}
+	Simulink.ModelReferenceCC {
+	  $ObjectID		  7
+	  Version		  "1.2.0"
+	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
+	  CheckModelReferenceTargetMessage "error"
+	  ModelReferenceNumInstancesAllowed "Multi"
+	  ModelReferencePassRootInputsByReference on
+	  ModelReferenceMinAlgLoopOccurrences off
+	}
+	Simulink.RTWCC {
+	  $BackupClass		  "Simulink.RTWCC"
+	  $ObjectID		  8
+	  Array {
+	    Type		    "Cell"
+	    Dimension		    2
+	    Cell		    "GenCodeOnly"
+	    Cell		    "TargetLang"
+	    PropName		    "DisabledProps"
+	  }
+	  Version		  "1.2.0"
+	  SystemTargetFile	  "ti_c2000_ert.tlc"
+	  GenCodeOnly		  off
+	  MakeCommand		  "make_rtw"
+	  GenerateMakefile	  on
+	  TemplateMakefile	  "ti_c2000_ert.tmf"
+	  Description		  "Embedded Target for TI C2000 DSP (ERT)"
+	  GenerateReport	  off
+	  SaveLog		  off
+	  RTWVerbose		  on
+	  RetainRTWFile		  off
+	  ProfileTLC		  off
+	  TLCDebug		  off
+	  TLCCoverage		  off
+	  TLCAssert		  off
+	  ProcessScriptMode	  "Default"
+	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  "ti_c2000_ert_make_rtw_hook"
+	  ConfigAtBuild		  off
+	  IncludeHyperlinkInReport off
+	  LaunchReport		  off
+	  TargetLang		  "C"
+	  IncludeBusHierarchyInRTWFileBlockHierarchyMap	off
+	  IncludeERTFirstTime	  off
+	  Array {
+	    Type		    "Handle"
+	    Dimension		    2
+	    Simulink.CodeAppCC {
+	      $ObjectID		      9
+	      Version		      "1.2.0"
+	      ForceParamTrailComments off
+	      GenerateComments	      on
+	      IgnoreCustomStorageClasses off
+	      IncHierarchyInIds	      off
+	      MaxIdLength	      31
+	      PreserveName	      off
+	      PreserveNameWithParent  off
+	      ShowEliminatedStatement off
+	      IncAutoGenComments      off
+	      SimulinkDataObjDesc     off
+	      SFDataObjDesc	      off
+	      IncDataTypeInIds	      off
+	      PrefixModelToSubsysFcnNames on
+	      MangleLength	      1
+	      CustomSymbolStrGlobalVar "$R$N$M"
+	      CustomSymbolStrType     "$N$R$M"
+	      CustomSymbolStrField    "$N$M"
+	      CustomSymbolStrFcn      "$R$N$M$F"
+	      CustomSymbolStrBlkIO    "rtb_$N$M"
+	      CustomSymbolStrTmpVar   "$N$M"
+	      CustomSymbolStrMacro    "$R$N$M"
+	      DefineNamingRule	      "None"
+	      ParamNamingRule	      "None"
+	      SignalNamingRule	      "None"
+	      InsertBlockDesc	      off
+	      SimulinkBlockComments   on
+	      EnableCustomComments    off
+	      InlinedPrmAccess	      "Literals"
+	      ReqsInCode	      off
+	    }
+	    Simulink.STFCustomTargetCC {
+	      $BackupClass	      "Simulink.TargetCC"
+	      $ObjectID		      10
+	      Array {
+		Type			"Cell"
+		Dimension		1
+		Cell			"GenerateSampleERTMain"
+		PropName		"DisabledProps"
+	      }
+	      Version		      "1.2.0"
+	      TargetFcnLib	      "ansi_tfl_tmw.mat"
+	      TargetLibSuffix	      ""
+	      TargetPreCompLibLocation ""
+	      GenFloatMathFcnCalls    "ANSI_C"
+	      UtilityFuncGeneration   "Auto"
+	      GenerateFullHeader      on
+	      GenerateSampleERTMain   off
+	      GenerateTestInterfaces  off
+	      IsPILTarget	      off
+	      ModelReferenceCompliant off
+	      IncludeMdlTerminateFcn  on
+	      CombineOutputUpdateFcns on
+	      SuppressErrorStatus     off
+	      IncludeFileDelimiter    "Auto"
+	      ERTCustomFileBanners    on
+	      SupportAbsoluteTime     on
+	      LogVarNameModifier      "rt_"
+	      MatFileLogging	      off
+	      MultiInstanceERTCode    off
+	      SupportNonFinite	      on
+	      SupportComplex	      on
+	      PurelyIntegerCode	      off
+	      SupportContinuousTime   off
+	      SupportNonInlinedSFcns  off
+	      EnableShiftOperators    on
+	      ParenthesesLevel	      "Nominal"
+	      SystemTargetFile	      "ti_c2000_ert.tlc"
+	      DialogCategory	      0
+	      Array {
+		Type			"Handle"
+		Dimension		1
+		Simulink.ERTTargetCC {
+		  $BackupClass		  "Simulink.TargetCC"
+		  $ObjectID		  11
+		  Array {
+		    Type		    "Cell"
+		    Dimension		    1
+		    Cell		    "GenerateSampleERTMain"
+		    PropName		    "DisabledProps"
+		  }
+		  Version		  "1.2.0"
+		  TargetFcnLib		  "ansi_tfl_tmw.mat"
+		  TargetLibSuffix	  ""
+		  TargetPreCompLibLocation ""
+		  GenFloatMathFcnCalls	  "ANSI_C"
+		  UtilityFuncGeneration	  "Auto"
+		  GenerateFullHeader	  on
+		  GenerateSampleERTMain	  off
+		  GenerateTestInterfaces  off
+		  IsPILTarget		  off
+		  ModelReferenceCompliant off
+		  IncludeMdlTerminateFcn  on
+		  CombineOutputUpdateFcns on
+		  SuppressErrorStatus	  off
+		  IncludeFileDelimiter	  "Auto"
+		  ERTCustomFileBanners	  on
+		  SupportAbsoluteTime	  on
+		  LogVarNameModifier	  "rt_"
+		  MatFileLogging	  off
+		  MultiInstanceERTCode	  off
+		  SupportNonFinite	  on
+		  SupportComplex	  on
+		  PurelyIntegerCode	  off
+		  SupportContinuousTime	  off
+		  SupportNonInlinedSFcns  off
+		  EnableShiftOperators	  on
+		  ParenthesesLevel	  "Nominal"
+		  GenerateErtSFunction	  off
+		  GenerateASAP2		  off
+		  ExtMode		  off
+		  ExtModeTransport	  0
+		  ExtModeStaticAlloc	  off
+		  ExtModeStaticAllocSize  1000000
+		  ExtModeTesting	  off
+		  ExtModeMexFile	  "ext_comm"
+		  InlinedParameterPlacement "NonHierarchical"
+		  TargetOS		  "BareBoardExample"
+		  MultiInstanceErrorCode  "Error"
+		  RateGroupingCode	  on
+		  RootIOFormat		  "Individual arguments"
+		  RTWCAPISignals	  off
+		  RTWCAPIParams		  off
+		  RTWCAPIStates		  off
+		  ERTSrcFileBannerTemplate "ert_code_template.cgt"
+		  ERTHdrFileBannerTemplate "ert_code_template.cgt"
+		  ERTDataSrcFileTemplate  "ert_code_template.cgt"
+		  ERTDataHdrFileTemplate  "ert_code_template.cgt"
+		  ERTCustomFileTemplate	  "example_file_process.tlc"
+		  ModuleNamingRule	  "Unspecified"
+		  SignalDisplayLevel	  10
+		  ParamTuneLevel	  10
+		  GlobalDataDefinition	  "Auto"
+		  DataDefinitionFile	  "global.c"
+		  GlobalDataReference	  "Auto"
+		  DataReferenceFile	  "global.h"
+		  GRTInterface		  off
+		  EnableUserReplacementTypes off
+		  Array {
+		    Type		    "Struct"
+		    Dimension		    1
+		    MATStruct {
+		    double		    ""
+		    single		    ""
+		    int32		    ""
+		    int16		    ""
+		    int8		    ""
+		    uint32		    ""
+		    uint16		    ""
+		    uint8		    ""
+		    boolean		    ""
+		    int			    ""
+		    uint		    ""
+		    char		    ""
+		    }
+		    PropName		    "ReplacementTypes"
+		  }
+		  MemSecPackage		  "--- None ---"
+		  MemSecDataConstants	  "Default"
+		  MemSecDataIO		  "Default"
+		  MemSecDataInternal	  "Default"
+		  MemSecDataParameters	  "Default"
+		  MemSecFuncInitTerm	  "Default"
+		  MemSecFuncExecute	  "Default"
+		}
+		PropName		"Components"
+	      }
+	    }
+	    PropName		    "Components"
+	  }
+	}
+	PropName		"Components"
+      }
+      Name		      "Configuration"
+      SimulationMode	      "normal"
+      CurrentDlgPage	      "Solver"
+    }
+    PropName		    "ConfigurationSets"
+  }
+  Simulink.ConfigSet {
+    $PropName		    "ActiveConfigurationSet"
+    $ObjectID		    1
+  }
+  BlockDefaults {
+    Orientation		    "right"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    NamePlacement	    "normal"
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+    ShowName		    on
+  }
+  BlockParameterDefaults {
+    Block {
+      BlockType		      ArithShift
+      nBitShiftRight	      "0"
+      nBinPtShiftRight	      "0"
+    }
+    Block {
+      BlockType		      DataTypeConversion
+      OutDataTypeMode	      "Inherit via back propagation"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      ConvertRealWorld	      "Real World Value (RWV)"
+      RndMeth		      "Zero"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      DiscreteIntegrator
+      IntegratorMethod	      "Integration: Forward Euler"
+      gainval		      "1.0"
+      ExternalReset	      "none"
+      InitialConditionSource  "internal"
+      InitialCondition	      "0"
+      InitialConditionMode    "State and output"
+      SampleTime	      "1"
+      OutDataTypeMode	      "Inherit via internal rule"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	off
+      LimitOutput	      off
+      UpperSaturationLimit    "inf"
+      LowerSaturationLimit    "-inf"
+      ShowSaturationPort      off
+      ShowStatePort	      off
+      IgnoreLimit	      off
+      StateMustResolveToSignalObject off
+      RTWStateStorageClass    "Auto"
+    }
+    Block {
+      BlockType		      Gain
+      Gain		      "1"
+      Multiplication	      "Element-wise(K.*u)"
+      ParameterDataTypeMode   "Same as input"
+      ParameterDataType	      "sfix(16)"
+      ParameterScalingMode    "Best Precision: Matrix-wise"
+      ParameterScaling	      "2^0"
+      OutDataTypeMode	      "Same as input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      Inport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      LatchByDelayingOutsideSignal off
+      LatchByCopyingInsideSignal off
+      Interpolate	      on
+    }
+    Block {
+      BlockType		      Lookup
+    }
+    Block {
+      BlockType		      Outport
+      Port		      "1"
+      UseBusObject	      off
+      BusObject		      "BusObject"
+      BusOutputAsStruct	      off
+      PortDimensions	      "-1"
+      SampleTime	      "-1"
+      DataType		      "auto"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      SignalType	      "auto"
+      SamplingMode	      "auto"
+      OutputWhenDisabled      "held"
+      InitialOutput	      "[]"
+    }
+    Block {
+      BlockType		      Saturate
+      UpperLimit	      "0.5"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+    }
+    Block {
+      BlockType		      "S-Function"
+      FunctionName	      "system"
+      SFunctionModules	      "''"
+      PortCounts	      "[]"
+    }
+    Block {
+      BlockType		      SubSystem
+      ShowPortLabels	      on
+      Permissions	      "ReadWrite"
+      PermitHierarchicalResolution "All"
+      TreatAsAtomicUnit	      off
+      SystemSampleTime	      "-1"
+      RTWFcnNameOpts	      "Auto"
+      RTWFileNameOpts	      "Auto"
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+      SimViewingDevice	      off
+      DataTypeOverride	      "UseLocalSettings"
+      MinMaxOverflowLogging   "UseLocalSettings"
+    }
+    Block {
+      BlockType		      Sum
+      IconShape		      "rectangular"
+      Inputs		      "++"
+      InputSameDT	      on
+      OutDataTypeMode	      "Same as first input"
+      OutDataType	      "sfix(16)"
+      OutScaling	      "2^0"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      SampleTime	      "-1"
+    }
+  }
+  AnnotationDefaults {
+    HorizontalAlignment	    "center"
+    VerticalAlignment	    "middle"
+    ForegroundColor	    "black"
+    BackgroundColor	    "white"
+    DropShadow		    off
+    FontName		    "Arial"
+    FontSize		    10
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  LineDefaults {
+    FontName		    "Arial"
+    FontSize		    9
+    FontWeight		    "normal"
+    FontAngle		    "normal"
+  }
+  System {
+    Name		    "C28x_Vehicle_Dynamics_"
+    Location		    [333, 281, 1158, 533]
+    Open		    on
+    ModelBrowserVisibility  off
+    ModelBrowserWidth	    200
+    ScreenColor		    "white"
+    PaperOrientation	    "landscape"
+    PaperPositionMode	    "auto"
+    PaperType		    "A4"
+    PaperUnits		    "centimeters"
+    TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
+    TiledPageScale	    1
+    ShowPageBoundaries	    off
+    ZoomFactor		    "100"
+    ReportName		    "simulink-default.rpt"
+    Block {
+      BlockType		      SubSystem
+      Name		      " DAC Scaling"
+      Ports		      [1, 1]
+      Position		      [600, 110, 660, 150]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			" DAC Scaling"
+	Location		[678, 732, 1217, 917]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "kph"
+	  Position		  [25, 103, 55, 117]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion"
+	  Position		  [330, 93, 405, 127]
+	  OutDataTypeMode	  "uint16"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [115, 93, 170, 127]
+	  Gain			  "312.5"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Saturate
+	  Name			  "Saturation"
+	  Position		  [225, 95, 255, 125]
+	  UpperLimit		  "62500"
+	  LowerLimit		  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "DAC"
+	  Position		  [470, 103, 500, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "kph"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Saturation"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Saturation"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Data Type Conversion"
+	  SrcPort		  1
+	  DstBlock		  "DAC"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "0-200"
+	  Position		  [83, 100]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "0-62500"
+	  Position		  [295, 98]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "0-62500"
+	  Position		  [439, 101]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "Conversion from 0-200 kph to DAC output 0-6"
+"2500"
+	  Position		  [276, 43]
+	  UseDisplayTextAsClickCallback	off
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "Single"
+	  Position		  [83, 86]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "uint16"
+	  Position		  [437, 84]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "0-62500"
+	  Position		  [190, 96]
+	  UseDisplayTextAsClickCallback	off
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "ADC"
+      Ports		      [0, 1]
+      Position		      [25, 108, 100, 152]
+      UserDataPersistent      on
+      UserData		      "DataTag0"
+      SourceBlock	      "c281xdspchiplib/ADC"
+      SourceType	      "C281x ADC"
+      useModule		      "A"
+      useMode		      "Sequential"
+      sourceSOC		      "Software"
+      Ts		      "0.001"
+      dType		      "uint16"
+      postInterrupt	      off
+      numConversionsSingle    "1"
+      numConversionsDouble    "1"
+      conv0		      "ADCINB0"
+      conv1		      "ADCINB1"
+      conv2		      "ADCINB2"
+      conv3		      "ADCINB3"
+      conv4		      "ADCINA4"
+      conv5		      "ADCINA5"
+      conv6		      "ADCINB6"
+      conv7		      "ADCINA7"
+      conv8		      "ADCINB0"
+      conv9		      "ADCINB1"
+      conv10		      "ADCINB2"
+      conv11		      "ADCINB3"
+      conv12		      "ADCINB4"
+      conv13		      "ADCINB5"
+      conv14		      "ADCINB6"
+      conv15		      "ADCINB7"
+      convAB0		      "ADCINA0 and ADCINB0"
+      convAB1		      "ADCINA1 and ADCINB1"
+      convAB2		      "ADCINA5 and ADCINB5"
+      convAB3		      "ADCINA1 and ADCINB1"
+      convAB4		      "ADCINA1 and ADCINB1"
+      convAB5		      "ADCINA1 and ADCINB1"
+      convAB6		      "ADCINA1 and ADCINB1"
+      convAB7		      "ADCINA1 and ADCINB1"
+      convA0		      "ADCINA0"
+      convA1		      "ADCINA1"
+      convA2		      "ADCINA2"
+      convA3		      "ADCINA3"
+      convA4		      "ADCINA4"
+      convA5		      "ADCINA5"
+      convA6		      "ADCINA6"
+      convA7		      "ADCINA7"
+      convB0		      "ADCINB0"
+      convB1		      "ADCINB1"
+      convB2		      "ADCINB2"
+      convB3		      "ADCINB3"
+      convB4		      "ADCINB4"
+      convB5		      "ADCINB5"
+      convB6		      "ADCINB6"
+      convB7		      "ADCINB7"
+      c28xmultiPort	      off
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ADC Scaling"
+      Ports		      [1, 1]
+      Position		      [155, 109, 210, 151]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"ADC Scaling"
+	Location		[760, 477, 1238, 678]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  Position		  [85, 103, 115, 117]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [160, 94, 205, 126]
+	  Gain			  "800"
+	  OutDataTypeMode	  "Specify via dialog"
+	  OutDataType		  "uint(32)"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Reference
+	  Name			  "Shift\nArithmetic"
+	  Ports			  [1, 1]
+	  Position		  [245, 90, 325, 130]
+	  SourceBlock		  "simulink/Logic and Bit\nOperations/Shift\nA"
+"rithmetic"
+	  SourceType		  "Shift Arithmetic"
+	  ShowPortLabels	  on
+	  SystemSampleTime	  "-1"
+	  FunctionWithSeparateData off
+	  RTWMemSecFuncInitTerm	  "Inherit from model"
+	  RTWMemSecFuncExecute	  "Inherit from model"
+	  RTWMemSecDataConstants  "Inherit from model"
+	  RTWMemSecDataInternal	  "Inherit from model"
+	  RTWMemSecDataParameters "Inherit from model"
+	  nBitShiftRight	  "15"
+	  nBinPtShiftRight	  "0"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  Position		  [370, 103, 400, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Shift\nArithmetic"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Shift\nArithmetic"
+	  SrcPort		  1
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "Divide by 32768"
+	  Position		  [287, 77]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "Conversion from ADC 0-4095 to Pedal 0-100%"
+	  Position		  [248, 43]
+	  UseDisplayTextAsClickCallback	off
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Engine Management"
+      Ports		      [1, 1]
+      Position		      [260, 107, 365, 153]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Engine Management"
+	Location		[767, 516, 1265, 729]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Gas Pedal"
+	  Position		  [60, 103, 90, 117]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "Gain"
+	  Position		  [175, 95, 205, 125]
+	  Gain			  "40"
+	  ParameterDataTypeMode	  "Specify via dialog"
+	  ParameterDataType	  "uint(16)"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Lookup
+	  Name			  "Power Transfer Function"
+	  Position		  [290, 85, 340, 135]
+	  InputValues		  "uint16([0,500,1000,1500,2000,2500,3000,3500"
+",4000]);"
+	  OutputValues		  "uint16([40,80,120,154,176,191,200,180,160])"
+";"
+	  LookUpMeth		  "Interpolation-Extrapolation"
+	  OutDataTypeMode	  "uint16"
+	  OutDataType		  "sfix(16)"
+	  OutScaling		  "2^0"
+	  LockScale		  off
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	  SampleTime		  "-1"
+	  LUTDesignTableMode	  "Redesign Table"
+	  LUTDesignDataSource	  "Block Dialog"
+	  LUTDesignFunctionName	  "sqrt(x)"
+	  LUTDesignUseExistingBP  on
+	  LUTDesignRelError	  "0.01"
+	  LUTDesignAbsError	  "1e-6"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Horsepower"
+	  Position		  [415, 103, 445, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  SrcBlock		  "Gas Pedal"
+	  SrcPort		  1
+	  DstBlock		  "Gain"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Gain"
+	  SrcPort		  1
+	  DstBlock		  "Power Transfer Function"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Power Transfer Function"
+	  SrcPort		  1
+	  DstBlock		  "Horsepower"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "0-4000 rpm"
+	  Position		  [247, 99]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "0 -100%"
+	  Position		  [129, 99]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "0- 200 hp"
+	  Position		  [379, 99]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "Engine Management"
+	  Position		  [260, 33]
+	  UseDisplayTextAsClickCallback	off
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+      }
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "F2812 eZdsp"
+      Tag		      "C2000 TARGET PREFERENCES BLOCK"
+      Ports		      []
+      Position		      [185, 15, 250, 70]
+      UserDataPersistent      on
+      UserData		      "DataTag1"
+      FontName		      "Arial"
+      SourceBlock	      "c2000tgtpreflib/F2812 eZdsp"
+      SourceType	      "c2000 Target Preferences"
+      ShowPortLabels	      on
+      SystemSampleTime	      "-1"
+      FunctionWithSeparateData off
+      RTWMemSecFuncInitTerm   "Inherit from model"
+      RTWMemSecFuncExecute    "Inherit from model"
+      RTWMemSecDataConstants  "Inherit from model"
+      RTWMemSecDataInternal   "Inherit from model"
+      RTWMemSecDataParameters "Inherit from model"
+    }
+    Block {
+      BlockType		      Reference
+      Name		      "PWM"
+      Ports		      [1]
+      Position		      [715, 109, 795, 151]
+      UserDataPersistent      on
+      UserData		      "DataTag2"
+      SourceBlock	      "c281xdspchiplib/PWM"
+      SourceType	      "C281x PWM"
+      useModule		      "A"
+      timerSource	      "Input port"
+      timerPeriod	      "37500"
+      waveformType	      "Asymmetric"
+      periodUnits	      "Clock cycles"
+      unit1Status	      on
+      unit1Source	      "Specify via dialog"
+      unit1Value	      "62500"
+      unit2Status	      off
+      unit2Source	      "Specify via dialog"
+      unit2Value	      "18500"
+      unit3Status	      off
+      unit3Source	      "Specify via dialog"
+      unit3Value	      "18500"
+      dutyCycleUnits	      "Clock cycles"
+      logicSource	      "Specify via dialog"
+      unit1_1Logic	      "Active high"
+      unit1_2Logic	      "Active low"
+      unit2_1Logic	      "Active high"
+      unit2_2Logic	      "Active low"
+      unit3_1Logic	      "Active high"
+      unit3_2Logic	      "Active low"
+      enableDeadband1	      off
+      enableDeadband2	      off
+      enableDeadband3	      off
+      deadbandPrescaler	      "1"
+      deadbandPeriodSource    "Specify via dialog"
+      deadbandPeriod	      "1"
+      adcstartEvent	      "None"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Vehicle Dynamics "
+      Ports		      [1, 1]
+      Position		      [430, 109, 530, 151]
+      MinAlgLoopOccurrences   off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      MaskHideContents	      off
+      System {
+	Name			"Vehicle Dynamics "
+	Location		[764, 154, 1266, 458]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"A4"
+	PaperUnits		"centimeters"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	Block {
+	  BlockType		  Inport
+	  Name			  "Force"
+	  Position		  [15, 103, 45, 117]
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "1/m"
+	  Position		  [185, 93, 250, 127]
+	  Gain			  "1/2000"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DataTypeConversion
+	  Name			  "Data Type Conversion"
+	  Position		  [85, 93, 150, 127]
+	  OutDataTypeMode	  "single"
+	  RndMeth		  "Floor"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  DiscreteIntegrator
+	  Name			  "Discrete-Time\nIntegrator"
+	  Ports			  [1, 1]
+	  Position		  [335, 94, 370, 126]
+	  IntegratorMethod	  "Integration: Forward Euler"
+	  ExternalReset		  "none"
+	  InitialConditionSource  "internal"
+	  IgnoreLimit		  off
+	  ICPrevOutput		  "DiscIntNeverNeededParam"
+	  ICPrevScaledInput	  "DiscIntNeverNeededParam"
+	}
+	Block {
+	  BlockType		  Sum
+	  Name			  "Sum"
+	  Ports			  [2, 1]
+	  Position		  [280, 100, 300, 120]
+	  ShowName		  off
+	  IconShape		  "round"
+	  Inputs		  "|+-"
+	  InputSameDT		  off
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Gain
+	  Name			  "b/m"
+	  Position		  [305, 178, 385, 212]
+	  Orientation		  "left"
+	  Gain			  "1.5/2000"
+	  ParameterDataTypeMode	  "Inherit via internal rule"
+	  OutDataTypeMode	  "Inherit via internal rule"
+	  SaturateOnIntegerOverflow off
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Speed"
+	  Position		  [445, 103, 475, 117]
+	  IconDisplay		  "Port number"
+	  BusOutputAsStruct	  off
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "Force"
+	  SrcPort		  1
+	  DstBlock		  "Data Type Conversion"
+	  DstPort		  1
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "1/m"
+	  SrcPort		  1
+	  DstBlock		  "Sum"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "Discrete-Time\nIntegrator"
+	  SrcPort		  1
+	  Points		  [35, 0]
+	  Branch {
+	    DstBlock		    "Speed"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 85]
+	    DstBlock		    "b/m"
+	    DstPort		    1
+	  }
+	}
+	Line {
+	  SrcBlock		  "Sum"
+	  SrcPort		  1
+	  DstBlock		  "Discrete-Time\nIntegrator"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "b/m"
+	  SrcPort		  1
+	  Points		  [-10, 0]
+	  DstBlock		  "Sum"
+	  DstPort		  2
+	}
+	Line {
+	  Labels		  [0, 0]
+	  SrcBlock		  "Data Type Conversion"
+	  SrcPort		  1
+	  DstBlock		  "1/m"
+	  DstPort		  1
+	}
+	Annotation {
+	  Name			  "Vehicle Dynamics "
+	  Position		  [242, 38]
+	  UseDisplayTextAsClickCallback	off
+	  FontSize		  12
+	  FontWeight		  "bold"
+	}
+	Annotation {
+	  Name			  "dv/dt"
+	  Position		  [317, 100]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "v"
+	  Position		  [393, 99]
+	  UseDisplayTextAsClickCallback	off
+	}
+	Annotation {
+	  Name			  "F"
+	  Position		  [167, 96]
+	  UseDisplayTextAsClickCallback	off
+	}
+      }
+    }
+    Line {
+      SrcBlock		      "Vehicle Dynamics "
+      SrcPort		      1
+      DstBlock		      " DAC Scaling"
+      DstPort		      1
+    }
+    Line {
+      Labels		      [0, 0]
+      SrcBlock		      "Engine Management"
+      SrcPort		      1
+      DstBlock		      "Vehicle Dynamics "
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ADC Scaling"
+      SrcPort		      1
+      DstBlock		      "Engine Management"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      " DAC Scaling"
+      SrcPort		      1
+      DstBlock		      "PWM"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "ADC"
+      SrcPort		      1
+      DstBlock		      "ADC Scaling"
+      DstPort		      1
+    }
+    Annotation {
+      Name		      "0 - 200 kph"
+      Position		      [566, 118]
+      UseDisplayTextAsClickCallback off
+    }
+    Annotation {
+      Name		      "C28x Vehicle Dynamics   "
+      Position		      [423, 21]
+      UseDisplayTextAsClickCallback off
+      FontSize		      14
+      FontWeight	      "bold"
+    }
+    Annotation {
+      Name		      "0 - 200 hp"
+      Position		      [397, 116]
+      UseDisplayTextAsClickCallback off
+    }
+    Annotation {
+      Name		      "0 - 4095"
+      Position		      [126, 118]
+      UseDisplayTextAsClickCallback off
+    }
+    Annotation {
+      Name		      "0-100%"
+      Position		      [236, 116]
+      UseDisplayTextAsClickCallback off
+    }
+    Annotation {
+      Name		      "0-62500"
+      Position		      [688, 117]
+      UseDisplayTextAsClickCallback off
+    }
+  }
+}
+MatData {
+  NumRecords		  3
+  DataRecord {
+    Tag			    DataTag2
+    Data		    "  %)30     .    B (   8    (     @         %    "
+"\"     $    !     0         %  0 !     $    (    <V5C &-L:P .    $ $   8    ("
+"     0         %    \"     $    $     0         .    .     8    (    !       "
+"   %    \"     $    &     0         0    !@   # N,# P,0  #@   #     &    \"  "
+"   0         !0    @    !     @    $         $  \" #4P   .    ,     8    (   "
+" !          %    \"     $    \"     0         0  ( -3    X    P    !@    @   "
+" $          4    (     0    (    !         !   @ U,   #@   \"@!   &    \"    "
+" $         !0    @    !    !     $         #@   #@    &    \"     0         !"
+"0    @    !    !0    $         $     4    S-S4P,     X    X    !@    @    $  "
+"        4    (     0    4    !         !     %    -C(U,#     .    .     8    "
+"(    !          %    \"     $    %     0         0    !0   #$X-3 P    #@   #@"
+"    &    \"     0         !0    @    !    !0    $         $     4    Q.#4P,  "
+"   "
+  }
+  DataRecord {
+    Tag			    DataTag1
+    Data		    "  %)30     .    V!    8    (     @         %    "
+"\"     $    !     0         %  0 $     $    0    =&EC,C P,%1G=%!R969S  X   \""
+"($   !@    @    1          $          0    8   !H86YD;&4   $    <    1%-05&=T"
+"4&MG+F5:9'-P1C(X,3)49W10<F5F<P     .    ,!    8    (     0         %    \"   "
+" !H    !     0         .    R @   8    (    \"0         %    \"    )@(   !   "
+"  0         \"    F @   $   !'    6 ,  $@$  !0!   T 4  ) (  \"8\"            "
+" !$4U!49W10:V< 95ID<W!&,C@Q,E1G=%!R969S $)U:6QD3W!T:6]N<P!#;VUP:6QE<D]P=&EO;G"
+", 0V]M<&EL97)697)B;W-I='D 5F5R8F]S90!3>6UB;VQI8T1E8G5G9VEN9P!997, 2V5E<$%3349"
+"I;&5S $QI;FME<D]P=&EO;G, 3&EN:V5R0TU$1FEL90!&=6QL7VUE;6]R>5]M87  4G5N5&EM94]P"
+"=&EO;G, 3W9E<G)U;D%C=&EO;@!#;VYT:6YU90!$4U!\";V%R9 !E6F1S<$8R.#$R1%-00F]A<F0 "
+"1%-00F]A<F1,86)E; !&,C@Q,B!E6F1S< !$4U!#:&EP $,R.#$R1%-00VAI< !$4U!#:&EP3&%B9"
+"6P 5$D@5$U3,S(P0S(X,3( 94-!3@!30D< 3VYL>5]F86QL:6YG7V5D9V5S %-!30!386UP;&5?;V"
+"YE7W1I;64 4V5L9E1E<W1-;V1E %-020!#,C@P,%-020!-;V1E $UA<W1E<@!#;&]C:U!O;&%R:71"
+"Y %)I<VEN9U]E9&=E $-L;V-K4&AA<V4 3F]?9&5L87D 16YA8FQE3&]O<&)A8VL 1DE&3T5N86)L"
+"90!&249/26YT97)R=7!T3&5V96Q?5'@ , !&249/5')A;G-M:71$96QA>0!30TE?00!#,C@P,%-#2"
+"0!%;F%B;&5,;V]P0F%C:P!.=6UB97)/9E-T;W!\":71S #$ 4&%R:71Y36]D90!.;VYE $-H87)A8"
+"W1E<DQE;F=T:$)I=', . !\"875D4F%T90 Q,34R,#  0V]M;75N:6-A=&EO;DUO9&4 4F%W7V1A="
+"&$ 0FQO8VMI;F=-;V1E $1A=&%\">71E3W)D97( 3&ET=&QE7T5N9&EA;@!$871A4W=A<%=I9'1H "
+"#A?8FET<P!30TE?0@!!1$, 0T-33&EN:P!#,C@P,$-#4TQI;FL 0V]D94=E;F5R871I;VX 0S(X,#"
+"!#;V1E1V5N97)A=&EO;@!38VAE9'5L97( 0S(X,#!38VAE9'5L97( 5&EM97( 0U!57W1I;65R, !"
+"!;&=O<FET:&T                          0    (               $    #            "
+"   !    !                0    H               $    -               !    $0   "
+"            0   !4               $    8               !    'P               0"
+"   \"P               $    ^               !    0                0   $(       "
+"        $   !$                                                          $    "
+"                !          (                    \"          ,                "
+"    #          0                    $          4                    %        "
+"  8                    &          <                    '          @          "
+"          (          D                    )          H                    *  "
+"        H                    +          L                    ,          P    "
+"                -          T                    .          X                 "
+"   /                    !     ,    !    !    !     !    $P   #\\    !    %   "
+" $$    !    %P         #    !     $    !    \"@    $    \"    #0    $    #   "
+"  P    4         !@    <         \"     D    !          $    +          P    "
+"!    #@         /     @   !(         $P   !0    !    $@         &    %@      "
+"   7    &     $    &    '@    $    *    *P    $    -    /0    $    0    /@   "
+" $    1          ,    9         !H    ;         !P    =     0    4    '    ( "
+"         A    (@         C    )          E    )@    $    '    )P    $    (   "
+" *          I    *@    $    )    \"0   \"T    !    \"P   \"X         +P   #  "
+"        ,0   #(         ,P   #0         -0   #8         -P   #@    !    #    "
+"#D         .@   #L         /     D    M     0    X    N         \"\\    P    "
+"     #$    R         #,    T         #4    V         #<    X     0    \\    Y"
+"         #H    [         #P                          0   $,    !    %@    (  "
+" !%         $8   !'     0   !4                    .    >     8    (     0    "
+"     %    \"     $    !     0         .    2     8    (    #0         %    \""
+"     4    !     0         &    %        -T\"     0    $    !          X    P "
+"   !@    @    $          4    (     0    ,    !         !   P!O9F8 #@   $@   "
+" &    \"     T         !0    @    %     0    $         !@   !0       #= @    "
+"$    !     P         .    2     8    (    #0         %    \"     4    !     0"
+"         &    %        -T\"     0    $    $          X   !(    !@    @    -  "
+"        4    (    !0    $    !          8    4        W0(    !     0    4    "
+"     #@   $@    &    \"     T         !0    @    %     0    $         !@   !0"
+"       #= @    $    !     @         .    ,     8    (    !          %    \"  "
+"   $    #     0         0  , ;V9F  X   !(    !@    @    -          4    (    "
+"!0    $    !          8    4        W0(    !     0    @         #@   #     & "
+"   \"     0         !0    @    !     P    $         $  # &]F9@ .    ,     8  "
+"  (    !          %    \"     $    #     0         0  , ;V9F  X    X    !@   "
+" @    &          4    (     0    $    !          D    (               .    2 "
+"    8    (    #0         %    \"     4    !     0         &    %        -T\" "
+"    0    $    )          X    P    !@    @    $          4    (     0    ,   "
+" !         !   P!O9F8 #@   #     &    \"     0         !0    @    !     P    "
+"$         $  # &]F9@ .    2     8    (    #0         %    \"     4    !     0"
+"         &    %        -T\"     0    $    *          X    P    !@    @    $  "
+"        4    (     0    ,    !         !   P!O9F8 #@   #     &    \"     0   "
+"      !0    @    !     P    $         $  # &]F9@ .    2     8    (    #0     "
+"    %    \"     4    !     0         &    %        -T\"     0    $    +      "
+"    X   !(    !@    @    -          4    (    !0    $    !          8    4   "
+"     W0(    !     0    P         #@   $@    &    \"     T         !0    @    "
+"%     0    $         !@   !0       #= @    $    !    !P         .    2     8 "
+"   (    #0         %    \"     4    !     0         &    %        -T\"     0 "
+"   $    &          X   !(    !@    @    -          4    (    !0    $    !    "
+"      8    4        W0(    !     0    T         #@   %     &    \"     0     "
+"    !0    @    !    &0    $         $    !D   !0<F5E;7!T:79E7W!R:6]R:71Y7V)A<"
+"V5D          X   !(    !@    @    -          4    (    !0    $    !          "
+"8    4        W0(    !     0    \\         #@   $@    &    \"     T         !"
+"0    @    %     0    $         !@   !0       #= @    $    !    #@         .  "
+"  B     8    (    \"0         %    \"     $   !8     0         \"    6      !"
+"24T     #@   $@    &    \"     (         !0    @    !     0    $         !0 $"
+"  <    !    !P   &AA;F1L90  #@         "
+  }
+  DataRecord {
+    Tag			    DataTag0
+    Data		    "  %)30     .    .     8    (    \"P         %    "
+"\"     $    $     0         $    \"             $ "
+  }
+}

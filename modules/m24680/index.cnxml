@@ -1,0 +1,18 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+
+<title>From MATLAB and SIMULINK to Real-time Using TI DSPs</title>
+<metadata>
+  <md:content-id>m24680</md:content-id><md:title>From MATLAB and SIMULINK to Real-time Using TI DSPs</md:title>
+  <md:abstract>This course focuses on work-flow and application-based teaching rather than individual DSP algorithms implementation. Each modules starts from and algorithm development prototyped step-by-step, and then deployed on the hardware. The course contains a suite of example applications in various fields such as Audio, Video, Imaging, Communications and Control.</md:abstract>
+  <md:uuid>0c948a74-4d78-4bb9-87ef-31d67b25e7df</md:uuid>
+</metadata>
+
+<content>
+  <section id="eip-143"><title>Overview</title><para id="eip-436">
+This course focuses on work-flow and application-based teaching rather than individual DSP algorithms implementation. Each module starts from an algorithm that is prototyped step-by-step, and then deployed on the hardware. The course contains a suite of example applications in various fields such as Audio, Video, Imaging, Communications and Control. The basic examples enable students to experiment with real-time DSP applications, showing how to create prototypes using the Mathworks and Texas Instruments development tools (hardware and software). Advanced level examples are also included, where the basic tools are integrated with external dedicated hardware and/or software modules.
+</para><para id="eip-786">Platforms used: TMS320F2808 eZdsp Starter Kit (DSK), TMS320F2812 eZdsp Start Kit (DSK), TMS320C6713 DSP Starter Kit (DSK), TMS320C6416 DSP Starter Kit (DSK), DM6437 Digital Video Development Platform (DVDP).
+</para><para id="eip-654">This material and more is available as a complete CD-ROM, that can be obtained from <link resource="http://www.ti.com/europe/docs/univ/index.htm">Texas Instruments</link> and <link resource="http://www.mathworks.com/programs/mwti-cd/">Mathworks</link>
+</para></section>
+</content>
+
+</document>

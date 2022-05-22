@@ -1,0 +1,603 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Video Surveillance</title>
+  <metadata>
+  <md:content-id>m24470</md:content-id><md:title>Video Surveillance</md:title>
+  <md:abstract>This module describes the design flow of a motion detection system based video surveillance system based on the DM6437 Digital Video Development Platform (DVDP).  The system will be able to identify and record only “interesting” video frames containing motion.</md:abstract>
+  <md:uuid>753dd4c1-df4d-449d-ab12-09cfa965946f</md:uuid>
+</metadata>
+
+<content>
+    <section id="id3672408">
+      <title>Introduction</title>
+      <para id="id22493192">Continuous-scene monitoring applications, such as ATM booths, parking lots or traffic monitoring systems, generate large volumes of data. Recording and archiving such volumes of data is a real problem, and one way to solve this is to reduce the size of the data stream right at the source.</para>
+      <para id="id21539890">In addition to traditional methods for compressing individual video images, we could identify and record only “interesting” video images, such as those images with significant amounts of motion in the field of view. That could significantly help reduce the data rates for surveillance-specific applications.</para>
+      <para id="id16826805">In this section, we’ll illustrate the design flow of a motion detection system based video surveillance system. The system will be able to identify and record only “interesting” video frames containing motion.</para>
+      <para id="id20760933">The development process will follow the following three steps:</para>
+      <list id="id3154220" list-type="enumerated">
+        <item>Functional Requirements </item>
+        <item>System modeling and simulation</item>
+        <item>Code generation and implementation</item>
+      </list>
+      <section id="id13810615">
+        <title>Hardware and Software Requirements </title>
+        <para id="id22484956">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id16723838" list-type="bulleted">
+          <item>MATLAB® R2008a </item>
+          <item>Code Composer Studio (CCS) v3.3</item>
+          <item>Texas Instruments DM6437 hardware.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="Surveillance.ppt">Surveillance.ppt</link></item>
+	<item>Simulink Model for Simulation - <link resource="surveillance.mdl">surveillance.mdl</link></item>
+	<item>Video-clip <link resource="viplane.avi"> viplane.avi</link></item>
+	<item>MATLAB script <link resource="my_tcpip_surveil_script.m">my_tcpip_surveil_script.m</link></item>
+	<item>Simulink Model for Real-Time (DM6437) - <link resource="my_dm6437evmsurveil_tcpip.mdl"> my_dm6437evmsurveil_tcpip.mdl</link></item>
+	<item>Simulink Model for Real-Time Lane Detection (PC) - <link resource="my_pc_surveil_tcpip.mdl"> my_pc_surveil_tcpip.mdl</link></item>
+</list>
+</section>
+
+    </section>
+    <section id="id11287516">
+      <title>Video Surveillance</title>
+      <para id="id4832876">In this session we will show how to create the line detection model, and how it can be integrated in Simulation and Real-Time Implementations.</para>
+      <figure id="id3878819">
+        <media id="id1164160646690" alt=""><image src="../../media/figure__1.png" mime-type="image/png"/></media>
+      </figure>
+      <para id="id11903483">Figure 1: The Motion Detection Process</para>
+      <section id="id10473198">
+        <title>The Motion Energy Estimation</title>
+        <para id="id10699240">The Motion Energy estimation is based on the calculation of the Sum of Absolute Differences (SAD)” according to the following equation:</para>
+        <table id="id9284321" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry namest="c1" nameend="c2">
+                  <m:math>
+                    <m:semantics>
+                      <m:mrow>
+                        <m:mstyle fontsize="12pt">
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mstyle fontstyle="italic">
+                                <m:mrow>
+                                  <m:mtext>SAD</m:mtext>
+                                </m:mrow>
+                              </m:mstyle>
+                              <m:mo stretchy="false">=</m:mo>
+                              <m:mrow>
+                                <m:munder>
+                                  <m:mo stretchy="false">∑</m:mo>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mi>i</m:mi>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:munder>
+                                <m:mrow>
+                                  <m:munder>
+                                    <m:mo stretchy="false">∑</m:mo>
+                                    <m:mstyle fontsize="8pt">
+                                      <m:mrow>
+                                        <m:mi>j</m:mi>
+                                      </m:mrow>
+                                    </m:mstyle>
+                                  </m:munder>
+                                  <m:mrow>
+                                    <m:mo stretchy="false">∣</m:mo>
+                                    <m:mrow>
+                                      <m:msub>
+                                        <m:mi>I</m:mi>
+                                        <m:mstyle fontsize="8pt">
+                                          <m:mrow>
+                                            <m:mi>k</m:mi>
+                                          </m:mrow>
+                                        </m:mstyle>
+                                      </m:msub>
+                                      <m:mrow>
+                                        <m:mfenced open="(" close=")">
+                                          <m:mrow>
+                                            <m:mi>i</m:mi>
+                                            <m:mi>,</m:mi>
+                                            <m:mi>j</m:mi>
+                                          </m:mrow>
+                                        </m:mfenced>
+                                        <m:mo stretchy="false">−</m:mo>
+                                        <m:msub>
+                                          <m:mi>I</m:mi>
+                                          <m:mstyle fontsize="8pt">
+                                            <m:mrow>
+                                              <m:mrow>
+                                                <m:mi>k</m:mi>
+                                                <m:mo stretchy="false">−</m:mo>
+                                                <m:mn>1</m:mn>
+                                              </m:mrow>
+                                            </m:mrow>
+                                          </m:mstyle>
+                                        </m:msub>
+                                      </m:mrow>
+                                      <m:mfenced open="(" close=")">
+                                        <m:mrow>
+                                          <m:mi>i</m:mi>
+                                          <m:mi>,</m:mi>
+                                          <m:mi>j</m:mi>
+                                        </m:mrow>
+                                      </m:mfenced>
+                                    </m:mrow>
+                                    <m:mo stretchy="false">∣</m:mo>
+                                  </m:mrow>
+                                </m:mrow>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mrow/>
+                      </m:mrow>
+                      <m:annotation encoding="StarMath 5.0"> size 12{ ital "SAD"= Sum cSub { size 8{i} }  { Sum cSub { size 8{j} }  { lline I rSub { size 8{k} }  left (i,j right ) - I rSub { size 8{k - 1} }  left (i,j right ) rline } } } {}</m:annotation>
+                    </m:semantics>
+                  </m:math>
+                </entry>
+              </row>
+              <row>
+                <entry>where:</entry>
+                <entry/>
+              </row>
+              <row>
+                <entry>
+                  <m:math>
+                    <m:semantics>
+                      <m:mrow>
+                        <m:mstyle fontsize="12pt">
+                          <m:mrow>
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>I</m:mi>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mi>k</m:mi>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                              <m:mfenced open="(" close=")">
+                                <m:mrow>
+                                  <m:mi>i</m:mi>
+                                  <m:mi>,</m:mi>
+                                  <m:mi>j</m:mi>
+                                </m:mrow>
+                              </m:mfenced>
+                            </m:mrow>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mrow/>
+                      </m:mrow>
+                      <m:annotation encoding="StarMath 5.0"> size 12{I rSub { size 8{k} }  left (i,j right )} {}</m:annotation>
+                    </m:semantics>
+                  </m:math>
+                </entry>
+                <entry>- Current Frame</entry>
+              </row>
+              <row>
+                <entry>
+                  <m:math>
+                    <m:semantics>
+                      <m:mrow>
+                        <m:mstyle fontsize="12pt">
+                          <m:mrow>
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>I</m:mi>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mrow>
+                                      <m:mi>k</m:mi>
+                                      <m:mo stretchy="false">−</m:mo>
+                                      <m:mn>1</m:mn>
+                                    </m:mrow>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                              <m:mfenced open="(" close=")">
+                                <m:mrow>
+                                  <m:mi>i</m:mi>
+                                  <m:mi>,</m:mi>
+                                  <m:mi>j</m:mi>
+                                </m:mrow>
+                              </m:mfenced>
+                            </m:mrow>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mrow/>
+                      </m:mrow>
+                      <m:annotation encoding="StarMath 5.0"> size 12{I rSub { size 8{k - 1} }  left (i,j right )} {}</m:annotation>
+                    </m:semantics>
+                  </m:math>
+                </entry>
+                <entry>- Previous Frame</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </section>
+      <section id="id16619699">
+        <title>Functional Description</title>
+        <para id="id18899881">The Video Surveillance system block diagram is shown in Figure 2. The source video is displayed and played back through the system. This incoming video stream is processed by a subsystem that estimates the motion within the scene and captures the interesting video frames. The system can display either the recorded video frame or the Absolute Differences (AD) image.</para>
+        <para id="id11641128">The user can configure the motion energy threshold value and select which image will be displayed (Display Control). The system outputs include, besides the displayed image, the following features:</para>
+        <list id="id14263555" list-type="bulleted">
+          <item>A graph of the motion energy as a function of time. This graph displays the threshold value as well.</item>
+          <item>The Frame count of the recorded image</item>
+          <item>An output signal triggered by motion detection (Trigger)</item>
+        </list>
+        <para id="id6167711">While the generated code is running on the target, a host side Simulink® model simultaneously sends video frames to the target via TCP/IP protocol using TCP/IP Blocks from Instrument Control Toolbox™. The target receives video frames sent by the host side Simulink model, computes the sum of the absolute value of differences (SAD) between successive video frames, and returns an estimate of motion. When the motion estimate value exceeds a threshold, the target increments a counter and sends the corresponding frame back to the host.</para>
+        <figure id="id17938891">
+  <media id="id1164167728286" alt=""><image src="../../media/fig2-fb7b.JPG" mime-type="image/jpeg"/></media>
+        <caption>Video Surveillance Block Diagram</caption></figure>
+      </section>
+    </section>
+    <section id="id19340288">
+      <title>Simulation</title>
+      <list id="id20188771" list-type="enumerated"><item>Open a new Simulink model </item>
+<item>Add the blocks shown in the following table (Please refer also to Figure 3):</item>
+</list>
+      
+<table id="id11050657" pgwide="2" summary="">
+<title>Video Surveillance Simulink Blocks</title>
+<tgroup cols="4"><colspec colnum="1" colname="c1" colwidth="24*"/>
+	<colspec colnum="2" colname="c2" colwidth="32*"/>
+	<colspec colnum="3" colname="c3" colwidth="20*"/>
+	<colspec colnum="4" colname="c4" colwidth="1*" align="center"/>
+	<tbody>
+		<row>
+			<entry>Functionality</entry>
+			<entry>Block</entry>
+			<entry>Blockset</entry>
+			<entry>Quant.</entry>
+		</row>
+		<row>
+			<entry>SAD</entry>
+			<entry>Subsystem</entry>
+			<entry>Simulink / Ports &amp; Subsystems</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Delay</entry>
+			<entry>Signal Processing Blockset / Signal Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Abs</entry>
+			<entry>Simulink / Math Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Matrix Sum</entry>
+			<entry>Signal Processing Blockset / Math Functions / Matrices and Linear Algebra / Matrix Operations</entry>
+			<entry>  2   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Data Type Conversion</entry>
+			<entry>Simulink / Signal Attributes</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Add Sum,</entry>
+			<entry>Simulink / Math Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry>Recording</entry>
+			<entry>Enabled Subsystem</entry>
+			<entry>Simulink / Ports &amp; Subsystems</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Add Sum,</entry>
+			<entry>Simulink / Math Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Delay</entry>
+			<entry>Signal Processing Blockset / Signal Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry>counter</entry>
+			<entry>Subsystem</entry>
+			<entry>Simulink / Ports &amp; Subsystems</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Add Sum,</entry>
+			<entry>Simulink / Math Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+			</entry>
+			<entry>Delay</entry>
+			<entry>Signal Processing Blockset / Signal Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry>Generate data for motion energy and threshold display</entry>
+			<entry>Matrix Concatenate</entry>
+			<entry>Simulink / Math Operations</entry>
+			<entry>  2   </entry>
+		</row>
+		<row>
+			<entry>Compare Motion Energy against Threshold</entry>
+			<entry>Relational Operator</entry>
+			<entry>Simulink / Logic and Bit Operations</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry>Input Video</entry>
+			<entry>From Multimedia File</entry>
+			<entry>Signal Processing Blockset / Signal Processing Sources</entry>
+			<entry>  1   </entry>
+		</row>
+		<row>
+			<entry>Display Control</entry>
+			<entry>Constant</entry>
+			<entry>Signal Processing Blockset / Signal Processing Sources</entry>
+			<entry>  1</entry>
+		</row>
+		<row>
+			<entry>Display Motion Energy and Threshold</entry>
+			<entry>Floating Scope</entry>
+			<entry>Simulink/Sinks</entry>
+			<entry>1</entry>
+		</row>
+		<row>
+			<entry>Draws formatted text on an image or video stream</entry>
+			<entry>Insert Text</entry>
+			<entry>Video and Image Processing Blockset / Text &amp; figure__</entry>
+			<entry>1</entry>
+		</row>
+		<row>
+			<entry>Connected to the trigger (not used for simulation)</entry>
+			<entry>Terminator</entry>
+			<entry>Simulink/Sinks</entry>
+			<entry>1</entry>
+		</row>
+		<row>
+			<entry>Images’ Display</entry>
+			<entry>To Video Display</entry>
+			<entry>Video and Image Processing Blockset / Sinks</entry>
+			<entry>2</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+
+      <para id="id4466963"/>
+      <figure id="id9405742"><media id="id1164160574345" alt=""><image src="../../media/figure__2.png" mime-type="image/png"/></media><caption>Simulink Blocks for Video Surveillance</caption></figure>
+      
+      <section id="id21798144">
+        <title>Configuring the SAD blocks</title>
+        <list id="id13378763" list-type="enumerated">
+          <item id="id17436475">Configure one of the “Add” block for subtraction, you may also change its icon shape to a circular form as follows<footnote id="id1164168683643">The symbol “|” is used to place the “+” and “-“ perpendicular to each other</footnote>: <figure id="id11471962"><media id="id1164160590692" alt=""><image src="../../media/figure__3.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure its fixed point mode of operation Configure one of the “Matrix Sum” blocks for adding rows:<figure id="id19834184"><media id="id1164160706444" alt=""><image src="../../media/figure__4.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure its fixed point mode of operation <figure id="id20810899"><media id="id1164160542344" alt=""><image src="../../media/figure__5.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure the fixed point mode of operation for the second Matrix “Column Add” block:<figure id="id21624101"><media id="id1164158746837" alt=""><image src="../../media/figure__6.png" mime-type="image/png"/></media></figure></item>
+        </list>
+      </section>
+      <section id="id10338519">
+        <title>Configuring the Input blocks</title>
+        <list id="id22531970" list-type="enumerated">
+          <item>Configure on of the “Video Source” "From Multimedia File" block for reading frames from the "vipmen.avi" file. 
+        <table id="id13149828" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>
+                  <media id="id1164168724743" alt=""><image src="../../media/figure__7.png" mime-type="image/png"/></media>
+                </entry>
+                <entry>
+                  <media id="id1164158746771" alt=""><image src="../../media/figure__8.png" mime-type="image/png"/></media>
+                </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+</item>
+
+          <item>Set the initial value of the "Constant" to 1e5.<figure id="id20010388"><media id="id1164158746160" alt=""><image src="../../media/figure__9.png" mime-type="image/png"/></media></figure><figure id="id9280793"><media id="id1164158746058" alt=""><image src="../../media/figure__10.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure "Data Type Conversion" block : <figure id="id4104555"><media id="id1164158745791" alt=""><image src="../../media/figure__11.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure " Relational Operator " block :<figure id="id12115332"> <media id="id1164158739927" alt=""><image src="../../media/figure__12.png" mime-type="image/png"/></media></figure></item>
+          <item>Configure one of the " Matrix Concatenate " block :<figure id="id22019031"><media id="id1164158743315" alt=""><image src="../../media/figure__13.png" mime-type="image/png"/></media></figure></item>
+          <item>The “Floating Scope” will be used to display the motion energy and the threshold<footnote id="id1164158742706">The threshold is changed upon a user command. The simultaneous display of the threshold and motion energy will enable the user to follow-up the process of recording frames.</footnote> as a function of time. Double-Click the block. A cope screen will appear, you should then click the icon as shown in the following picture: <figure id="id13051976"><media id="id1164158740982" alt=""><image src="../../media/figure__14.png" mime-type="image/png"/></media></figure>You may keep the default configuration for "Data history".</item>
+          <item>Configure the " Insert Text " block :<figure id="id3680441"><media id="id1164160869982" alt=""><image src="../../media/figure__15.png" mime-type="image/png"/></media></figure></item>
+          <item>Double-click on the "Enabled Subsystem" block, and build it as shown below:<figure id="id7728395"> <media id="id1164160868522" alt=""><image src="../../media/figure__16.png" mime-type="image/png"/></media></figure></item>
+          <item>Double-click on one of the "Subsystem" block and build it as shown below:<figure id="id18806219"><media id="id1164160867760" alt=""><image src="../../media/figure__17.png" mime-type="image/png"/></media></figure>Save the subsystem as: "Motion Energy"</item>
+          <item>Double-click on one the remaining "Subsystem" block,build it as shown below and name it "Frame Counter":<figure id="id18821559"><media id="id1164160865674" alt=""><image src="../../media/figure__18.png" mime-type="image/png"/></media></figure></item>
+        </list>
+      </section>
+      <section id="id13503450">
+        <title>Connecting the blocks:</title>
+        <list id="id19868066" list-type="enumerated">
+          <item>Connect the blocks as shown in the following figure:<figure id="id17575403"><media id="id1164160861430" alt=""><image src="../../media/figure__19.png" mime-type="image/png"/></media><caption>Video Surveillance model</caption></figure></item>
+          <item>Save the model as "surveillance_sim.mdl". </item>
+        </list>
+      </section>
+      <section id="id23138174">
+        <title>Running the model</title>
+        <list id="id11043430" list-type="enumerated">
+          <item>Run the model. You should observe the following images: 
+        <table id="id3644211" frame="none" summary="">
+<tgroup cols="2"><colspec colnum="1" colname="c1" align="center"/>
+	<colspec colnum="2" colname="c2" align="center" colsep="0"/>
+	<tbody>
+		<row>
+			<entry>Current Frame</entry>
+			<entry>Recorded Frame</entry>
+		</row>
+		<row rowsep="0">
+			<entry>
+				<media id="id1164160846927" alt=""><image src="../../media/figure__20.png" mime-type="image/png"/></media>
+			</entry>
+			<entry>
+				<media id="id1164160844599" alt=""><image src="../../media/figure__21.png" mime-type="image/png"/></media>
+			</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+</item>
+          <item>Double click the scope and you will see:<figure id="id18418880"><media id="id1164160842494" alt=""><image src="../../media/fig22-60dc.JPG" mime-type="image/jpeg"/></media></figure>In this scope display, yellow represents the motion estimate from each video frame, and magenta is the threshold level. In the Motion Threshold scope here, we see that we identified five frames with motion above the threshold that were captured and recorded.</item>
+        </list>
+        <para id="id18225082"/>
+      </section>
+    </section>
+    <section id="id3370716">
+      <title>Real Time Implementation</title>
+      <section id="id10407533">
+        <title>Video Surveillance using TCP/IP</title>
+        <list id="id19597014" list-type="enumerated"><item>Open the “<link url="http://cnx.org/Members/jfaing/m23999/video_sim.mdl">video_sim.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23999/latest/">A Framework for Video Processing with the DM6437 DVDP</link>" module).</item>
+	<item>Rename the model "my_dm6437evmsurveil_tcpip.mdl".</item>
+	<item>Rename the “R_W Algorithm” subsystem to “Surveillance Algorithm”. </item>
+	<item>Double-click the “Surveillance Algorithm” block. </item>
+	<item>In this block, add a Add the “Function- Call Subsystem” from the “Ports &amp; Subsystems" group of the "Simulink" Blockset.</item>
+	<item>Rename “Function- Call Subsystem” to “Video Frame Capture Motion Threshold” and Double-click it.</item>
+	<item>Open the model "surveillance_sim.mdl", created in section  and copy it into “Video Frame Capture Motion Threshold ”.</item>
+	<item>Add three input ports "In1" from the "Sources" group of the "Simulink" blockset and three output ports "Out1" from the "Sinks" group of the "Simulink" blockset.</item>
+	<item>Add a "Switch" from the "Signal Routing" group of the "Simulink" blockset and a "Gain" from the "Math Operation" group of the "Simulink" blockset.</item>
+	<item>Double-click the “Motion Energy” block and add him another output port as shown:<figure id="id10634424"><media id="id1164160838436" alt=""><image src="../../media/figure__23.png" mime-type="image/png"/></media></figure></item>
+	<item>Connect the blocks as shown:<figure id="id5348928"><media id="id1164160824797" alt=""><image src="../../media/figure__24.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the "Gain" block :<figure id="id10241900"><media id="id1164160824161" alt=""><image src="../../media/figure__25.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the "Switch" block :<figure id="id7873368"><media id="id1164160836900" alt=""><image src="../../media/figure__26.png" mime-type="image/png"/></media></figure></item>
+	<item>Double-click the “Surveillance Algorithm” subsystem. </item>
+	<item>Configure the "Byte Unpack" block :<figure id="id16331008"><media id="id1164160821084" alt=""><image src="../../media/figure__27.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the "Byte Pack" block :<figure id="id24574270"><media id="id1164160836073" alt=""><image src="../../media/figure__28.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the " TCP/IP Receive " block :<figure id="id13053486"><media id="id1164160818786" alt=""><image src="../../media/figure__29.png" mime-type="image/png"/></media></figure>
+		<figure id="id6632702"><media id="id1164160818448" alt=""><image src="../../media/figure__30.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the " TCP/IP Send " block :<figure id="id14557602"><media id="id1164160816915" alt=""><image src="../../media/figure__31.png" mime-type="image/png"/></media></figure></item>
+	<item>Connect the “Video Frame Capture Motion Threshold ” block as shown:<figure id="id5384911"><media id="id1164160815936" alt=""><image src="../../media/figure__32.png" mime-type="image/png"/></media></figure></item>
+	<item>Open the “RW_pcl_tcpip.mdl” model, created in the "Video R_W" file</item>
+	<item>Rename the model "my_pc_surveil_tcpip.mdl".</item>
+	<item>Add the "Manual Switch" from the "Signal Routing" group of the "Simulink" blockset and three "Constant" blocks from the "Signal Processing" group of the "Signal Processing" blockset. </item>
+	<item>Configure the " Constant " blocks:
+         <table id="id23877533" summary="">
+			<tgroup cols="2"><colspec colnum="1" colname="c1"/>
+				<colspec colnum="2" colname="c2"/>
+				<tbody>
+					<row>
+						<entry>
+							<media id="id1164160811310" alt=""><image src="../../media/figure__33.png" mime-type="image/png"/></media>
+						</entry>
+						<entry>
+							<media id="id1164160831900" alt=""><image src="../../media/figure__34.png" mime-type="image/png"/></media>
+						</entry>
+					</row>
+					<row>
+						<entry>
+							<media id="id1164160808611" alt=""><image src="../../media/fig33.JPG" mime-type="image/jpeg"/></media>
+						</entry>
+						<entry>
+							<media id="id1164160808090" alt=""><image src="../../media/fig34.JPG" mime-type="image/jpeg"/></media>
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</item>
+	<item>Configure the "Byte Unpack" block :<figure id="id24183661"><media id="id1164160806363" alt=""><image src="../../media/figure__35.png" mime-type="image/png"/></media></figure></item>
+	<item>Connect the block as shown:<figure id="id16125018"><media id="id1164160805191" alt=""><image src="../../media/figure__36.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the " TCP/IP Receive " block :<figure id="id23351056"><media id="id1164160803539" alt=""><image src="../../media/figure__37.png" mime-type="image/png"/></media></figure></item>
+	<item>Double-click the “Display” subsystem.</item>
+	<item>Double-click the “Data Unpack” subsystem.</item>
+	<item>Configure the "Byte Unpack" block :<figure id="id4764598"><media id="id1164160594982" alt=""><image src="../../media/figure__38.png" mime-type="image/png"/></media></figure></item>
+	<item>Connect the block as shown:<figure id="id10015815"><media id="id1164160589267" alt=""><image src="../../media/figure__39.png" mime-type="image/png"/></media></figure></item>
+	<item>Add to the "Display" subsystem the "Insert Text" from the " Text &amp; figure__" group of the " Video and Image Processing " blockset, " Floating Scope" from the "Sinks" group of the "Simulink" blockset.</item>
+	<item>Configure the " Insert Text " block :<figure id="id8900209"><media id="id1164160684094" alt=""><image src="../../media/figure__40.png" mime-type="image/png"/></media></figure></item>
+	<item>Add the “Subsystem” from the “Ports &amp; Subsystems" group of the "Simulink" Blockset</item>
+	<item>Rename it "Combine Count"</item>
+	<item>Add a "Frame Counter" subsystem as we did in paragraph 14 at the first section.<figure id="id15172035"><media id="id1164160552154" alt=""><image src="../../media/figure__41.png" mime-type="image/png"/></media></figure></item>
+	<item>Add a "Matrix Concatenate" from the "Math Operations" group of the "Simulink" blockset.</item>
+	<item>Connect the block as shown:<figure id="id17543723"><media id="id1164160527628" alt=""><image src="../../media/figure__42.png" mime-type="image/png"/></media></figure></item>
+	<item>Configure the " Matrix Concatenate" block :<figure id="id5817942"><media id="id1164160621721" alt=""><image src="../../media/figure__43.png" mime-type="image/png"/></media></figure></item>
+	<item>Connect the "Display" subsystem as shown:<figure id="id17760448"><media id="id1164160621013" alt=""><image src="../../media/figure__44.png" mime-type="image/png"/></media></figure></item>
+	<item>Open a new m-file, copy the following code and save it as "my_tcpip_surveil_script.m" at the same directory as the model.
+<code id="first_codeblock" display="block">
+function my_tcpip_surveil_script(hostModelName)
+%my_tcpip_surveil_script controls host-side TCP/IP processing for 
+%  Video Surveillance demo:
+%  1) Builds and runs the target application
+%********** Initialization ********************
+% Get model name
+modelName = gcs;
+ 
+% Connect to CCS
+CCS_Obj = connectToCCS(modelName);
+saved_visibility = CCS_Obj.isvisible;
+CCS_Obj.visible(1);
+ 
+% Load application
+loadApp(modelName, CCS_Obj);
+ 
+% Run application
+fprintf('Running application: %s\n', modelName);
+CCS_Obj.run;     
+ 
+% Allow some time for DHCP address acquisition
+pause(3);
+ 
+% Retrieve target's host name 
+boardType = get_param([modelName '/IP Config'], 'boardType');
+userPrompt = sprintf('Enter the IP address or the host name of the %s board: ', boardType);
+hostName = inputdlg(userPrompt, 'Target IP address');
+if isempty(hostName)
+    errordlg('You have to provide a valid IP address or host name to run the demo.', ...
+        'TCP/IP Surveillance Recording', 'modal');
+    return;
+end
+hostName = strtrim(hostName{1});
+ 
+ 
+% Launch host side UDP receive / Video display model
+fprintf('Launching host side application: %s\n', hostModelName);
+open_system(hostModelName);
+ 
+% Update host side TCP/IP blocks with target's IP address
+set_param([hostModelName '/TCP//IP Send'], 'Host', hostName);
+set_param([hostModelName '/TCP//IP Receive'], 'Host', hostName);
+fprintf('Click on play button to start running the host side application!\n\n')
+ 
+%[EOF] tcpip_surveil_script.m
+</code></item>
+	<item>Open a new m-file, copy the following code and save it as "my_tcpip_surveil_script.m" at the same directory as the model.</item>
+	<item>now we have two models ("my_pc_surveil_tcpip.mdl" and "my_dm6437evmsurveil_tcpip.mdl") and one MATLAB file ("my_tcpip_surveil_script.m")</item>
+</list>
+      </section>
+      <section id="id14048515">
+        <title>Running the Real-time Model</title>
+        <list id="id4906011" list-type="enumerated">
+          <item>Build load and run the project from the "my_dm6437evmsurveil_tcpip.mdl" model. Double-click the " Build / Reload &amp; Run" block.</item>
+          <item>Running the script, you will see:<figure id="id7529336"><media id="id1164160617660" alt=""><image src="../../media/figure__45.png" mime-type="image/png"/></media></figure><figure id="id19238463"><media id="id1164160616911" alt=""><image src="../../media/figure__46.png" mime-type="image/png"/></media></figure>If you want to display the Absolute Differences Image, change the state of the switch from 0 to 1. You will then see:<figure id="id16766322"><media id="id1164160616097" alt=""><image src="../../media/figure__47.png" mime-type="image/png"/></media></figure></item>
+        </list>
+      </section>
+    </section>
+  </content>
+</document>

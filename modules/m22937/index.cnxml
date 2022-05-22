@@ -1,0 +1,412 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>DTMF Detection</title>
+  <metadata>
+  <md:content-id>m22937</md:content-id><md:title>DTMF Detection</md:title>
+  <md:abstract>This module shows the implementation of a DTMF detector using the DSK6713. The detector is desgined using Simulink.</md:abstract>
+  <md:uuid>3f7f21c5-cce7-4400-a37d-344b72738a5c</md:uuid>
+</metadata>
+
+<content>
+    <section id="id9549323">
+      <title>Introduction</title>
+      <para id="id6073751">The Dual-tone multi-frequency (DTMF) signaling method was developed originally to replace <link url="http://en.wikipedia.org/wiki/Pulse_dialing">pulse</link> (Dial Pulse or DP in the <link url="http://en.wikipedia.org/wiki/United_States">U.S.</link>) and loop disconnect (LD) signaling methods to dial numbers, in order to shorten the holding time of the switch during dialing , specially for long distance calls. </para>
+      <para id="id9560221">DTMF signaling uses two tones to represent each key on the touch pad. There are 12 distinct tones<footnote id="id1167012042220">The DTMF method defines four additional digits: “A”, “B”,”C” &amp; “D”. Most of the systems today do not use those digits. </footnote> (Please refer to Table 1). When any key is pressed the tone of the column and the tone of the row are generated. As an example, pressing the '5' button generates the tones 770 Hz and 1336 Hz. The frequencies were chosen to avoid harmonics: no frequency is a multiple of another, the difference between any two frequencies does not equal any of the frequencies, and the sum of any two frequencies does not equal any of the frequencies.</para>
+      <table id="id11227831" summary="">
+<tgroup cols="4"><colspec colnum="1" colname="c1"/>
+	<colspec colnum="2" colname="c2"/>
+	<colspec colnum="3" colname="c3"/>
+	<colspec colnum="4" colname="c4"/>
+	<tbody>
+		<row>
+			<entry>.</entry>
+			<entry>1209 Hz</entry>
+			<entry>1336 Hz</entry>
+			<entry>1477 Hz</entry>
+		</row>
+		<row>
+			<entry>697 Hz</entry>
+			<entry>1</entry>
+			<entry>2</entry>
+			<entry>3</entry>
+		</row>
+		<row>
+			<entry>770 Hz</entry>
+			<entry>4</entry>
+			<entry>5</entry>
+			<entry>6</entry>
+		</row>
+		<row>
+			<entry>852 Hz</entry>
+			<entry>7</entry>
+			<entry>8</entry>
+			<entry>9</entry>
+		</row>
+		<row>
+			<entry>941 Hz</entry>
+			<entry>*</entry>
+			<entry>0</entry>
+			<entry>#</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+<caption>DTMF Frequencies</caption>
+</table>
+      <para id="id11323991">Table 1- DTMF frequencies</para>
+      <para id="id11374229">The low frequencies are referred as rows, The higher frequencies are referred as columns. </para>
+      <para id="id9277907">This example will show the implementation of a DTMF receiver using the DSK6713. The DTMF receiver will be based on the simulation model used in the Simulink demo. A graphic user interface (GUI) will also be created to activate the DSK6713. DTMF digits will be sent from the PC sound card.</para>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="DTMF.ppt">DTMF.ppt</link></item>
+	<item>Simulink Model for Simulation - <link resource="DTMF.mdl"> DTMF.mdl</link></item>
+	<item>MATLAB GUI for Real-Time - <link resource="DTMF.fig"> DTMF.fig</link></item>
+	<item>GUI m-file - <link resource="DTMF.m">DTMF.m</link></item>
+	<item>Simulink Model for Real-Time - <link resource="DTMF_DSK6713.mdl"> DTMF_DSK6713.mdl</link></item>
+</list>
+</section>
+    </section>
+    <section id="id9425037">
+      <title>Simulation</title>
+      <section id="id11327712">
+        <title>The Simulation Model</title>
+        <para id="id9550789">Figure 1 shows the model used to simulate DTMF detection and generation. </para>
+        <figure id="id11515245">
+          <media id="id1167013668548" alt=""><image src="../../media/graphics1-6b50.png" mime-type="image/png"/></media>
+<caption>DTMF Simulation</caption>
+        </figure>
+
+        <para id="id7534428">The DTMF generator is composed by 7 sine wave generators, corresponding to the 7 DTMF frequencies. The oscillators are grouped as described in Table 1. The oscillators’’ outputs are multiplexed and summed (Please refer to Figure 2). Upon selection of a digit to be transmitted, the correspondent oscillators are activated. </para>
+        <figure id="id10126246">
+          <media id="id1167011509596" alt=""><image src="../../media/graphics2-02e9.jpg" mime-type="image/jpeg"/></media>
+<caption>DTMF Generation</caption>
+        </figure>
+        <para id="id10408097">The DTMF detection comprises two processes, the frequency detection algorithm itself, and a leading edge detection subsystem.</para>
+        <para id="id8764596">The frequency detection subsystem measures the energy present at the seven frequencies, and calculates the digit by taking the component of maximum energy in the lower and upper frequency groups. The process is shown in Figure 3. This process runs continuously; however the calculated digit is reported only if its energy is above a threshold as determined by the leading edge detection subsystem. The DTMF detection process is shown in Figure 4. </para>
+        <figure id="id9990707">
+          <media id="id1167009919387" alt=""><image src="../../media/graphics3-e916.jpg" mime-type="image/jpeg"/></media>
+<caption>Frequency Detection</caption>
+        </figure>
+
+        <figure id="id10215982"><media id="id879986" alt=""><image src="../../media/graphics4-bb13.jpg" mime-type="image/jpeg"/></media>
+<caption>DTMF Detection</caption>
+        </figure>
+
+      </section>
+      <section id="id11465911">
+        <title>Running the Simulation</title>
+        <list id="id11464963" list-type="bulleted">
+          <item>Open the simulation model “DTMF.mdl”</item>
+          <item>In order to select the digit double click the DTMF generator subsystem and enter the digits to be sent as follows:</item>
+        </list>
+        <figure id="id7463651"><media id="id1167013759504" alt=""><image src="../../media/graphics5-4d72.jpg" mime-type="image/jpeg"/></media>
+<caption>"Dialing" DTMF Digits</caption>
+        </figure>
+
+        <list id="id10867025" list-type="bulleted">
+          <item>Activate the simulation, the detected digits will be displayed as shown:</item>
+        </list>
+<figure id="id10807086"><media id="id5779146" alt=""><image src="../../media/graphics6-6351.jpg" mime-type="image/jpeg"/></media>
+<caption>Displaying the Detected DTMF Digits</caption>
+        </figure>
+      </section>
+    </section>
+    <section id="id8585187">
+      <title>Real Time Implementation</title>
+      <para id="id6967531">The real-time implementation environment is shown in Figure 7. The DTMF generation will be performed in MATLAB® and sent to the DSK through the PC sound card. The detected digits will be reported through RTDX. A graphic user interface (GUI) will be built to activate the transmitter, and display the reported digits.</para>
+      <figure id="id9042271">
+        <media id="id1167018514354" alt=""><image src="../../media/graphics7-c33d.jpg" mime-type="image/jpeg"/></media>
+<caption>Real Time Implementation</caption>
+        </figure>
+      <para id="id11206934">The DTMF receiver will be based on the DTMF receiver from the simulation model, with the following changes:</para>
+      <list id="id9771096" list-type="bulleted">
+        <item>Samples will be read from the Analog to Digital Converter, and filtered by a DC removal block<footnote id="id4484225">This block is necessary to convert the unipolar format of the samples to a 2’s complement format for processing by the DSP.</footnote></item>
+        <item>Digits will be reported through RTDX.</item>
+        <item>Addition of the DSK6713 target preference</item>
+      </list>
+      <section id="id7785698">
+        <title>The DTMF Receiver</title>
+        <list id="id11466244" list-type="bulleted">
+          <item>Open the simulation model “DTMF.mdl”, remove all the blocks besides the DTMF receiver block.</item>
+          <item>Open the Simulink ® library browser and add the "C6713DSK".</item>
+        </list>
+        <figure id="id9560506">
+          <media id="id7278035" alt=""><image src="../../media/graphics8-2412.png" mime-type="image/png"/></media>
+<caption>The C6713DSK target Block</caption>
+        </figure>
+
+        <list id="id9441631" list-type="bulleted">
+          <item>Add the “Analog to Digital”” converter (ADC) to your model:</item>
+        </list>
+        <figure id="id10660596">
+          <media id="id1167011719310" alt=""><image src="../../media/graphics9-cfea.png" mime-type="image/png"/></media>
+<caption>The ADC target Block</caption>
+        </figure>
+        <figure id="id11489052">
+          <media id="id1167016158970" alt=""><image src="../../media/graphics10-8487.png" mime-type="image/png"/></media>
+<caption>The ADC Block Configuration</caption>
+        </figure>
+
+        <list id="id10409420" list-type="bulleted">
+          <item>The “TO RTDX” will be used to report the detected digits to the PC. Add it to your model:</item>
+        </list>
+        <figure id="id9007274">
+          <media id="id1167018272957" alt=""><image src="../../media/graphics11-54bf.png" mime-type="image/png"/></media>
+<caption>The "To RTDX" Block</caption>
+        </figure>
+
+        <figure id="id8482709">
+          <media id="id1167017032927" alt=""><image src="../../media/graphics12-4d8b.png" mime-type="image/png"/></media>
+<caption>The "To RTDX" Block Configuration</caption>
+        </figure>
+
+        <list id="id11557732" list-type="bulleted">
+          <item>Add the “Digital Filter” and “Gain” blocks for DC removal:</item>
+        </list>
+
+          <figure id="id9676516">
+            <media id="id1167010051008" alt=""><image src="../../media/graphics13-22fd.png" mime-type="image/png"/></media>
+<caption>The Digital Filter Block</caption>
+        </figure>
+ <figure id="id11119999">
+          <media id="id1167016977816" alt=""><image src="../../media/graphics14-5425.png" mime-type="image/png"/></media>
+<caption>The Digital Filter Block Configuration</caption>
+        </figure>
+
+        <figure id="id11115524">
+          <media id="id1167016518023" alt=""><image src="../../media/graphics15-12bd.png" mime-type="image/png"/></media>
+<caption>The Gain Block</caption>
+        </figure>
+  
+
+        <figure id="id10365491">
+          <media id="id1167015716351" alt=""><image src="../../media/graphics16-013b.png" mime-type="image/png"/></media>
+<caption>The Gain Block Configuration</caption>
+        </figure>
+ 
+        <list id="id10436092" list-type="bulleted">
+          <item>The DTMF receiver model is shown Figure 17:</item>
+        </list>
+        <figure id="id5286799">
+          <media id="id8866385" alt=""><image src="../../media/graphics17-8270.png" mime-type="image/png"/></media>
+<caption>DTMF Receiver</caption>
+        </figure>
+         <list id="id11617316" list-type="bulleted">
+          <item>Save the model as "DTMF_DSK6713.mdl".</item>
+          <item>Built the model.</item>
+        </list>
+      </section>
+      <section id="id10126445">
+        <title>The User Interface</title>
+        <para id="para-id10126445">
+<!--Empty sections are illegal in CNXML 0.5.  This empty paragraph is a place holder that was added as a byproduct of the word importer.-->
+        </para>
+      </section>
+      <section id="id11323277">
+        <title>Functionality</title>
+        <para id="id11364612">The GUI will perform the following functions:</para>
+        <list id="id9632569" list-type="bulleted">
+          <item>Initialization: Initialize the RTDX interface and loading the DTMF Receiver program we have built in the last section to the DSK.</item>
+          <item>Generate the DTMF signal samples: The GUI will enable the user to select a sequence of 11 digits<footnote id="id1167011853862">If the user selects less than 11 digits, the sequence is padded with DTMF digit '1'. </footnote> to be transmitted. It will create the samples of the DTMF signal based on this selection, and send them to the sound card.</item>
+          <item>Display the detected digits reported by the DSK</item>
+        </list>
+      </section>
+      <section id="id10605539">
+        <title>Description</title>
+        <para id="id5269909">The desired GUI is shown in Figure 18</para>
+        <figure id="id11463037">
+          <media id="id6897773" alt=""><image src="../../media/graphics18-917d.png" mime-type="image/png"/></media>
+<caption>DTMF GUI</caption>
+        </figure>
+            <para id="id10067372">It will enable the user to:</para>
+        <list id="id8974441" list-type="bulleted">
+          <item>Dial the digits: every digit dialed is added to a specific buffer, and displayed under the “Dialed Digits” label.</item>
+          <item>Delete the last digit</item>
+          <item>Clear all the digits</item>
+          <item>Send: Create the DTMF signal from the digits selected<footnote id="id8194195">The DSK operates with a buffer of 11 digits so if the user dialed less then 11 digits we are padding them to 11 in the MATLAB. </footnote>. A dual-tone signal will be created for each digit. Silence will be inserted between consecutive digits. This signal is sent to the sound blaster using the “sound” command in MATLAB. </item>
+          <item>Display: Digits reported by the DSK will be displayed under the “Detected Digits” label.</item>
+        </list>
+      </section>
+      <section id="id9871730">
+        <title>The Procedure</title>
+        <list id="id9148136" list-type="bulleted">
+          <item>Activate the GUIDE (Graphic User Interface Integrated Development Environment in MATLAB.</item>
+          <item>Open a new GUI and name it DTMF</item>
+        </list>
+        <list id="id12039134" list-type="bulleted">
+          <item>Add 12 Push buttons for the keypad and set their String property to the proper values (0-9,*,#) using the property inspector.</item>
+          <item>Add the Send, Clear and Delete buttons</item>
+          <item>Add 2 Edit Texts objects for display</item>
+          <item>You may now add the labels (static texts):<list id="id6014308" list-type="bulleted"><item>“Dialed Digits” </item><item>“Detected Estimation” </item><item>“DTMF Transmitter”</item></list></item>
+          <item>Press the “play” button to open the MATLAB script. Name the script “DTMF.m”. </item>
+          <item>Enter the Initialization (DTMF_OpeningFcn ) as shown:</item>
+        </list>
+<code id="id8012638" display="block">
+function DTMF_OpeningFcn(hObject, eventdata, handles, varargin)
+modelName = gcs;
+CCS_Obj = connectToCCS(modelName);
+% Identify RTDX channel names/modes
+chan_struct(1).name = 'OutputDigit';
+chan_struct(1).mode = 'r';
+handles.RTDX_chan1=chan_struct(1);
+% Identify RTDX host buffer parameters
+RTDX_config_struct.Buffsize= 32768;
+RTDX_config_struct.Nbuffers = 4;
+RTDX_config_struct.Mode = 'continuous';
+CodegenDir = fullfile(pwd, ['DTMF_RT' '_c6000_rtw']);
+OutFile = fullfile(CodegenDir, ['DTMF_RT' '.out']);
+%Load is needed for RTDX setup
+CCS_Obj.load(OutFile,20);
+% Set up RTDX
+r = setupRTDX(CCS_Obj, chan_struct, RTDX_config_struct);
+handles.pipe=r;
+handles.CCS_Obj=CCS_Obj;
+handles.output = hObject;
+CCS_Obj.run;     
+% Enable all RTDX channels
+r.enable('all');
+%The buffer that stores the user input digits
+A=[];
+handles.A=A;
+% flag that tells if the gui needs to clear the dialed string or 
+%the next digit joins the previous string: 
+handles.initFlag=0;
+handles.maxSize=11;
+handles.freqTable=generateTable();
+% Update handles structure
+guidata(hObject, handles);
+</code>
+<para id="id8528779">This function will run after activating the GUI. It will then load the DSK, initialize the RTDX interface, and initialize a table of samples for each digit, by calling the generateTable auxiliary function:</para>
+<code id="id8012555" display="block">
+function res=generateTable()
+t=(1:256*6)/8192;
+res(1,:)=sin(2*pi*697*t)+sin(2*pi*1209*t);
+res(2,:)=sin(2*pi*697*t)+sin(2*pi*1336*t);
+res(3,:)=sin(2*pi*697*t)+sin(2*pi*1477*t);
+res(4,:)=sin(2*pi*770*t)+sin(2*pi*1209*t);
+res(5,:)=sin(2*pi*770*t)+sin(2*pi*1336*t);
+res(6,:)=sin(2*pi*770*t)+sin(2*pi*1477*t);
+res(7,:)=sin(2*pi*852*t)+sin(2*pi*1209*t);
+res(8,:)=sin(2*pi*852*t)+sin(2*pi*1336*t);
+res(9,:)=sin(2*pi*852*t)+sin(2*pi*1477*t);
+res(10,:)=sin(2*pi*941*t)+sin(2*pi*1209*t);
+res(11,:)=sin(2*pi*941*t)+sin(2*pi*1336*t);
+res(12,:)=sin(2*pi*941*t)+sin(2*pi*1477*t);
+</code>
+
+        <list id="id10736404" list-type="bulleted">
+          <item>Enter the handle Button function:</item>
+        </list>
+<code id="id8012535" display="block">
+      function handleButton(hObject,handles,k)
+%get the digits buffer
+A=handles.A;
+%if we have to erase so we are doing it here:
+if handles.initFlag==1
+    handles.initFlag=0;
+    A=[];
+end
+%check if the string is too long with the new digit:
+if length(A)==handles.maxSize
+    fprintf('Error: too many digits\n');
+    return;
+end
+%concatenate the new digit to the existing buffer
+A=[A k];
+handles.A=A;
+set(handles.text1, 'String', strrep(strrep(strrep(int2str(A),'10','*'),'11','0'),'12','#'));    
+guidata(hObject,handles);
+ 
+% invoked when the user dials '1':
+function pushbutton1_Callback(hObject, eventdata, handles)
+handleButton(hObject,handles,1);
+% invoked when the user dials '2':
+function pushbutton2_Callback(hObject, eventdata, handles)
+handleButton(hObject,handles,2);
+. . .
+</code>
+
+<para id="id10935496">This function will be activated, every time the user pushes a digit button in the keypad. The digit will be displayed under the “Dialed Digits” label.</para>
+        <list id="id11515236" list-type="bulleted">
+          <item>The following function will be activated by the “Send” button:</item>        </list>
+<code id="id8012005" display="block">
+%input: digits and handle to the signals table
+%output: buffer that contains the DTMF samples for the digits.
+function res=buildXmt(handles,A)
+res=[];
+for k=1 : length(A)
+    freqTable=handles.freqTable;
+    %place the next digit and then zeros (space)
+    res=[res freqTable(A(k),:) zeros(1,256*6);];
+end
+ 
+%The Send Button Handler:
+function pushbutton13_Callback(hObject, eventdata, handles)
+r=handles.pipe;
+A=handles.A;
+padding=0;
+if length(A)==0
+    return
+end
+% if dialed less than 11 digits pad to 11 digits
+if length(A)&lt;11
+     padding=11-length(A);
+    A=[A ones(1,11-length(A))];
+end
+%build the Send Buffer
+xmt=0.5*buildXmt(handles,A);
+%Transmit DTMF signals buffer
+sound(xmt,8192)
+%Wait for end of detection
+pause(4)
+%read the digits from the rtdx:
+num_of_msgs = msgcount(r,'OutputDigit');
+r.flush('OutputDigit',num_of_msgs-1);
+ y=r.readmsg(handles.rtdx_chan1.name, 'double',1);
+y=y(1:end-padding);
+ 
+%Update the upper label with the digits read from dsk estimation
+set(handles.text4, 'String', strrep(strrep(strrep(int2str(y),'10','*'),'11','#'),'20','*')); 
+handles.initFlag=1;
+guidata(hObject, handles);
+</code>
+        <para id="id11128542">It will generate the DTMF samples Buffer, based on the “User Dialed” information. The samples will be sent to the sound-card. The program will then monitor the RTDX channel to receive the digits reported by the DSK.</para>
+        <list id="id9467125" list-type="bulleted">
+          <item>Enter the functions activated by the “Clear” and “delete” push buttons:</item>
+        </list>
+<code id="id8072555" display="block">
+% Delete one digit.
+function pushbutton14_Callback(hObject, eventdata, handles)
+A=handles.A;
+if length(A)==0
+    return
+end
+A=A(1:end-1);
+set(handles.text1, 'String', strrep(strrep(strrep(int2str(A),'10','*'),'11','0'),'12','#')); 
+handles.A=A;
+guidata(hObject, handles);
+ 
+ 
+%Clear all the dialed digits.
+function pushbutton15_Callback(hObject, eventdata, handles)
+A=handles.A;
+A=[];
+set(handles.text1, 'String',
+strrep(strrep(strrep(int2str(A),'10','*'),'11','0'),'12','#')); 
+handles.A=A;
+guidata(hObject, handles);
+</code>
+      </section>
+      <section id="id7232956">
+        <title>Running the Example</title>
+        <para id="id8570920">The system used to run this example is shown in Figure 7. </para>
+        <para id="id8676002">Activate the GUI (DTMF.fig). Enter an array of digits and compare them to those detected by the DSK. </para>
+      </section>
+    </section>
+    <section id="id9454181">
+      <title>Things to Try</title>
+      <para id="id11346955">The original algorithm (simulation) runs in a "noiseless" environment. You are invited to check the performance of the real-time model, and eventually change the algorithm to reduce its sensitivity to noise. </para>
+      <para id="id10218632">You may also add new buttons for DTMF parameters (level, frequency deviation, etc …), and test the DTMF receiver performance against these parameters.</para>
+      <para id="id3216506">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+    </section>
+  </content>
+</document>

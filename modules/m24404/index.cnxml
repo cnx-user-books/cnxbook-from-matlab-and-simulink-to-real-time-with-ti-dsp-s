@@ -1,0 +1,591 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Finding Shapes in Images</title>
+  <metadata>
+  <md:content-id>m24404</md:content-id><md:title>Finding Shapes in Images</md:title>
+  <md:abstract>In this module, you will use the Hough Transform, Find Local Maxima, and Hough Lines blocks to find the longest line in an image. The algorithm used for line detection will be the basis of a lane detection procedure.</md:abstract>
+  <md:uuid>87b6d22e-00ed-48e4-83ce-661b39d7a142</md:uuid>
+</metadata>
+
+<content>
+    <section id="id7851642">
+      <title>Introduction</title>
+      <para id="id8874487">In this section, you will use the Hough Transform, Find Local Maxima, and Hough Lines blocks to find the longest line in an image. In the second step, the algorithm used for line detection will be the basis of a lane detection procedure. </para>
+      <section id="id8539013">
+        <title>Hardware and Software Requirements </title>
+        <para id="id9452408">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id7167674" list-type="bulleted">
+          <item>MATLAB® R2008a </item>
+          <item>Code Composer Studio (CCS) v3.3</item>
+          <item>Texas Instruments DM6437 hardware.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="Shape Detection.ppt">Shape Detection.ppt</link></item>
+	<item>Simulink Model for Line Detection Simulation - <link resource="LineDetection.mdl">LineDetection.mdl</link></item>
+	<item>Simulink Model for Lane Detection Simulation - <link resource="LaneDetection.mdl">LaneDetection.mdl</link></item>
+	<item>Source Image for Line - <link resource="circuit.tif"> circuit.tif</link></item>
+	<item>Video-clip for Lane Detection - <link resource="viplane.avi"> viplane.avi</link></item>
+	<item>MATLAB script for Line Detection - <link resource="linedetection_script.m"> linedetection_script.m</link></item>
+	<item>Simulink Model for Real-Time Line Detection - <link resource="LineDetectionDSK6416.mdl.mdl"> LineDetectionDSK6416.mdl</link></item>
+	<item>Simulink Model for Real-Time Lane Detection - <link resource="LaneDetection.mdl"> LaneDetection.mdl</link></item>
+	<item>MATLAB script for Lane Detection - <link resource="lane_tcpip_script.m"> lane_tcpip_script.m</link></item>
+	<item>Simulink Model for Real-Time Lane Detection (DM6437) - <link resource="lane_dm6437_tcpip.mdl"> lane_dm6437_tcpip.mdl</link></item>
+	<item>Simulink Model for Real-Time Lane Detection (PC) - <link resource="lane_pcl_tcpip.mdl"> lane_pcl_tcpip.mdl</link></item>
+</list>
+</section>
+    </section>
+    <section id="id8263470">
+      <title>Line Detection</title>
+      <para id="id7267239">In this session we will show how to create the line detection model , and how it can be integrated in Simulation and Real-Time Implementations.</para>
+      <figure id="id8384662"><media id="id1171977566831" alt=""><image src="../../media/graphics1-143b.jpg" mime-type="image/jpeg"/></media><caption>The Line Detection Process</caption></figure>
+      
+      <section id="id7789349">
+        <title>Simulation</title>
+        <para id="id8850392">Open the “<link url="http://cnx.org/Members/jfaing/m23996/stills_sim.mdl">stills_R_W.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23996/latest/">A Framework for Image Processing with the DSK6416</link>" module).</para>
+        <para id="id9205429">Add to it the blocks shown in the following table:</para>
+        <table id="id9205434" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Block</entry>
+                <entry>Library</entry>
+                <entry>Quantity</entry>
+              </row>
+              <row>
+                <entry>Edge Detection</entry>
+                <entry>Video and Image Processing Blockset / Analysis &amp; Enhancement</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Hough Transform</entry>
+                <entry>Video and Image Processing Blockset / Transforms</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Find Local Maxima</entry>
+                <entry>Video and Image Processing Blockset / Statistics</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Selector</entry>
+                <entry>Simulink®/ Signal Routing</entry>
+                <entry>2</entry>
+              </row>
+              <row>
+                <entry>Variable Selector</entry>
+                <entry>Signal Processing Blockset / Signal Management / Indexing</entry>
+                <entry>2</entry>
+              </row>
+              <row>
+                <entry>Terminator</entry>
+                <entry>Simulink / Sinks</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Hough Lines</entry>
+                <entry>Video and Image Processing Blockset / Transforms</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Draw Shapes</entry>
+                <entry>Video and Image Processing Blockset / Text &amp; Graphics</entry>
+                <entry>1</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id9232573"/>
+        <para id="id9328310">You are now ready to set your block parameters.</para>
+        <para id="id8930223">Use the Image From Workspace block to import your image from the MATLAB workspace. </para>
+        <para id="id7795004">Set the block parameters as follows:</para>
+        <list id="id7795008" list-type="bulleted">
+          <item>Main pane, Value = I </item>
+          <item>Main pane, Output port labels = I</item>
+        </list>
+        <para id="id7273471">Use the Edge Detection block to find the edges in the intensity image. This process improves the efficiency of the Hough Lines block as it reduces the image area over which the block searches for lines. The block also converts the image to a binary image, which is the required input for the Hough Transform block. Use the default parameters.</para>
+        <para id="id7971781">Use the Video Viewer block to display the edges found by the Edge Detection block. Set the Input image type parameter to Intensity.</para>
+        <para id="id8609955">Use the Hough Transform block to compute the Hough matrix by transforming the input image into the rho-theta parameter space. The block also outputs the rho and theta values associated with the Hough matrix. Set the block parameters as follows:</para>
+        <list id="id8059872" list-type="bulleted">
+          <item>Theta resolution (radians) = pi/360</item>
+          <item>Select the Output theta and rho values check box.</item>
+        </list>
+        <figure id="id8870055">
+          <media id="id1171967824316" alt=""><image src="../../media/graphics2-27d7.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id9596788">Use the Find Local Maxima block to find the location of the maximum value in the Hough matrix. Set the block parameters as follows:</para>
+        <list id="id8188739" list-type="bulleted">
+          <item>Maximum number of local maxima (N) = 1</item>
+          <item>Select the Input is Hough matrix spanning full theta range check box.</item>
+        </list>
+        <figure id="id9352856"><media id="id1171971770969" alt=""><image src="../../media/graphics3-db4b.jpg" mime-type="image/jpeg"/></media></figure>
+        <para id="id9216921">Use the Selector blocks to separate the indices of the rho and theta values, which are output at the Idx port, that are associated with the maximum value in the Hough matrix. Set the Selector block parameters as follows:</para>
+        <list id="id8902326" list-type="bulleted">
+          <item>Index mode = Zero-based</item>
+          <item>Elements (-1 for all elements) = 0</item>
+          <item>Input port width = 2</item>
+        </list>
+        <para id="id9102247">Set the Selector1 block parameters as follows:</para>
+        <list id="id9102251" list-type="bulleted">
+          <item>Index mode = Zero-based</item>
+          <item>Elements (-1 for all elements) = 1</item>
+          <item>Input port width = 2</item>
+        </list>
+        <para id="id7477423">Use the Variable Selector blocks to index into the rho and theta vectors and determine the rho and theta values that correspond to the longest line in the original image. Set the parameters of the Variable Selector blocks as follows:</para>
+        <list id="id9559462" list-type="bulleted">
+          <item>Select = Columns</item>
+          <item>Index mode = Zero-based</item>
+        </list>
+        <para id="id8308620">Use the Hough Lines block to determine where the longest line intersects the edges of the original image. You use these coordinates to superimpose a white line on the original image. Use the default parameters. </para>
+        <para id="id9385679">Use the Draw Shapes block to draw a white line over the longest line on the original image. Set the block parameters as follows:</para>
+        <list id="id3036479" list-type="bulleted">
+          <item>Input image type = Intensity</item>
+          <item>Shape = Lines</item>
+          <item>Border intensity = White</item>
+        </list>
+        <para id="id7574557">Use the Video Viewer block to display the original image with a white line superimposed over the longest line in the image. Set the Input image type parameter to Intensity. </para>
+        <para id="id8137406">Connect the blocks as shown in the figure below. Use the file <link resource="circuit.tif">circuit.tif</link> as input.</para>
+        <para id="id8496979"><figure id="id8262471"><media id="id1171967193579" alt=""><image src="../../media/graphics4-aab8.jpg" mime-type="image/jpeg"/></media></figure>Create a Subsystem for the Hough algorithm. Select the blocks as shown in the following picture:</para>
+        <para id="id8291095"><figure id="id8135980"><media id="id4734908" alt=""><image src="../../media/graphics5-1f84.jpg" mime-type="image/jpeg"/></media></figure>In the main menu, click on Edit/Create Subsystem (you may also enter Ctrl+G), as follows:</para>
+        <figure id="id7441727">
+          <media id="id1171970276313" alt=""><image src="../../media/graphics6-bc6e.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id9477802">Your model should resemble the following figure:</para>
+        <figure id="id8121713">
+          <media id="id5167997" alt=""><image src="../../media/graphics7-bb30.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8495354">Double-click the "Hough Algorithm", and you should see:</para>
+        <figure id="id8427433">
+          <media id="id1171967185633" alt=""><image src="../../media/graphics8-2194.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id7787024">Create a Subsystem for the “Line Drawing and Image Construction”. Select the blocks as shown in the following picture:</para>
+        <figure id="id8615851">
+          <media id="id1171967529234" alt=""><image src="../../media/graphics9-bc3f.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8123672">In the main menu, click on Edit/Create Subsystem (you may also enter Ctrl+G), </para>
+        <para id="id7017929">Your model should resemble the following figure:</para>
+        <figure id="id9210674">
+          <media id="id8760481" alt=""><image src="../../media/graphics10-21dd.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8214380">Double-click the " Line Drawing and Image Construction ", and you should see:</para>
+        <figure id="id9209558">
+          <media id="id1171967375559" alt=""><image src="../../media/graphics11-6a8d.jpg" mime-type="image/jpeg"/></media>
+                   </figure>
+        <para id="id7267454">Create a Subsystem for the “Line Detection”. Select the blocks as shown in the following picture:</para>
+        <figure id="id8299530">
+          <media id="id1171966970777" alt=""><image src="../../media/graphics12-d66f.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8706612">The model should look as follows:</para>
+        <figure id="id9109218">
+          <media id="id1171967418091" alt=""><image src="../../media/graphics13-6ab0.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id7478992">Save the file as "LineDetection.mdl"</para>
+        <para id="id7478997">Set the configuration parameters. Open the Configuration dialog box by selecting Configuration Parameters from the Simulation menu. Set the parameters as follows:</para>
+        <list id="id8870030" list-type="bulleted">
+          <item>Solver pane, Stop time = 0</item>
+          <item>Solver pane, Type = Fixed-step</item>
+          <item>Solver pane, Solver = discrete (no continuous states)</item>
+        </list>
+        <para id="id7851108">Run your model.</para>
+        <para id="id7851112">The Video Viewer window displays the edges found in the original image in white and the background in black. To view the image at its true size, right-click the window and select Set Display To True Size.</para>
+        <para id="id6902236">Running this gives you the images in Figure 1.</para>
+        <figure id="id7519366"><media id="id1171966990384" alt=""><image src="../../media/graphics14-28b3.jpg" mime-type="image/jpeg"/></media><caption>Line Detection</caption></figure>
+        
+        <para id="id7860508">The Video Viewer1 window displays the original image with a white line drawn over the longest line in the image.</para>
+        
+        <para id="id7852336">You may repeat the simulation here to experiment the various algorithms with different thresholds.</para>
+      </section>
+      <section id="id9153352">
+        <title>Real Time Implementation</title>
+        <para id="id9542718">Open the “<link url="http://cnx.org/Members/jfaing/m23996/stills_sim.mdl">stills_R_W.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23996/latest/">A Framework for Image Processing with the DSK6416</link>" module).</para>
+        <para id="id8539440">Copy the "Line Detection" block from "LineDetection.mdl".</para>
+        <para id="id8539445">Connect the various blocks as shown in . Save the model (LineDetectionPictureDSK6416.mdl).</para>
+        <figure id="id7346035"><media id="id1171973869511" alt=""><image src="../../media/graphics15-6f0c.jpg" mime-type="image/jpeg"/></media><caption>The Edge Detection Real Time Implementation Model for Stills Images</caption></figure>
+        
+        <para id="id9103990">Build the project. Double-click the “Build Project” block.</para>
+        <para id="id7826708">Load the project. Double-click the “Load Project” block.</para>
+        <para id="id9103995">Run the target. Double-click the “Run” block. </para>
+        <para id="id7666071">Plotting the input and output in MATLAB, you will see :</para>
+        <para id="id7170222"><figure id="id9223663"><media id="id5308210" alt=""><image src="../../media/graphics16-3bab.jpg" mime-type="image/jpeg"/></media><caption>Edge Detection using the DSK6416</caption></figure></para>
+      </section>
+    </section>
+    <section id="id7373151">
+      <title>Lane Detection</title>
+      <para id="id9563137">In this session we will show how to create the lane detection model, as an extension of the Line Detection Model, introduced in the previous chapter.</para>
+      <figure id="id9431908"><media id="id1171967290022" alt=""><image src="../../media/graphics17-8442.jpg" mime-type="image/jpeg"/></media><caption>The Lane Detection Process</caption></figure>
+      
+      <section id="id9519797">
+        <title>Simulation</title>
+        <para id="id7886947">Open the “<link url="http://cnx.org/Members/jfaing/m23999/video_sim.mdl">video_sim.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23999/latest/">A Framework for Video Processing with the DM6437 DVDP</link>" module).
+
+Copy the “line Detection” block in this model into the “video_sim.mdl”, and connect it to the I/O blocks as follows:</para>
+        <figure id="id7345994">
+          <media id="id1171970403404" alt=""><image src="../../media/graphics18-4dbb.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8302415">Double-Click the “Line Detection” block. In the open window, add the “Submatrix block from the Signal Processing Toolbox (EIhter from the “Math Functions / Matrices and Linear Algebra / Matrix Operations” group or from the “Signal Management / Indexing” group. Connect it between the input node and the “Edge Detection Block” as follows:</para>
+        <figure id="id7168971">
+          <media id="id1171969591064" alt=""><image src="../../media/graphics19-4efe.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id7686024">Configure the “Submatrix” block as follows:</para>
+        <figure id="id7939617">
+          <media id="id1171978014033" alt=""><image src="../../media/graphics20-f25b.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id7218676">This will define the Region of Interest (ROI). Rename the block to “Define ROI”</para>
+        <para id="id10439993">Select the “Edge Detection Block”, and create a Subsystem for the “Enhanced Detection”, as shown in the following picture:</para>
+        <para id="id9247010">
+          <figure id="id7139408">
+            <media id="id1171967316008" alt=""><image src="../../media/graphics21-693f.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+        </para>
+        <para id="id9689784">The model should look as follows:</para>
+        <figure id="id8292048">
+          <media id="id1171967596450" alt=""><image src="../../media/graphics22-9874.png" mime-type="image/png"/></media>
+        </figure>
+        <para id="id9431078">Double Click the “Enhanced Edge Detection” block. Rename the Input port to “ROI”, and the output port to “Binary Image”</para>
+        <figure id="id7748339">
+          <media id="id1171974604612" alt=""><image src="../../media/graphics23-ac37.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8732994">Add to it the blocks shown in the following table:</para>
+        <table id="id8657573" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Block</entry>
+                <entry>Library</entry>
+                <entry>Quantity</entry>
+              </row>
+              <row>
+                <entry>2-D Histogram</entry>
+                <entry>Video and Image Processing Blockset / Statistics</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Maximum</entry>
+                <entry>Signal Processing Blockset/ Statistics</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Data Type Conversion</entry>
+                <entry>Simulink/ Signal Attributes</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Bias</entry>
+                <entry>Simulink / Math Operations </entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Gain</entry>
+                <entry>Simulink / Math Operations </entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Relational Operator</entry>
+                <entry>Simulink / Logic and Bit Operations</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Logical Operator</entry>
+                <entry>Simulink / Logic and Bit Operations</entry>
+                <entry>1</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id8033666">Place the blocks so that your model resembles the following figure. Create the “Calculated threshold based on histogram” with the selected blocks.</para>
+        <figure id="id8060723">
+          <media id="id1171972569706" alt=""><image src="../../media/graphics24-9cc6.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id7194793">The model should look as shown in the following picture. Create the “Histogram based binary thresholding” with the selected blocks.</para>
+        <figure id="id8154224">
+          <media id="id7580012" alt=""><image src="../../media/graphics25-da18.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id9115526">Double-click the “Hough Algorithm” block in the model. You should change it to select the two longest lines. </para>
+        <para id="id9115530"><figure id="id8307046"><media id="id1171974356687" alt=""><image src="../../media/graphics26-d7aa.jpg" mime-type="image/jpeg"/></media></figure>You should change the configuration of the selector blocks as follows: </para>
+        <figure id="id8716958">
+          <media id="id1171965634915" alt=""><image src="../../media/graphics27-dff9.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id9330191">Add an “Embedded MATLAB function” block (from the “Simulink/User-Defined Functions” group). Double-Click the block and enter the following MATLAB function:</para>
+<code id="first_codeblock" display="block">
+function [Thetas, Rhos] = fcn( thetas,rhos)
+% This block supports an embeddable subset of the MATLAB language.
+% See the help menu for details.
+
+%initialise a frame count
+persistent count;
+if isempty(count)
+   count = 0;
+end
+
+%remember previous outputs
+persistent lastRhos;
+persistent lastThetas;
+
+%initialise to same as first input for first entry into function
+if isempty(lastRhos)
+    lastRhos = rhos;
+end
+if isempty(lastThetas)
+    lastThetas = thetas;
+end
+
+%Assume that all is OK initially
+Rhos = rhos;
+Thetas = thetas;
+
+if count == 4
+   %after the 4th frame, engage the test logic 
+   for I = 1:length(rhos)
+         if (abs(rhos(I) - lastRhos(I)) &gt; 30) || (abs(thetas(I) - lastThetas(I)) &gt; 10*(pi/180))
+   %too much change - just use the old values
+   % outR(I) = lastRhos(I);
+   % outT(I) = lastThetas(I);
+       Rhos(I) = lastRhos(I); 
+       Thetas(I) = lastThetas(I);
+      end
+     end
+
+else
+   %otherwise just output the computed values
+    count = count+1;
+   end
+
+%assign outputs
+  %Rhos = outR;
+  %Thetas = outT;
+
+%remember outputs for next time
+lastRhos = Rhos;
+lastThetas = Thetas;</code>
+        <para id="id8624781">Connect the block as shown in the following picture:</para>
+        <figure id="id9102555">
+          <media id="id1171967576454" alt=""><image src="../../media/graphics28-57a5.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8656443">In the main model, double-click the “Line Drawing and Image Construction” block.</para>
+        <para id="id9431216">Change the configuration of the “Draw Lines” block as follows:</para>
+        <figure id="id9451338">
+          <media id="id1171977730335" alt=""><image src="../../media/graphics29-dc0e.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id9398136">Now, it will draw the polygon based on the two longest lines.</para>
+        <para id="id8855812">Add the following blocks to the subsystem:</para>
+        <table id="id8855816" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Block</entry>
+                <entry>Library</entry>
+                <entry>Quantity</entry>
+              </row>
+              <row>
+                <entry>Concatenate</entry>
+                <entry>Simulink /Math Operations</entry>
+                <entry>2</entry>
+              </row>
+              <row>
+                <entry>Selector</entry>
+                <entry>Simulink / Signal Routing</entry>
+                <entry>3</entry>
+              </row>
+              <row>
+                <entry>Gain</entry>
+                <entry>Simulink / Math Operations </entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Relational Operator</entry>
+                <entry>Simulink / Logic and Bit Operations</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Logical Operator</entry>
+                <entry>Simulink / Logic and Bit Operations</entry>
+                <entry>1</entry>
+              </row>
+              <row>
+                <entry>Submatrix</entry>
+                <entry>Signal Processing Toolbox:“Math Functions / Matrices and Linear Algebra / Matrix Operations” or “Signal Management / Indexing”</entry>
+                <entry>1</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id7170452">Connect the blocks as follows:</para>
+        <para id="id7170457"><figure id="id9029805"><media id="id2607419" alt=""><image src="../../media/graphics30-ccaa.jpg" mime-type="image/jpeg"/></media></figure>The blocks should be configured as follows:</para>
+        <list id="id7345333" list-type="bulleted">
+          <item>Selector5:</item>
+        </list>
+        <figure id="id9422464">
+          <media id="id4435825" alt=""><image src="../../media/graphics31-eadf.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <list id="id7756770" list-type="bulleted">
+          <item>Selector4:</item>
+        </list>
+        <figure id="id8152399">
+          <media id="id1171974111020" alt=""><image src="../../media/graphics32-dcd5.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <list id="id8973424" list-type="bulleted">
+          <item>Selector3:</item>
+          <item/>
+        </list>
+        <list id="id8445814" list-type="bulleted">
+          <item>Vertices Matrix:</item>
+          <item><figure id="id9209132"><media id="id8604838" alt=""><image src="../../media/graphics34-c7d9.jpg" mime-type="image/jpeg"/></media></figure>Draw Lane</item>
+        </list>
+        <figure id="id7998360">
+          <media id="id1171965930856" alt=""><image src="../../media/graphics35-8ffc.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <list id="id7716651" list-type="bulleted">
+          <item>Superposition of Lane and Original Image</item>
+        </list>
+        <figure id="id7218661">
+          <media id="id1171967813279" alt=""><image src="../../media/graphics36-007c.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <list id="id8769334" list-type="bulleted">
+          <item>Extraction</item>
+        </list>
+        <figure id="id8978973">
+          <media id="id1171969647340" alt=""><image src="../../media/graphics37-5171.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8225713">Rename the “Line Detection” to “Lane Detection”. Save the model as “LaneDetection.mdl” The model should look as follows:</para>
+        <figure id="id8027737">
+          <media id="id4823098" alt=""><image src="../../media/graphics38-f91d.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8034641">Double Click the Lane Detection block. You may rename the blocks’ names. It will look as follows:</para>
+        <figure id="id7481263">
+          <media id="id4826227" alt=""><image src="../../media/graphics39-9b97.jpg" mime-type="image/jpeg"/></media>
+        </figure>
+        <para id="id8930498">Run your model.</para>
+        <para id="id9087624">Running this gives you the images in Figure 7.</para>
+        <figure id="id8027313"><media id="id1171966123351" alt=""><image src="../../media/graphics40.jpg" mime-type="image/jpeg"/></media><caption>Edge Detection on a Video Stream</caption></figure>
+        
+      </section>
+      <section id="id6899980">
+        <title>Real Time Implementation using TCP/IP</title>
+        <section id="id7840908">
+          <title>Procedure</title>
+          <para id="id7262709">Open the “<link url="http://cnx.org/Members/jfaing/m23999/RW_dm6437_tcpip.mdl">RW_dm6437_tcpip.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23999/latest/">A Framework for Video Processing with the DM6437 DVDP</link>" module).
+</para>
+          <para id="id8306132">Save the model as "lane_dm6437_tcpip.mdl".</para>
+          <para id="id8123396">Change the name of the “R_W Algorithm” block to “Lane Algorithm”. </para>
+          <figure id="id8028022"><media id="id1171968372827" alt=""><image src="../../media/graphics41-8fa9.jpg" mime-type="image/jpeg"/></media><caption>The Real Time Implementation Model for Lane Detection </caption></figure>
+          
+          <para id="id7267510">Right click on the "Build/Reload &amp; Run" subsystem, choose “Block Properties”. Go to the Callbacks tab, and under OpenFcn* enter: “lane_tcpip_script('lane_pcl_tcpip');”, as shown in the following picture:</para>
+          <para id="id7267514">
+            <figure id="id8152081">
+              <media id="id1171970505067" alt=""><image src="../../media/graphics42.jpg" mime-type="image/jpeg"/></media>
+            </figure>
+          </para>
+          <para id="id9074009">Double-click the “Task” block and make the same changes as shown:</para>
+          <figure id="id9074014">
+            <media id="id1171966340486" alt=""><image src="../../media/graphics43.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id8073640">Double-Click the “Lane Algorithm” subsystem.</para>
+          <para id="id9533171">Copy "Lane Detection and Tracking" block from "LaneDetection.mdl" into this model as shown. </para>
+          <figure id="id8768729">
+            <media id="id1171967217011" alt=""><image src="../../media/graphics44.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id9047676">Configure the "TCP/IP Receive" block :</para>
+          <figure id="id7482470">
+            <media id="id6836491" alt=""><image src="../../media/graphics45.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <figure id="id8235639">
+            <media id="id1171966981333" alt=""><image src="../../media/graphics46.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id9952750">Configure the "TCP/IP Send" block :</para>
+          <figure id="id9952698">
+            <media id="id7223886" alt=""><image src="../../media/graphics47.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id4871057">Configure the "Byte Unpack" block :</para>
+          <figure id="id4871072">
+            <media id="id1171980575578" alt=""><image src="../../media/graphics48.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id4870973">Configure the "Byte Pack" block :</para>
+          <figure id="id4871031">
+            <media id="id8473148" alt=""><image src="../../media/graphics49.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id4874279">Open the "RW_pcl_tcpip.mdl" model, created in the "Video R_W" directory.</para>
+          <para id="id4874285">Save the model as "lane_pcl_tcpip.mdl".</para>
+          <para id="id4874289"><figure id="id4874295"><media id="id4505593" alt=""><image src="../../media/graphics50.jpg" mime-type="image/jpeg"/></media></figure> Double-click the “Video Source” block and make the same changes as shown:</para>
+          <figure id="id9742467">
+            <media id="id1171967021878" alt=""><image src="../../media/graphics51.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+          <para id="id9742491">Configure the "TCP/IP Receive" block :</para>
+          <para id="id9742502">
+            <figure id="id9742508">
+              <media id="id2422832" alt=""><image src="../../media/graphics52.jpg" mime-type="image/jpeg"/></media>
+            </figure>
+          </para>
+          <para id="id4873072">Double-click the “Display” block, Double-click the “Data Unpack” block and Configure the "Byte Unpack" block as shown:</para>
+          <figure id="id4873093">
+            <media id="id1171973897811" alt=""><image src="../../media/graphics53.jpg" mime-type="image/jpeg"/></media>
+          </figure>
+<code id="second_codeblock" display="block">
+function lane_tcpip_script(hostModelName)
+% controls host-side TCP/IP processing for 
+% Video Surveillance demo:
+%********** Initialization ********************
+% Get model name
+modelName = gcs;
+
+
+% Connect to CCS
+CCS_Obj = connectToCCS(modelName);
+saved_visibility = CCS_Obj.isvisible;
+CCS_Obj.visible(1);
+
+% Load application
+loadApp(modelName, CCS_Obj);
+
+% Run application
+fprintf('Running application: %s\n', modelName);
+CCS_Obj.run; 
+
+% Allow some time for DHCP address acquisition
+pause(3);
+
+% Retrieve target's host name 
+boardType = get_param([modelName '/IP Config'], 'boardType');
+userPrompt = sprintf('Enter the IP address or the host name of the %s board: ', boardType);
+hostName = inputdlg(userPrompt, 'Target IP address');
+if isempty(hostName)
+    errordlg('You have to provide a valid IP address or host name to run the demo.', 
+...'TCP/IP Surveillance Recording', 'modal');
+     return;
+    end
+hostName = strtrim(hostName{1});
+
+
+% Launch host side UDP receive / Video display model
+fprintf('Launching host side application: %s\n', hostModelName);
+open_system(hostModelName);
+
+% Update host side TCP/IP blocks with target's IP address
+set_param([hostModelName '/TCP//IP Send'], 'Host', hostName);
+set_param([hostModelName '/TCP//IP Receive'], 'Host', hostName);
+fprintf('Click on play button to start running the host side application!\n\n')
+
+%[EOF] tcpip_surveil_script.m </code>
+
+<para id="myparagraph">
+Open a new m-file, copy the following code and save it as "lane_tcpip_script.m" at the same directory as the model.</para>
+        </section>
+      </section>
+      <section id="id4873509">
+        <title>Running the Real-time Model</title>
+        <para id="id4873516">Build load and run the project from the "lane_dm6437l_tcpip.mdl" model. Double-click the "Build / Reload &amp; Run" block.</para>
+        <para id="id4873524">Running the script, you will see: </para>
+        <figure id="id4873531"><media id="id1171967700498" alt=""><image src="../../media/graphics54.jpg" mime-type="image/jpeg"/></media><caption>Real-Time Edge Detection through a TCP/IP Interface</caption></figure>
+        
+      </section>
+    </section>
+  </content>
+</document>

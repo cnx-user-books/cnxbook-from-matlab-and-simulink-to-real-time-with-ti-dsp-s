@@ -1,0 +1,604 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>DC Motor Control</title>
+  <metadata>
+  <md:content-id>m22189</md:content-id><md:title>DC Motor Control</md:title>
+  <md:abstract>This module demonstrates the use of the c28x peripherals and DMC library blocks to control the speed of a DC motor in a closed-loop fashion. This example is based on the "DC Motor Speed Control via RTDX" SIMULINK demo.</md:abstract>
+  <md:uuid>33d99548-dfb2-4b2a-8145-973e029f195d</md:uuid>
+</metadata>
+  <content>
+    <section id="id11404905">
+      <title>Introduction</title>
+      <para id="id7978140">This chapter demonstrates the use of the c28x peripherals and DMC library blocks to control the speed of a DC motor in a closed-loop fashion. This example is based on the "DC Motor Speed Control via RTDX" SIMULINK demo.</para>
+      <para id="id13800110">The target speed of the motor is set by the user in the MATLAB GUI. This value is fed to the Controller (based on the eZDSP-F2812) to change the motor speed. The loop is closed by a tachometer. The controller constantly adjusts the value of the DC voltage applied to the motor to maintain the desired speed. The control loop is shown in the following figure:</para>
+      <figure id="id13988011"><media id="id1170420465316" alt=""><image src="../../media/fig1-8425.JPG" mime-type="image/jpeg"/></media><caption>DC Motor Control Loop</caption></figure>
+
+      <para id="id14018005">The Speed controller comprises two blocks (please refer to Figure 2):</para>
+      <list id="id7687634" list-type="enumerated">
+        <item><label>Speed Control:</label> 
+This block compares the desired speed with the measured speed and generates a digital value proportional to the DC value to be applied to the motor.
+      <figure id="id13988807"><media id="id1170413882607" alt=""><image src="../../media/fig2-fa4c.JPG" mime-type="image/jpeg"/></media><caption>The Speed Controller</caption></figure></item>
+
+        <item><label>Digital to Analog converter:</label>
+   
+ This block is implemented using a PWM signal generator and a Low Pass Filter as shown in Figure 3. This method is described in . 
+The output voltage, generated at the LPF output will be:</item>
+</list>
+      <equation id="id13852654">
+        <m:math>
+          <m:semantics>
+            <m:mrow>
+              <m:mstyle fontsize="12pt">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>V</m:mi>
+                    <m:mo stretchy="false">=</m:mo>
+                    <m:mrow>
+                      <m:mi>D</m:mi>
+                      <m:mo stretchy="false">⋅</m:mo>
+                      <m:msub>
+                        <m:mi>V</m:mi>
+                        <m:mstyle fontsize="8pt">
+                          <m:mrow>
+                            <m:mstyle fontstyle="italic">
+                              <m:mrow>
+                                <m:mtext>ss</m:mtext>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:mrow>
+                        </m:mstyle>
+                      </m:msub>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mrow>
+              </m:mstyle>
+              <m:mrow/>
+            </m:mrow>
+            <m:annotation encoding="StarMath 5.0"> size 12{V=D cdot V rSub { size 8{ ital "ss"} } } {}</m:annotation>
+          </m:semantics>
+        </m:math>
+      </equation>
+      <para id="id8483733">Where:</para>
+      <table id="id11516747" summary="">
+        <tgroup cols="2">
+          <colspec colnum="1" colname="c1"/>
+          <colspec colnum="2" colname="c2"/>
+          <tbody>
+            <row>
+              <entry>
+                <m:math>
+                  <m:semantics>
+                    <m:mrow>
+                      <m:mstyle fontsize="12pt">
+                        <m:mrow>
+                          <m:mi>V</m:mi>
+                        </m:mrow>
+                      </m:mstyle>
+                      <m:mrow/>
+                    </m:mrow>
+                    <m:annotation encoding="StarMath 5.0"> size 12{V} {}</m:annotation>
+                  </m:semantics>
+                </m:math>
+              </entry>
+              <entry>- Generated Voltage</entry>
+            </row>
+            <row>
+              <entry>
+                <m:math>
+                  <m:semantics>
+                    <m:mrow>
+                      <m:mstyle fontsize="12pt">
+                        <m:mrow>
+                          <m:mi>D</m:mi>
+                        </m:mrow>
+                      </m:mstyle>
+                      <m:mrow/>
+                    </m:mrow>
+                    <m:annotation encoding="StarMath 5.0"> size 12{D} {}</m:annotation>
+                  </m:semantics>
+                </m:math>
+              </entry>
+              <entry>- PWM Duty Cycle</entry>
+            </row>
+            <row>
+              <entry>
+                <m:math>
+                  <m:semantics>
+                    <m:mrow>
+                      <m:mstyle fontsize="12pt">
+                        <m:mrow>
+                          <m:msub>
+                            <m:mi>V</m:mi>
+                            <m:mstyle fontsize="8pt">
+                              <m:mrow>
+                                <m:mstyle fontstyle="italic">
+                                  <m:mrow>
+                                    <m:mtext>ss</m:mtext>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:mrow>
+                            </m:mstyle>
+                          </m:msub>
+                        </m:mrow>
+                      </m:mstyle>
+                      <m:mrow/>
+                    </m:mrow>
+                    <m:annotation encoding="StarMath 5.0"> size 12{V rSub { size 8{ ital "ss"} } } {}</m:annotation>
+                  </m:semantics>
+                </m:math>
+              </entry>
+              <entry>- Supply Voltage (3.3 V)</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <figure id="id9603372"><media id="id1170413880432" alt=""><image src="../../media/fig3-16a6.JPG" mime-type="image/jpeg"/></media><caption>Digital to Analog Converter Implementation</caption></figure>
+
+      
+      <para id="id9574265">Figure 4 shows the loop control implementation, based on three components:</para>
+      <list id="id9640229" list-type="enumerated">
+        <item>eZDSP-F2812 (Please refer to )</item>
+        <item>Interface circuit (Please refer to Section )</item>
+        <item>DC Motor Kit (Please refer to Section )</item>
+      </list>
+      <para id="id10602241">
+        <figure id="id13533381"><media id="id1170413877081" alt=""><image src="../../media/fig4-75d1.JPG" mime-type="image/jpeg"/></media><caption>DC Motor Control Loop Implementation</caption></figure>
+      </para>
+      
+      <section id="id9695281">
+        <title>Setup</title>
+        <para id="id12621884">This demo is based on the Spectrum Digital eZdsp-F2812 that is connected to a DC Motor Kit through a dedicated interface circuit. The setup is shown in Figure 5.</para>
+        <figure id="id13121242"><media id="id1170425276866" alt=""><image src="../../media/fig5-5875.JPG" mime-type="image/jpeg"/></media><caption>Setup</caption></figure>
+        
+        <section id="id11580851">
+          <title>The DC Motor Kit</title>
+          
+          <para id="id14009711"><title>Servo amplifier [SA150D]:</title>This unit operates the motor from signals applied to the input sockets 1 or 2, enabling control of the motor speed and reversing its rotation. This example shows speed control only, and will make use input socket 1 only. The servo amplifier is connected to the servo motor by an 8-pin plug and able. Terminals for ± 15 volts and ground (common) are available on this unit.</para>
+          
+          <para id="id11605391"><title>Servo motor with Tachometer [MT150F]:</title>This unit is a DC motor that produces a torque of the order of 8 oz-in (600 gm-cm) at 2A input current. The inertia is about 3x10−5 Kg −m2. The output shaft may be fitted with a brake disc and/or an inertia disc to load the motor. A second shaft on the side of the motor is coupled to the main shaft by 30:1 gears (the smaller shaft rotates slower than the main shaft). The tachometer with terminals +, - and common (ground) is attached to the motor. </para>
+          
+          <para id="id12692983"><title>Power supply [PS150E]:</title>This unit provides the various voltages supplies required for the servo components. There are terminals for ±15 volts, and common (ground). An ammeter is also included. The maximum current is 2 A. An 8-pin socket and cable connects this unit to the servo amplifier.</para>
+        </section>
+        <section id="id9629861">
+          <title>I/F Circuit</title>
+          <para id="id11440472">This circuit was designed as part of the demo that will be described in detail in chapter .</para>
+        </section>
+      </section>
+      <section id="id12623654">
+        <title>Measurement Equipment</title>
+        <list id="id10803988" list-type="enumerated">
+          <item>Signal Generator</item>
+          <item>Voltmeter</item>
+          <item>Oscilloscope.</item>
+          <item>Stroboscope</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Simulink Model for Simulation - <link resource="DCMotorControl.mdl">DCMotorControl.mdl</link></item>
+	<item>MATLAB script for Real-Time - <link resource="speedControlDCLoop.m">speedControlDCLoop.m</link></item>
+	<item>Simulink Model for Real-Time - <link resource="DCMotorControlc2812.mdl">DCMotorControlc2812.mdl</link>
+	</item>
+</list>
+</section>
+
+    </section>
+    <section id="id10995151">
+      <title>System Identification</title>
+      <para id="id12120322">The transfer function of a DC motor can be approximated by a first order model with unknown constants. These constants can be identified experimentally.</para>
+      <para id="id11829529">The tachometer provides the feedback signal for speed control systems. A schematic diagram of the tachometer is given in Figure 6.</para>
+      <figure id="id13867805"><media id="id1170414119464" alt=""><image src="../../media/fig6-280b.JPG" mime-type="image/jpeg"/></media><caption>DC Motor with Tachometer</caption></figure>
+      
+      <para id="id12445969">In this section we will identify the constants in the mathematical models of a DC motor and the tachometer experimentally. The process consists of consists of two parts: </para>
+      <list id="id12464327" list-type="enumerated"><item>Measurement of the tachometer coefficient and the motor constant</item>
+	<item>Measurement of the motor time constant.</item>
+</list>
+      <list id="id11819522" list-type="bulleted"><title>Measurement Equipment</title><item>Signal Generator</item>
+	<item>Voltmeter</item>
+	<item>Oscilloscope.</item>
+	<item>Stroboscope</item>
+</list>
+      <section id="id11904103"><title>Measurement of Tachometer Coefficient and Motor Constant</title>
+<para id="para-id11904103">The tachometer coefficient and motor constant can be measured by generating a control voltage, using the PWM block of the DSP, and measuring:</para>
+        <list id="id10985986" list-type="enumerated">
+          <item>The motor speed using a stroboscope</item>
+          <item>The tachometer output using a voltmeter</item>
+        </list>
+
+      <para id="id13458704">The setup is shown in Figure 7.</para>
+        <figure id="id13153153">
+          <media id="id1170413845919" alt=""><image src="../../media/fig7-b0c5.JPG" mime-type="image/jpeg"/></media><caption>Calibration of the Motor and Tachometer</caption></figure>
+        <para id="id10196106">Figure 8 shows the model that will be used to generate the control voltage.</para>
+        <figure id="id5928332">
+          <media id="id1170413983319" alt=""><image src="../../media/graphics8-016b.png" mime-type="image/png"/></media>
+        <caption>System Identification Model</caption>
+        </figure>
+        <para id="id4455154">The PWM block will be configured to generate a PWM signal with a period of 4096 clock cycles of 75 MHz (please refer to Figure 9).</para>
+        <figure id="id12766316">
+          <media id="id1170420429446" alt=""><image src="../../media/graphics9-5d1b.png" mime-type="image/png"/></media>
+<caption>PWM Configuration</caption>
+                  </figure>
+ 
+        
+        <list id="id10568343" list-type="enumerated"><title>Measurement Procedure:</title><item>Connect the circuit shown in Figure 7.</item>
+	<item>Generate a 0 V input to the DC Motor Kit (Compile Build and Run the model with Duty Cycle=0)</item>
+	<item>Measure the motor speed using the stroboscope and the tachometer voltage using a voltmeter. </item>
+	<item>Repeat step 3 for input voltages in the range 0-15 V. Change the Duty Cycle from 0 to 100% in steps of 10 %.</item>
+	<item>Obtain a plot of tachometer voltage vs. servo amplifier input voltage.</item>
+</list>
+        <para id="id9536016">The ADC input voltage of the DSP should be in the range 0-3V, the therefore the tachometer output voltage must be inverted and scaled down. This is done with the circuit shown in Figure 19. The gain of this circuit is G = - 100/270 = - 0.37, i.e., inverting and attenuating approximately 1/3. The results obtained are shown in Figure 10. </para>
+        <figure id="id10529829">
+          <media id="id1170413921482" alt=""><image src="../../media/graphics10-9f91.jpg" mime-type="image/jpeg"/></media>
+<caption>Speed Measurement</caption>
+          
+        </figure>
+      </section>
+      <section id="id6629047">
+        <title>Measurement of the motor time constant </title>
+        <para id="id13055437">The measurement of the time constant will be obtained by generating a square pulse and measuring the motor response to this stimulus. The principle of operation is shown in Figure 11; the experimental setup is shown in Figure 12.</para>
+        <figure id="id7982553">
+          <media id="id1170420405626" alt=""><image src="../../media/fig11.JPG" mime-type="image/jpeg"/></media>
+<caption>Measurement of the motor time constant</caption>
+         
+        </figure>
+
+        <figure id="id13785192">
+          <media id="id1170413978101" alt=""><image src="../../media/fig12-92d0.JPG" mime-type="image/jpeg"/></media>
+
+<caption>Measurement of the motor time constantMeasurement</caption>
+                  </figure>
+
+        <para id="id9709519">The Function Generator generates pulses, as shown in Figure 13.</para>
+        <figure id="id12503509"><media id="id1170414327281" alt=""><image src="../../media/fig13.JPG" mime-type="image/jpeg"/></media>
+<caption>Pulse Parameters</caption>
+ </figure>
+        
+        
+        <list id="id11361237" list-type="enumerated"><title>Measurement Procedure</title><item>Connect the circuit shown in Figure 12.</item>
+	<item>Generate the pulse shown in Figure 13.</item>
+	<item>Measure the rising and falling times of the motor response.</item>
+</list>
+        <para id="id3681130">The DC motor was modeled as a first-order linear system where
+<m:math><m:semantics><m:mrow><m:mstyle fontsize="12pt"><m:mrow><m:mrow><m:msub><m:mi>τ</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:mtext>rise</m:mtext></m:mrow></m:mstyle></m:mrow></m:mstyle></m:msub><m:mo stretchy="false">=</m:mo><m:msub><m:mi>τ</m:mi><m:mstyle fontsize="8pt"><m:mrow><m:mstyle fontstyle="italic"><m:mrow><m:mtext>fall</m:mtext></m:mrow></m:mstyle></m:mrow></m:mstyle></m:msub></m:mrow></m:mrow></m:mstyle><m:mrow/></m:mrow><m:annotation encoding="StarMath 5.0"> size 12{τ rSub { size 8{ ital "rise"} } =τ rSub { size 8{ ital "fall"} } } {}</m:annotation></m:semantics></m:math>; however, the actual motor is not linear (due to friction, for example), therefore the measured values were: </para>
+        <table id="id12595945" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>
+                  <m:math>
+                    <m:semantics>
+                      <m:mrow>
+                        <m:mstyle fontsize="12pt">
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>τ</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mstyle fontstyle="italic">
+                                    <m:mrow>
+                                      <m:mtext>rise</m:mtext>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mrow/>
+                      </m:mrow>
+                      <m:annotation encoding="StarMath 5.0"> size 12{τ rSub { size 8{ ital "rise"} } } {}</m:annotation>
+                    </m:semantics>
+                  </m:math>
+                </entry>
+                <entry>= .13 secs</entry>
+              </row>
+              <row>
+                <entry>
+                  <m:math>
+                    <m:semantics>
+                      <m:mrow>
+                        <m:mstyle fontsize="12pt">
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>τ</m:mi>
+                              <m:mstyle fontsize="8pt">
+                                <m:mrow>
+                                  <m:mstyle fontstyle="italic">
+                                    <m:mrow>
+                                      <m:mtext>fall</m:mtext>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:mrow>
+                              </m:mstyle>
+                            </m:msub>
+                          </m:mrow>
+                        </m:mstyle>
+                        <m:mrow/>
+                      </m:mrow>
+                      <m:annotation encoding="StarMath 5.0"> size 12{τ rSub { size 8{ ital "fall"} } } {}</m:annotation>
+                    </m:semantics>
+                  </m:math>
+                </entry>
+                <entry>= .23 secs</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id10570224">We used the average of these readings, i.e., (0.13+0.23)/2 = 0.18  and rounded to 0.2 sec. </para>
+        <equation id="id13809487">
+          <m:math>
+            <m:semantics>
+              <m:mrow>
+                <m:mstyle fontsize="12pt">
+                  <m:mrow>
+                    <m:mtable>
+                      <m:mtr>
+                        <m:mtd>
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mfrac>
+                                <m:mrow>
+                                  <m:mo stretchy="false">Ω</m:mo>
+                                  <m:mfenced open="(" close=")">
+                                    <m:mi>s</m:mi>
+                                  </m:mfenced>
+                                </m:mrow>
+                                <m:mrow>
+                                  <m:mi>E</m:mi>
+                                  <m:mfenced open="(" close=")">
+                                    <m:mi>s</m:mi>
+                                  </m:mfenced>
+                                </m:mrow>
+                              </m:mfrac>
+                              <m:mo stretchy="false">=</m:mo>
+                              <m:msub>
+                                <m:mi>K</m:mi>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mi>m</m:mi>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                            </m:mrow>
+                            <m:mfrac>
+                              <m:mn>1</m:mn>
+                              <m:mrow>
+                                <m:mn>1</m:mn>
+                                <m:mo stretchy="false">+</m:mo>
+                                <m:msub>
+                                  <m:mi fontstyle="italic">sτ</m:mi>
+                                  <m:mstyle fontsize="8pt">
+                                    <m:mrow>
+                                      <m:mi>m</m:mi>
+                                    </m:mrow>
+                                  </m:mstyle>
+                                </m:msub>
+                              </m:mrow>
+                            </m:mfrac>
+                            <m:mrow/>
+                          </m:mrow>
+                        </m:mtd>
+                        <m:mtd>
+                          <m:mrow>
+                            <m:mo stretchy="false">⇔</m:mo>
+                            <m:mrow/>
+                          </m:mrow>
+                        </m:mtd>
+                        <m:mtd>
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mfrac>
+                                <m:mrow>
+                                  <m:mo stretchy="false">Ω</m:mo>
+                                  <m:mfenced open="(" close=")">
+                                    <m:mi>s</m:mi>
+                                  </m:mfenced>
+                                </m:mrow>
+                                <m:mrow>
+                                  <m:mi>E</m:mi>
+                                  <m:mfenced open="(" close=")">
+                                    <m:mi>s</m:mi>
+                                  </m:mfenced>
+                                </m:mrow>
+                              </m:mfrac>
+                              <m:mo stretchy="false">=</m:mo>
+                              <m:msub>
+                                <m:mi>K</m:mi>
+                                <m:mstyle fontsize="8pt">
+                                  <m:mrow>
+                                    <m:mi>m</m:mi>
+                                  </m:mrow>
+                                </m:mstyle>
+                              </m:msub>
+                            </m:mrow>
+                            <m:mfrac>
+                              <m:mn>1</m:mn>
+                              <m:mrow>
+                                <m:mrow>
+                                  <m:mn>1</m:mn>
+                                  <m:mo stretchy="false">+</m:mo>
+                                  <m:mtext>.</m:mtext>
+                                </m:mrow>
+                                <m:mn>2s</m:mn>
+                              </m:mrow>
+                            </m:mfrac>
+                            <m:mrow/>
+                          </m:mrow>
+                        </m:mtd>
+                      </m:mtr>
+                    </m:mtable>
+                  </m:mrow>
+                </m:mstyle>
+                <m:mrow/>
+              </m:mrow>
+              <m:annotation encoding="StarMath 5.0"> size 12{ matrix {
+ {  { %OMEGA  left (s right )}  over  {E left (s right )} } =K rSub { size 8{m} }  {  {1}  over  {1+sτ rSub { size 8{m} } } }  {} #  dlrarrow  {} #  {  { %OMEGA  left (s right )}  over  {E left (s right )} } =K rSub { size 8{m} }  {  {1}  over  {1+ "." 2s} } {}
+} } {}</m:annotation>
+            </m:semantics>
+          </m:math>
+        </equation>
+      </section>
+    </section>
+    <section id="id12525533">
+      <title>Real-Time System Design</title>
+      <para id="id13144225">The system design comprises two parts: </para>
+      <list id="id13796874" list-type="enumerated">
+        <item>Simulation, to determine the parameters of the Speed Control Transfer Function</item>
+        <item>Hardware Design of the interface circuit.</item>
+      </list>
+      <section id="id10894057">
+        <title>Simulation</title>
+        <para id="id13833245">The speed control is a PID controller. A DC motor model (Figure 14) was created. The complete control loop model is shown in Figure 15. Figure 16 shows the parameters chosen for the PID controller.</para>
+        <figure id="id10332265">
+          <media id="id1170425554111" alt=""><image src="../../media/graphics14-0afb.png" mime-type="image/png"/></media>
+
+          <caption>DC Motor Model</caption>         </figure>
+        <figure id="id10438485">
+          <media id="id1170414105200" alt=""><image src="../../media/graphics15-063d.png" mime-type="image/png"/></media>
+
+ <caption>Loop Control Model</caption>
+                  </figure>
+       
+        <figure id="id8820472">
+          <media id="id1170413866385" alt=""><image src="../../media/graphics16-8563.png" mime-type="image/png"/></media>
+
+<caption>PID Controller Parameters</caption>
+                  </figure>
+        
+      </section>
+      <section id="id11536592">
+        <title>Hardware Design</title>
+        <para id="id12206866">The connection between the eZDSP and the Motor Kit requires a dedicated interface circuit, implementing the Low Pass Filter (used for the Digital to Analog conversion) and adapting the voltage levels at the eZDSP (0 to 3V) to those of the DC Motor Kit (0-15V). The various signal types and their voltage range are shown in .</para>
+        <para id="id12672554">The interface circuit contains two blocks. The first is LPF with an amplifier (shown in Figure 18), connected between the PWM output and the servo amplifier input. The second block is an attenuator (shown in Figure 19) connected between the tachometer output and the Analog to Digital Input of the eZDSP.</para>
+        <para id="id12714907">
+          <figure id="id12132875">
+            <media id="id1170413913527" alt=""><image src="../../media/fig17-559b.JPG" mime-type="image/jpeg"/></media>
+   <caption>Signal Types and Voltage Levels</caption>
+       
+          </figure>
+        </para>
+        
+        <figure id="id13996744">
+          <media id="id1170413878251" alt=""><image src="../../media/graphics18-46f5.jpg" mime-type="image/jpeg"/></media>
+   <caption>LPF + Amplifier Circuit</caption>
+          
+        </figure>
+                <figure id="id13475028">
+          <media id="id1170413879210" alt=""><image src="../../media/graphics19-6a0c.jpg" mime-type="image/jpeg"/></media>
+<caption>The Inverting Amplifier with LPF</caption>
+          
+        </figure>
+
+      </section>
+    </section>
+    <section id="id13999000">
+      <title>Real Time Implementation</title>
+      <para id="id9541122">The control loop was implemented in the eZDSP F2812 as shown in Figure 20. The PID controller obtained in the previous chapter was implemented in the DSP. The environment is shown in Figure 21.</para>
+      <para id="id7765814">The real-time implementation model will be created from the "DC Motor Speed Control via RTDX" SIMULINK demo. In the original demo model the loop is closed by QEP block, we will use a tachometer connected to the Analog to Digital Converter module for speed measurement.</para>
+      <para id="id5555394">The Model and its subsystems are shown in Figures Figure 22, Figure 23 and Figure 24. </para>
+      <figure id="id12277962">
+        <media id="id1170413905560" alt=""><image src="../../media/fig20-690b.JPG" mime-type="image/jpeg"/></media>
+      <caption>LPF + Amplifier Circuit&gt;</caption>
+
+       
+      </figure>
+
+      <para id="id10452845">Procedure:</para>
+      <list id="id13828620" list-type="enumerated">
+        <item>Navigate into the following directory:</item>
+      </list>
+      <para id="id13799977">..\MATLAB\R2006b\toolbox\rtw\targets\tic2000\tic2000demos</para>
+      <list id="id13115950" list-type="enumerated">
+        <item id="id11820221">Copy the following files into your working directory: 
+
+      <list id="id10633985" list-type="bulleted">
+        <item>c2812speedcontrolDC.mdl</item>
+        <item>runc2812speedcontrolDC.m</item>
+        <item>runc2812speedcontrolDC.m</item>
+        <item>Open the c2812speedcontrolDC.mdl model and save it as "DCMotorControlc2812.mdl"(please refer to Figure 21<footnote id="id1170413956128">The model is shown here after deleting the “Info” box. </footnote>).</item>
+      </list>
+      <figure id="id12546226">
+        <media id="id1170413919973" alt=""><image src="../../media/graphics21-7460.png" mime-type="image/png"/></media>
+<caption>Real-Time Implementation Model  </caption>
+       
+      </figure>
+</item> 
+        <item>Double-click the Speed Correction Block, and you will see:       
+      <figure id="id9453209">
+        <media id="id1170413965485" alt=""><image src="../../media/graphics22-088c.png" mime-type="image/png"/></media>
+<caption>Figure 22: Speed Control</caption>
+     
+      </figure>
+</item>
+
+        <item>Configure the C28x PWM block as follows:  
+
+        <figure id="id11268043">
+          <media id="id1170413862541" alt=""><image src="../../media/graphics23-623b.png" mime-type="image/png"/></media>
+      <caption>Figure 23: PWM Configuration</caption>
+          
+        </figure></item>
+
+
+        <item>Configure the "PID Controller" block as follows: 
+
+        <figure id="id13112529">
+          <media id="id1170420270365" alt=""><image src="../../media/graphics24-d794.png" mime-type="image/png"/></media>
+<caption>PID Configuration</caption>
+        
+        </figure></item>
+
+
+        <item>Double-click the Speed Correction Block, and you will see: 
+        <figure id="id8233500">
+          <media id="id1170425272755" alt=""><image src="../../media/graphics25-0444.png" mime-type="image/png"/></media>
+  <caption>QEP Based Speed Measurement</caption>
+          </figure>
+</item>
+
+        <item>Delete the selected blocks and replace them by the ADC block from Open the ADC block from the C281x Chip support group from the C2000 Target Preferences, and connect is as follows:      <figure id="id10689328">
+        <media id="id1170413914601" alt=""><image src="../../media/graphics26-5de8.png" mime-type="image/png"/></media>
+      <caption>ADC+Tachometer Based Speed Measurement</caption>
+       
+      </figure>
+</item>
+
+        <item>Now the model is ready for real-time, we need however to update the MATLAB script file. Open the “Model Properties” from “File” menu. Change the PostLoadFcn callback to runc2812speedcontrolIDC, as shown:         
+<figure id="id13496715">
+        <media id="id1170413833618" alt=""><image src="../../media/graphics27-5b50.png" mime-type="image/png"/></media>
+      <caption>Model Callback</caption>
+  
+      </figure></item>
+
+<item>The next step is to change the original PWM range (up to 64000) to the desired range (up to 4000). Open the “speddControlIDCLoop.m” file with the MATLAB editor, an change on line 48 the command:
+<code id="first_codeblock" display="block">        
+cycle = (double(pid).*100./64000);
+to
+cycle = (double(pid).*100./4000); </code> 
+
+Please refer to the following picture:
+      <figure id="id13801631">
+        <media id="id1170413892547" alt=""><image src="../../media/graphics28-5026.png" mime-type="image/png"/></media>
+      <caption>Changing the PWM range</caption>
+              </figure> 
+</item>
+        <item>Activate the motor</item>
+        <item>Activate CCS.</item>
+        <item>Click the Build/Reload&amp;Run box, the following window should appear:       <figure id="id9708278">
+        <media id="id1170413986916" alt=""><image src="../../media/graphics29-be4c.png" mime-type="image/png"/></media>
+ <caption>Speed Control GUI</caption>
+        
+      </figure></item>
+
+        <item>You may change the speed of the motor using the slider in the right hand side and the “Apply” button.</item>
+      </list>
+    </section>
+    <section id="id14023084">
+      <title>References</title>
+      <list id="id9686191" list-type="enumerated"><item id="id9686194">"eZdspTM F2812 Technical Reference", Spectrum Digital, 2003 <link url="http://c2000.spectrumdigital.com/ezf2812/docs/ezf2812_techref.pdf">http://c2000.spectrumdigital.com/ezf2812/docs/ezf2812_techref.pdf</link></item>
+	<item id="id13800810">David M. Alter, " Using PWM Output as a Digital-to-Analog Converter on a TMS320F280x", TI Application Report SPRAA88 , September 2008 <link url="http://www.ti.com/litv/pdf/spraa88a">http://www.ti.com/litv/pdf/spraa88a</link></item>
+</list>
+    </section>
+  </content>
+</document>

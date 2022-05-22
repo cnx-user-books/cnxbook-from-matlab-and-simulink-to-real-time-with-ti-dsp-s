@@ -1,0 +1,324 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Signal to Noise Measurement</title>
+  <metadata>
+  <md:content-id>m22941</md:content-id><md:title>Signal to Noise Measurement</md:title>
+  <md:abstract>This module describes the implementation af a Signal to Noise Measurement tool using the DSK6713.
+A Simulink simulation model is created, and used afterwards to generate real-time DSP code.</md:abstract>
+  <md:uuid>6cc814af-e2aa-410c-abeb-6fca012e3104</md:uuid>
+</metadata>
+
+<content>
+    <section id="id17048328">
+      <title>Introduction</title>
+      <para id="id9403897">The signal-to-noise ratio of an audio signal gives a measurement of the quality of that signal. Signal-to-Noise ratio can be measured in real-time using statistics. </para>
+      <para id="id14572231">This laboratory shows how to evaluate a model of Signal-to-Noise Ratio measurement using Simulink® and run it on a Texas Instruments C6000 DSP. </para>
+      <section id="id9056659">
+        <title>Objectives </title>
+        <list id="id24371603" list-type="bulleted">
+          <item>Run the Simulink model of signal-to-noise ratio measurement on a PC, to determine the optimum parameter settings. </item>
+          <item>Modify the Simulink model for real-time measurement of signal-to-noise ratio using the Texas Instruments C6713 DSK.</item>
+          <item>Run the project on the Texas Instruments C6713 DSK with a microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+      <section id="id18565679">
+        <title>Level</title>
+        <para id="id17006320">Intermediate - Assumes prior knowledge of MATLAB® and Simulink. It also requires some understanding of statistics and some knowledge of Texas Instruments DSPs.</para>
+      </section>
+      <section id="id6093328">
+        <title>Hardware and Software Requirements </title>
+        <para id="id23432766">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id16246703" list-type="bulleted">
+          <item>MATLAB R2006b with Embedded Target for TI C6000.</item>
+          <item>Code Composer Studio (CCS) v3.1</item>
+          <item>Texas Instruments C6713 DSK hardware.</item>
+          <item>Microphone and computer loudspeakers / headphones.</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="SignalToNoise.ppt">SignalToNoise.ppt</link></item>
+	<item>Simulink Model for Simulation - <link resource="SignalToNoise.mdl">SignalToNoise.mdl</link></item>
+	<item>Simulink Model for Real-Time - <link resource="SignalToNoiseDSKC6713.mdl">SignalToNoiseDSKC6713.mdl</link></item>
+</list>
+</section>
+    </section>
+    <section id="id14328776">
+      <title>Simulation</title>
+      <section id="id9924789">
+        <title>Procedure</title>
+        <section id="id24889569">
+          <title>Opening the SignalToNoise Model</title>
+          <para id="id23061183">Start MATLAB 7.3.0 R2006b then open the SignalToNoise.mdl</para>
+          <figure id="id12245771"><media id="id6833104" alt=""><image src="../../media/graphics1-e528.jpg" mime-type="image/jpeg"/></media><caption>Opening SignalToNoise Model</caption></figure>
+          
+        </section>
+        <section id="id5985540">
+          <title>Viewing the SignalToNoise Parent</title>
+          <para id="id13806662">The SignalToNoise parent is now displayed. Double-click on the Algorithm box.</para>
+          <figure id="id9678791">
+            <media id="id6705526" alt=""><image src="../../media/graphics2-817e.jpg" mime-type="image/jpeg"/></media><caption>SignalToNoise Parent</caption></figure>
+        </section>
+        <section id="id17034576">
+          <title>Algorithm for Signal-to-Noise Ratio Measurement</title>
+          <para id="id15338629">The Signal-to-Noise Ratio algorithm is now displayed. Run the model.</para>
+          <figure id="id16683531">
+            <media id="id6823146" alt=""><image src="../../media/fig3.jpg" mime-type="image/jpeg"/></media><caption>Signal-to-Noise Ratio Algorithm</caption></figure>          
+        </section>
+        <section id="id9595953">
+          <title>Output of the Model</title>
+          <para id="id19733469">Run the model.</para>
+          <figure id="id18641396">
+            <media id="id4733332" alt=""><image src="../../media/graphics4-7e9f.jpg" mime-type="image/jpeg"/></media><caption>Algorithm Output</caption></figure> 
+          <para id="id11778122">It will be seen that the output of the algorithm (“Unfiltered S/N”) varies from frame to frame. The next step is to fine-tune the algorithm parameters.</para>
+        </section>
+      </section>
+      <section id="id4699868">
+        <title>Tuning the Simulink Model</title>
+        <para id="id18893061">The model is run several times to determine the best values of the parameters:</para>
+        <list id="id20104075" list-type="bulleted">
+          <item>To evaluate the algorithm accuracy for different frequencies</item>
+          <item>To determine the optimal frame length</item>
+          <item>To set the optimum delay time</item>
+          <item>To evaluate the effect of sampling frequency</item>
+          <item>To obtain a consistent algorithm output.</item>
+        </list>
+        <section id="id5808258">
+          <title>Evaluating the Algorithm Accuracy for Different Frequencies</title>
+          <para id="id25005060">Change the sine wave frequency from 500 Hz (default) to 1000 Hz then run the model several times. Make a note of the four different meter outputs (S/N Ratio from RMS Signals, Unfiltered S/N, Filtered S/N and Buffered). </para>
+          <figure id="id15301806">
+            <media id="id7508230" alt=""><image src="../../media/graphics5-683b.jpg" mime-type="image/jpeg"/></media><caption>Changing the Sine Wave Frequency</caption></figure>
+        </section>
+          <para id="id9944532">Repeat using 1500Hz and 2000Hz. </para>
+          <para id="id8285477">Question: Does the input frequency of the Sine Wave have an effect on the accuracy of the algorithm? If it does, then it would be useful to put a digital filter at the input to the algorithm to limit the frequency band.</para>
+        </section>
+        <section id="id14739332">
+          <title>Sine Wave 300 Hz</title>
+          <para id="id7186659">Change the Sine Wave Frequency to 300Hz then run the model. </para>
+          <figure id="id9848340">
+            <media id="id6498585" alt=""><image src="../../media/graphics6-b987.jpg" mime-type="image/jpeg"/></media>
+            <caption>Setting the Sine Wave to 300 Hz</caption>
+           </figure>          
+          <para id="id20937333">Make a note of the accuracy of the model.</para>
+        </section>
+        <section id="id17161006">
+          <title>Changing the Frame Sizes</title>
+          <para id="id24936910">Increase the Samples per frame to 1024 in both the “Sine Wave” and the “Random Source” Blocks. </para>
+          <figure id="id9508404">
+            <media id="id6714253" alt=""><image src="../../media/graphics7-eaf8.jpg" mime-type="image/jpeg"/></media>
+            <caption>Adjusting Frame Size for Sine Wave</caption>
+           </figure>          
+
+          <figure id="id22779190">
+            <media id="id7073289" alt=""><image src="../../media/graphics8-d361.jpg" mime-type="image/jpeg"/></media>
+            <caption>Adjusting the Frame Size for the Random Source</caption>
+           </figure>          
+          <para id="id8480792">Run the model again.</para>
+          <para id="id8971342">Question: How does this change to the frame size affect performance?</para>
+        </section>
+        <section id="id12340687">
+          <title>Setting the Delay Value</title>
+          <para id="id18699898">Click on the “Delay” Block. Change the number of Delay (samples) to 50. </para>
+          <figure id="id6593934">
+            <media id="id7610145" alt=""><image src="../../media/graphics9-f401.jpg" mime-type="image/jpeg"/></media>
+            <caption>Setting the Delay (samples)</caption>
+           </figure>          
+                <para id="id11724995">Run the model again and make a note of the accuracy of the measurement. </para>
+          <para id="id8240376">Change Delay (samples)<footnote id="id6685966">The Delay (samples) should be smaller than the frame size, otherwise the frames do not overlap.</footnote> to 12 and run the model again.</para>
+          <para id="id12719040">Question: How does the value of delay (samples) affect the accuracy of the model?</para>
+        </section>
+        <section id="id14219284">
+          <title>Changing the Amount of Noise Present </title>
+          <para id="id12192104">Reload the original model to restore the initial settings. </para>
+          <para id="id15136070">Change the amount of Gain to make the gain 0.10 (10% noise). </para>
+          <figure id="id15409894">
+            <media id="id7213094" alt=""><image src="../../media/graphics10-6069.jpg" mime-type="image/jpeg"/></media>
+            <caption>Changing the Amount of Noise Present</caption>
+           </figure>          
+                    <para id="id13886743">Run the model and make a note of the accuracy of the measurements. Repeat, but this time, use a gain of 0.01 (1% noise).</para>
+          <para id="id16956997">Question: Does the algorithm work better for high signal-to-noise ratios or for low signal-to-noise ratios? Make a note of the answer.</para>
+        </section>
+        <section id="id10448526">
+          <title>Changing the Sampling Frequency</title>
+          <para id="id8810698">Change the sample time in both the “Sine Wave” and the “Random Noise” blocks to 48000 Hz.</para>
+          <figure id="id7786939">
+            <media id="id3488324" alt=""><image src="../../media/graphics11-60fc.jpg" mime-type="image/jpeg"/></media>
+            <caption>Changing the Sine Wave Sample Time</caption>
+           </figure>          
+
+          <figure id="id24647710">
+            <media id="id7177365" alt=""><image src="../../media/graphics12-2514.jpg" mime-type="image/jpeg"/></media>
+            <caption>Changing the Random Source Sample Time</caption>
+           </figure>          
+         
+          <para id="id9509079">Run the model. </para>
+          <para id="id15793457">Question: Does the model produce better results with 8000Hz sampling or 48000 Hz sampling? Make a note of the answer. </para>
+        </section>
+        <section id="id12817263">
+          <title>The Fully Optimized Simulation</title>
+          <para id="id18428356">You should now know what are the optimum parameters for the simulation.</para>
+          <para id="id13736034">Set these parameters and run the model.</para>
+        </section>
+        <section id="id10363561">
+          <title>Summary of Simulation</title>
+          <para id="id25807816">You have now run the signal-to-noise ratio model and should be aware of the best settings for consistency of measurements, delay and sampling frequency.</para>
+          <para id="id8919081">You are now ready to go to the C6713 DSK Model.</para>
+        </section>
+      </section>
+    <section id="id14592408">
+      <title>Real-Time Model for TI C6713 DSK </title>
+      <section id="id22755939">
+        <title>Texas Instruments C6713 DSK Setup </title>
+        <figure id="id14437314">
+          <media id="id7628932" alt=""><image src="../../media/fig13.jpg" mime-type="image/jpeg"/></media>
+            <caption>Texas Instruments C6713 DSK Setup</caption>
+           </figure>     
+        <para id="id22284782">Alternatively, you can use computer loudspeakers. </para>
+      </section>
+      <section id="id16449274">
+        <title>Starting Code Composer Studio </title>
+        <para id="id17609421">There are several stages required in order to implement the Signal-to-Noise measurement. These are now described.</para>
+        <section id="id15742546">
+          <title>Starting up Code Composer Studio</title>
+          <para id="id9040976">Start Code Composer Studio for C6713 DSK and use Debug -&gt; Connect</para>
+          <figure id="id22657466">
+            <media id="id6734314" alt=""><image src="../../media/fig14.jpg" mime-type="image/jpeg"/></media>
+            <caption>Startup Screen for Code Composer Studio (CCS)</caption>
+           </figure>     
+
+        </section>
+      </section>
+      <section id="id16599116">
+        <title>The Texas Instruments C6713 DSK Model </title>
+        <para id="id18972122">You will now use the knowledge you have gained during the PC Simulation to produce an optimized version of this algorithm for use with the Texas Instruments C6713 DSK. </para>
+        <section id="id14010358">
+          <title>Opening the C6713 DSK Model</title>
+          <para id="id22873447">Open the SignalToNoiseDSK6713.mdl.</para>
+          <para id="id25182931">The parent is shown in Figure 15.</para>
+          <figure id="id7420870">
+            <media id="id6751624" alt=""><image src="../../media/graphics15-cf2d.jpg" mime-type="image/jpeg"/></media>
+            <caption>SignalToNoiseDSK6713.mdl</caption>
+           </figure>     
+          <para id="id12544090">Double click on the “function()” block.</para>
+        </section>
+        <section id="id4835410">
+          <title>Viewing the Signal-to-Noise Measurement Algorithm</title>
+          <para id="id13832584">The details of the C6713 Algorithm are shown in Figure 16.</para>
+          <figure id="id7579732">
+            <media id="id5685205" alt=""><image src="../../media/fig16.jpg" mime-type="image/jpeg"/></media>
+            <caption>Audio Noise Gate</caption>
+           </figure>     
+
+        </section>
+        <section id="id24374918">
+          <title>Setting the Sampling Rate and Frame Size</title>
+          <para id="id12484607">Double-click on the “Mic In C6713 DSK ADC” block.</para>
+          <para id="id21579931">Set the Sampling rate (Hz) and Samples per frame fields to the best value you found while carrying out the Simulation. The values may be different to those written here.</para>
+          <figure id="id9424537">
+            <media id="id7616450" alt=""><image src="../../media/graphics17-1395.jpg" mime-type="image/jpeg"/></media>
+            <caption>Setting the Sampling Rate and Frame Size</caption>
+           </figure>     
+        </section>
+        <section id="id14155163">
+          <title>Setting the Delay Size</title>
+          <para id="id7058626">Double-click on the “Delay” block. Set the Delay (samples) to the best value found during simulation. The value will not be 999!</para>
+          <figure id="id9829942">
+            <media id="id7189052" alt=""><image src="../../media/graphics18-bd8d.jpg" mime-type="image/jpeg"/></media>
+            <caption>Setting the Delay Size</caption>
+           </figure>     
+        </section>
+        <section id="id15658131">
+          <title>Returning to the Parent System</title>
+          <para id="id15364282">From the Toolbar, select the “Up Arrow” icon. This returns you to the next higher level. </para>
+          <figure id="id5606344">
+            <media id="id5113006" alt=""><image src="../../media/graphics19-fde1.jpg" mime-type="image/jpeg"/></media>
+            <caption>Returning to the Parent System</caption>
+           </figure>     
+        </section>
+      </section>
+      <section id="id11567221">
+        <title>Building the Model </title>
+        <section id="id7381916">
+          <title>Selecting Real-Time Workshop</title>
+          <para id="id17847992">Select Tools -&gt; Real-Time Workshop -&gt; Build Model. </para>
+          <figure id="id7578440">
+            <media id="id5368280" alt=""><image src="../../media/graphics20-713d.jpg" mime-type="image/jpeg"/></media>
+            <caption>Building the Model</caption>
+           </figure>     
+                 </section>
+        <section id="id22710225">
+          <title>The Completed Model Running on Code Composer Studio</title>
+          <para id="id5358097">From the folders on the left, select the source code for the project. </para>
+          <figure id="id24110372">
+            <media id="id6821514" alt=""><image src="../../media/fig21-1d9d.jpg" mime-type="image/jpeg"/></media>
+            <caption>The Completed Model Running in Code Composer Studio</caption>
+           </figure>     
+        </section>
+      </section>
+      <section id="id22710257">
+        <title>Different Settings on the C6713 DSK </title>
+        <section id="id21387918">
+          <title>Microphone Straight Through to Loudspeakers</title>
+          <para id="id12644659">To check out the microphone and loudspeakers, set the DIP switches on the C6713 DSK as follows:</para>
+          <figure id="id5430101">
+            <media id="id6762042" alt=""><image src="../../media/fig22.jpg" mime-type="image/jpeg"/></media>
+            <caption>Switch Position 0</caption>
+           </figure>     
+        </section>
+          <para id="id11982391">The microphone is fed directly to the loudspeakers. There is no noise gate.</para>
+        </section>
+        <section id="id19687210">
+          <title>Switch Position for the Audio Noise Gate</title>
+          <para id="id15659298">To run the Audio Noise Gate, set the DIP switch to 1.</para>
+          <figure id="id8092696">
+            <media id="id7192100" alt=""><image src="../../media/fig23.jpg" mime-type="image/jpeg"/></media>
+            <caption>Switch Position 1 for Audio Noise Gate</caption>
+           </figure>     
+          <para id="id25026011">Note that when you are not speaking, there is no audio output at all – just silence.</para>
+        </section>
+      </section>
+      <section id="id5334400">
+        <title>Modifying the Model </title>
+        <para id="id7637932">The next stage is to modify the model. You can change the smoothing filter. If the filter is too long, the delay will be noticeable.</para>
+        <section id="id9887964">
+          <title>Changing the Filter Type</title>
+          <para id="id13959297">Double-click on the “Lowpass” block. Change the Order to a value other than 10. </para>
+          <figure id="id11570690">
+            <media id="id6739170" alt=""><image src="../../media/graphics24-4719.jpg" mime-type="image/jpeg"/></media>
+            <caption>Changing the Number of Filter Elements</caption>
+           </figure>
+        </section>
+        <section id="id14264876">
+          <title>Re-building the Model</title>
+          <para id="id6260044">Select Tools -&gt; Real-Time Workshop -&gt; Build Model.</para>
+          <figure id="id24946830">
+            <media id="id7194966" alt=""><image src="../../media/graphics25-713d.jpg" mime-type="image/jpeg"/></media>
+            <caption>Re-building the Model</caption>
+           </figure>
+        </section>
+        <section id="id9943375">
+          <title>Running the Updated Model</title>
+          <para id="id4691879">Run the updated model and listen to the effect on the audio noise gate.</para>
+        </section>
+      </section>
+
+    <section id="id17448492">
+      <title>Some Things to Try</title>
+      <para id="id13511853">You may wish to experiment with different settings. Here are some suggestions.</para>
+      <section id="id10831311">
+        <title>Add an Input Filter</title>
+        <para id="id11965069">While running the Simulation, you will have noticed that the Signal-to-Noise Algorithm works better on some frequencies than others. </para>
+        <para id="id22451473">Add the appropriate filter to select only the frequencies where the algorithm works well.</para>
+      </section>
+      <section id="id16432018">
+        <title>Process Stereo Inputs</title>
+        <para id="id13560758">Change the input from “Microphone” to “Stereo Line Input”.</para>
+        <para id="id17094146">Add a second channel to make the processing stereo.</para>
+      </section>
+      <section id="id21645291">
+        <title>Best Signal Selection</title>
+        <para id="id16819788">When stage 3.2 has been completed, modify the model so that the output is the better of the two stereo inputs.</para>
+        <para id="id24506223">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+      </section>
+    </section>
+  </content>
+</document>

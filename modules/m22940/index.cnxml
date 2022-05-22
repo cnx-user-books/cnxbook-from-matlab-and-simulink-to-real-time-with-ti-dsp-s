@@ -1,0 +1,356 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Echo and Reverberation</title>
+  <metadata>
+  <md:content-id>m22940</md:content-id><md:title>Echo and Reverberation</md:title>
+  <md:abstract>This module shows how to implement the echo and reverberation effects using the DSK6713. The effects are simulated using Simulink. Those simualtion models are used to generate the DSP code for the real-time implementation.</md:abstract>
+  <md:uuid>9d705bdf-70fc-4d83-81cb-eb07705bdf08</md:uuid>
+</metadata>
+
+<content>
+    <section id="id7407510">
+      <title>Introduction</title>
+      <para id="id3328084">Echo and Reverberation are two of the simplest applications of Digital Signal Processing (DSP). This laboratory shows how models of Echo and Reverberation can be designed using MATLAB and Simulink, and run them in real-time on the Texas Instruments C6000 DSPs. </para>
+      <section id="id6002457">
+        <title>Objectives </title>
+        <list id="id6002463" list-type="bulleted">
+          <item>Design models of Echo and Reverberation for the Texas Instruments C6000 family of DSP devices using MATLAB® and Simulink®.</item>
+          <item>Modify an existing Simulink model.</item>
+          <item>Run the model in real-time on the Texas Instruments C6713 DSK.</item>
+        </list>
+      </section>
+      <section id="id3973932">
+        <title>Level</title>
+        <para id="id7417991">Beginner - Assumes only very basic knowledge of MATLAB and Simulink. It is suitable for students with limited knowledge of Texas Instruments DSPs.</para>
+      </section>
+      <section id="id3762718">
+        <title>Hardware and Software Requirements </title>
+        <para id="id6384210">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id4888087" list-type="bulleted">
+          <item>MATLAB R2006b with Embedded Target for TI C6000.</item>
+          <item>Code Composer Studio (CCS) v3.1</item>
+          <item>Texas Instruments C6713 DSK hardware</item>
+          <item>Microphone and computer loudspeakers/headphones</item>
+        </list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted">
+<item>Powerpoint Presentation - <link resource="EchoAndReverberation.ppt">EchoAndReverberation.ppt</link></item>
+<item>Simulink Model for Echo Simulation - <link resource="EchoUsingWav.mdl"> EchoUsingWav.mdl</link></item>
+<item>Simulink Model for Reverberation Simulation - <link resource="ReverberationUsingWav.mdl"> ReverberationUsingWav.mdl</link></item>
+<item>Simulink Model for Real-Time - <link resource="EchoAndReverberationDSKC6713.mdl"> EchoAndReverberationDSKC6713.mdl</link></item>
+<item>Audio Template for the DSK6713<link resource="C6713_Audio_Template.mdl">C6713_Audio_Template.mdl</link></item></list>
+</section>
+
+    </section>
+    <section id="id7322658">
+      <title>Simulation</title>
+      <para id="id4880965">We shall start by running the Echo and Reverberation Simulink models. These use .wav files as the inputs.</para>
+      <section id="id4489437">
+        <title>Echo using Wave File </title>
+        <section id="id5072310">
+          <title>Opening the Echo Simulink Model</title>
+          <para id="id3564527">From MATLAB, open EchoUsingWav.mdl </para>
+          <figure id="id3626472"><media id="id1172336497177" alt=""><image src="../../media/graphics1-c7ba.jpg" mime-type="image/jpeg"/></media>
+<caption>Echo using .wav File</caption></figure>
+          
+          
+        </section>
+        <section id="id4497639">
+          <title>Changing the Delay Time</title>
+          <para id="id4942790">Double-click on the “Delay” block and change the “Delay (samples)” to a different value. </para>
+          <figure id="id3597426">
+            <media id="id1172330504402" alt=""><image src="../../media/graphics2-9ffd.jpg" mime-type="image/jpeg"/></media>
+ <caption>Changing the Delay Time</caption></figure>
+                    <para id="id3731507">Run the model and hear how the effect has changed. Try a few different settings between 100 and 20000 “Delay (samples)”.</para>
+        </section>
+      </section>
+      <section id="id3777692">
+        <title>Reverberation using Wave File </title>
+        <section id="id3628319">
+          <title>Opening the Reverberation Simulink Model</title>
+          <para id="id4389804">From MATLAB, open ReverberationUsingWav.mdl </para>
+          <figure id="id4543670">
+            <media id="id1172330612035" alt=""><image src="../../media/graphics3-e863.jpg" mime-type="image/jpeg"/></media>
+<caption>Reverberaton Using .wav File</caption></figure>
+
+        </section>
+        <section id="id3726824">
+          <title>Changing the Delay Time</title>
+          <para id="id4994326">Double-click on the “Delay” block. Change the “Delay (samples)” to a different value then run the model and listen to the effect. </para>
+        </section>
+        <section id="id4923782">
+          <title>Changing the Gain</title>
+          <para id="id4319922">Double-click on the “Gain” block. Change the “Gain” to 0.95 then run the model. Listen to the effect.</para>
+          <figure id="id4512281">
+            <media id="id1172345201947" alt=""><image src="../../media/graphics4-1657.jpg" mime-type="image/jpeg"/></media>
+ <caption>Changing the Reverberation Gain</caption></figure> 
+
+        </section>
+        <section id="id8537499">
+          <title>Questions</title>
+          <list id="id9356455" list-type="bulleted">
+            <item>Why does Reverberation require a shorter delay time than echo?</item>
+            <item>What effect does the “Gain” block have on the stability of the reverberation system? </item>
+          </list>
+        </section>
+      </section>
+    </section>
+    <section id="id10806394">
+      <title>Real-Time Model for TI C6713 DSK</title>
+      <section id="id4293492">
+        <title>Texas Instruments C6713 DSK Setup </title>
+        <figure id="id4968990">
+          <media id="id1172336608808" alt=""><image src="../../media/ngraphics5.jpg" mime-type="image/jpeg"/></media>
+<caption>Texas Instruments C6713 DSK Setup</caption></figure>
+        <para id="id3640786">Alternatively, you can use computer loudspeakers. </para>
+        <para id="id3640790">Connect the C6713 hardware to a USB port of the computer and turn on the supply to the board.</para>
+        <para id="id3726378">If the board is powered, then the green LED lights on the board will come on during self-test.</para>
+      </section>
+      <section id="id3592045">
+        <title>Starting Code Composer Studio </title>
+        <para id="id3970218">The stages required to implement Echo and Reverberation are now described.</para>
+        <section id="id3970223">
+          <title>Starting Code Composer Studio</title>
+          <para id="id5001152">Start Code Composer Studio for C6713 DSK and use Debug -&gt; Connect</para>
+          <figure id="id7279242">
+            <media id="id1172329933217" alt=""><image src="../../media/ngraphics6.jpg" mime-type="image/jpeg"/></media>
+<caption>Startup Screen for Code Composer Studio (CCS)</caption></figure>
+        </section>
+        <section id="id3890640">
+          <title>Opening an Existing Model</title>
+          <para id="id4427837">Start MATLAB 7.3.0 R2006b</para>
+          <para id="id4519045">In the top left hand corner of the MATLAB screen, select File -&gt; Open.</para>
+          <figure id="id4319168">
+            <media id="id1172338310139" alt=""><image src="../../media/graphics7-acb8.jpg" mime-type="image/jpeg"/></media>
+<caption>Opening an Existing Model(CCS)</caption></figure>          
+          <para id="id6405931">The following screen will appear.</para>
+          <figure id="id7282173">
+            <media id="id1172331682562" alt=""><image src="../../media/graphics8-0845.jpg" mime-type="image/jpeg"/></media>
+<caption>Selecting an Existing Model</caption></figure>
+          <para id="id3739948">Highlight “C6713_Audio_Template” then click on “Open”.</para>
+        </section>
+        <section id="id4282506">
+          <title>Viewing the “C6713 Audio Template”</title>
+          <para id="id7347485">The “C6713_Audio_Template” is now displayed. </para>
+          <figure id="id3615996">
+            <media id="id1172330682525" alt=""><image src="../../media/graphics9-f465.jpg" mime-type="image/jpeg"/></media>
+  <caption>The C6713 DSK Audio Template&gt;</caption></figure>
+             </section>
+        <section id="id5995034">
+          <title>Overview of the Complete Echo Subsystem</title>
+          <para id="id3710892">You are now going to implement the Echo Subsystem shown below. </para>
+          <figure id="id4958696">
+            <media id="id1172336006204" alt=""><image src="../../media/graphics10-abed.jpg" mime-type="image/jpeg"/></media>
+  <caption>The Complete Echo Subsytem</caption></figure>
+          </section>
+        <section id="id6308313">
+          <title>Implementing the Echo Subsystem</title>
+          <para id="id4882047">Double click on the “Effect 1” subsystem block. An empty model will appear. </para>
+          <figure id="id3850922">
+            <media id="id1172330655470" alt=""><image src="../../media/graphics11-4159.jpg" mime-type="image/jpeg"/></media>
+<caption>The Blank “Effect 1” Subsystem</caption></figure>
+       <para id="id7401217">You will now drag-and-drop some library components onto the model.</para>
+        </section>
+        <section id="id4895989">
+          <title>The Simulink Library Browser – Commonly Used Blocks</title>
+          <para id="id7285663">Select View -&gt; Library Browser. Expand the “Simulink” section.</para>
+          <para id="id7418584">A list of available blocks will appear. We are initially interested in the “Commonly Used Blocks”. </para>
+          <figure id="id7345510">
+            <media id="id1172337594476" alt=""><image src="../../media/graphics12-dc64.png" mime-type="image/png"/></media>
+<caption>Commonly Used Blocks</caption></figure>
+          <para id="id3879780">From “Commonly Used Blocks”, drag-and-drop a ”Gain” block, a “Sum” block and two “Data Type Conversion” blocks onto the model.</para>
+        </section>
+        <section id="id11639870">
+          <title>The Simulink Library Browser - Discrete</title>
+          <para id="id4513877">From the Simulink Library Browser, select “Discrete”. Highlight “Integer Delay” and drag-and-drop this block onto the model. </para>
+          <figure id="id4513882">
+            <media id="id1172331200104" alt=""><image src="../../media/graphics13-a525.jpg" mime-type="image/jpeg"/></media>
+<caption>Blocks</caption></figure>
+
+        </section>
+        <section id="id7334600">
+          <title>Setting the Integer Delay Time</title>
+          <para id="id3968793">The delay time will be 0.5 seconds. Using a sampling rate of 8000 Hz, this requires 8000 x 0.5 = 4000 samples. In the equation given in the lecture, this would make N = 4000.</para>
+          <para id="id4425418">Double click on the “Integer Delay” block. Change the “Number of delays” field to 4000, then click on “OK”.</para>
+          <figure id="id3980864">
+            <media id="id1172338345857" alt=""><image src="../../media/graphics14-0f1e.jpg" mime-type="image/jpeg"/></media><caption>Setting the Integer Delay Time</caption></figure>
+
+        </section>
+        <section id="id5023925">
+          <title>Setting the Output Data Conversion to Single</title>
+          <para id="id7410984">We want to set the gain to 0.9. If you multiply an integer value by 0.9, then the value 0.9 will be rounded-down to zero. Instead, you need to convert the integer value to a floating-point value such as “single”, and then convert it back later. Click on “OK”.</para>
+          <figure id="id3208656">
+            <media id="id1172331864358" alt=""><image src="../../media/graphics15-d04a.jpg" mime-type="image/jpeg"/></media><caption>Setting the Data Conversion to Single</caption></figure>
+
+        </section>
+        <section id="id11582422">
+          <title>Setting the Delay Gain</title>
+          <para id="id5084542">We required that 0.9 of the delayed input is added to the normal input. Therefore, set the “Gain” to 0.9 then click on “OK”. </para>
+          <figure id="id4926872">
+            <media id="id1172336749784" alt=""><image src="../../media/graphics16-57d9.jpg" mime-type="image/jpeg"/></media><caption>Setting the Echo Delay Gain</caption></figure>
+
+        </section>
+        <section id="id4924228">
+          <title>Setting the Output Data Conversion to int16</title>
+          <para id="id3960509">Double click on the second “Data Type Conversion” block. Set the “Output data type mode” to int16. This is compatible with the DAC on the C6713 DSK. </para>
+          <figure id="id3672196">
+            <media id="id1172348295270" alt=""><image src="../../media/graphics17-57aa.jpg" mime-type="image/jpeg"/></media><caption>Data Type Conversion to 16-bit Integer</caption></figure>
+
+        </section>
+        <section id="id4514113">
+          <title>The Completed Echo Subsystem</title>
+          <para id="id4339110">Join the blocks as shown and add a title.</para>
+          <figure id="id7397138">
+            <media id="id1172333891121" alt=""><image src="../../media/graphics18-abed.jpg" mime-type="image/jpeg"/></media><caption>Joining the Blocks</caption></figure>
+        </section>
+        <section id="id3767388">
+          <title>Returning to the Parent System</title>
+          <para id="id6639439">From the Toolbar, select the “Up Arrow” icon. This returns you to the next higher level. </para>
+          <figure id="id6639444">
+            <media id="id1172353134701" alt=""><image src="../../media/graphics19-1c0f.jpg" mime-type="image/jpeg"/></media><caption>Returning to the Parent System</caption></figure>
+
+        </section>
+      </section>
+      <section id="id4106924">
+        <title>The Reverberation Subsystem </title>
+        <para id="id4106929">The next subsystem to be implemented will be Reverberation.</para>
+        <section id="id3711596">
+          <title>Overview of the Completed Reverberation Subsystem</title>
+          <para id="id3267369">We are now going to implement the Reverberation System shown below. </para>
+          <figure id="id4303179">
+            <media id="id1172347647083" alt=""><image src="../../media/graphics20-3530.jpg" mime-type="image/jpeg"/></media><caption>Overview of the Reverberation Subsystem</caption></figure>
+
+          <para id="id3740022">Note that the reverberation subsystem is very similar to that of echo. We will cut-and-paste from the Echo Subsystem </para>
+        </section>
+        <section id="id3740662">
+          <title>Opening the Effects 2 Subsystem</title>
+          <para id="id7378378">From the “C6713 Audio Template” top level, double-click on the “Effect 2” subsystem.</para>
+          <figure id="id4946527">
+            <media id="id1172330690819" alt=""><image src="../../media/graphics21-5be7.jpg" mime-type="image/jpeg"/></media><caption>The Blank “Effect 2” Subsystem</caption></figure>
+
+        </section>
+        <section id="id3624152">
+          <title>Copying a Block from the Echo Subsystem</title>
+          <para id="id6002251">Double click on the “ Effect 1” subsystem. Cut-and-paste a copy of the echo block as follows: while left-clicking the mouse, mark the area to be copied.</para>
+          <figure id="id3315007">
+            <media id="id1172348680942" alt=""><image src="../../media/graphics22-788e.jpg" mime-type="image/jpeg"/></media><caption>Outlining the Block to be Copied</caption></figure>
+    
+          <para id="id5052498">Release the left button on the mouse.</para>
+          <figure id="id4531346">
+            <media id="id1172336454758" alt=""><image src="../../media/graphics23-341a.jpg" mime-type="image/jpeg"/></media><caption>Block to be Copied is Marked</caption></figure>          
+          <para id="id4148899">From pull-down menu, select Edit -&gt; Copy (or Ctrl + C)</para>
+        </section>
+        <section id="id3589980">
+          <title>Blocks Dropped onto Effect 2 Subsystem</title>
+          <para id="id6356408">Return to the “Effect 2” subsystem and Edit -&gt; Paste (Ctrl + V) into the model.</para>
+          <figure id="id3586131">
+            <media id="id1172330640330" alt=""><image src="../../media/graphics24-309e.jpg" mime-type="image/jpeg"/></media><caption>Blocks Dropped onto Subsystem</caption></figure>         
+        </section>
+        <section id="id6407668">
+          <title>Flipping the Blocks</title>
+          <para id="id11350024">The blocks are facing the wrong way. Turn them round using Format -&gt; Flip Block.</para>
+          <figure id="id3635007">
+            <media id="id1172338733711" alt=""><image src="../../media/graphics25-8569.png" mime-type="image/png"/></media><caption>Flipping the Blocks</caption></figure> 
+
+        </section>
+        <section id="id4260258">
+          <title>Changing the Integer Delay for Reverberation.</title>
+          <para id="id7161699">Because the sound goes round several times with reverberation, a shorter delay time can be used. Here the delay time is 0.1 seconds.</para>
+          <figure id="id4510800">
+            <media id="id1172335333836" alt=""><image src="../../media/graphics26-0300.jpg" mime-type="image/jpeg"/></media><caption>Delay Time for Reverberation</caption></figure>
+        
+          <para id="id4547057">Set the “Number of delays” to 800 then click on “OK”.</para>
+        </section>
+        <section id="id4291046">
+          <title>Completing the Reverberation Subsystem</title>
+          <para id="id7337927">Connect the blocks as shown below. Change the title to “Reverberation Subsystem”.</para>
+          <figure id="id7297074">
+            <media id="id1172337569177" alt=""><image src="../../media/graphics27-3530.jpg" mime-type="image/jpeg"/></media><caption>The Completed Reverberation Subsystem</caption></figure>
+
+        </section>
+        <section id="id3574981">
+          <title>Returning to the Parent System</title>
+          <para id="id9448955">From the Toolbar, select the “Up Arrow” icon. This returns you to the next higher level. </para>
+          <figure id="id3726401">
+            <media id="id1172349827727" alt=""><image src="../../media/graphics28-1c0f.jpg" mime-type="image/jpeg"/></media><caption>Returning to the Parent System</caption></figure>
+
+
+        </section>
+      </section>
+      <section id="id4391599">
+        <title>The Improved Echo Subsystem </title>
+        <para id="id3716946">The final subsystem to be implemented will be “Improved Echo”. This is based on the “Echo” subsystem, but with several delay paths.</para>
+        <section id="id4880392">
+          <title>The Complete Improved Echo Subsystem</title>
+          <para id="id4348138">Double click on the “Effect 3” subsystem box. The required components are shown below.</para>
+          <figure id="id4329724">
+            <media id="id1172335122906" alt=""><image src="../../media/graphics29-76f7.jpg" mime-type="image/jpeg"/></media><caption>The Improved Echo Subsystem</caption></figure>
+
+        </section>
+        <section id="id5011144">
+          <title>Implementing the Improved Echo Subsystem</title>
+          <para id="id3983163">You should now have enough knowledge to implement this subsystem block without further assistance. This time you are on your own! </para>
+        </section>
+        <section id="id6381498">
+          <title>Building the Model</title>
+          <para id="id3692699">Select Tools -&gt; Real-Time Workshop -&gt; Build Model.</para>
+          <figure id="id4882481">
+            <media id="id1172330676334" alt=""><image src="../../media/graphics30-e5e5.jpg" mime-type="image/jpeg"/></media><caption>Building the Model</caption></figure>
+                 </section>
+      </section>
+      <section id="id11559350">
+        <title>Running the Model </title>
+        <section id="id3975391">
+          <title>Microphone Straight Through to Loudspeakers</title>
+          <para id="id5021219">To check out the microphone and loudspeakers, set the DIP switches on the C6713 DSK as follows:</para>
+          <figure id="id3660814">
+            <media id="id1172336509172" alt=""><image src="../../media/ngraphics31.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 0</caption></figure>
+          <para id="id3337408">The microphone is fed directly to the loudspeakers without any digital signal processing.</para>
+        </section>
+        <section id="id7064448">
+          <title>Switch Position for Echo</title>
+          <para id="id6071656">To run the “Echo” subsystem, set the DIP switch to 1.</para>
+          <figure id="id3740421">
+            <media id="id1172325896785" alt=""><image src="../../media/ngraphics32.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 1 for Echo</caption></figure>
+        </section>
+        <section id="id3959264">
+          <title>Switch Position for Reverberation </title>
+          <para id="id4510392">To run the “Reverberation” subsystem, set the DIP switch to 2.</para>
+          <figure id="id4393368">
+            <media id="id1172330599717" alt=""><image src="../../media/ngraphics33.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 2 for Reverberation</caption></figure>
+
+        </section>
+        <section id="id10954477">
+          <title>Switch Position for Improved Echo</title>
+          <para id="id7400674">To run the “Improved Echo” subsystem, set the DIP switch to 3.</para>
+          <figure id="id4284414">
+            <media id="id1172346341655" alt=""><image src="../../media/ngraphics34.jpg" mime-type="image/jpeg"/></media><caption>Switch Position 3 for Improved Echo</caption></figure>
+
+        </section>
+      </section>
+    </section>
+    <section id="id4872295">
+      <title>Some Things to Try</title>
+      <section id="id6379200">
+        <title>Change the Echo Delay</title>
+        <para id="id3761302">Change the value of the “Integer Delay” block for echo. Listen to the effect of using short and long delays. Set the delay time to a large value and sing a round such as “Frere Jacques” or “Row, Row, Row your Boat”.</para>
+      </section>
+      <section id="id3786520">
+        <title>Change the Amount of Reverberation Gain</title>
+        <para id="id3951397">In the “Reverberation Subsystem” block, change the “Gain” from 0.8 to higher and lower values. Notice how the system can become unstable if the gain is too large.</para>
+      </section>
+      <section id="id3951402">
+        <title>Modify the Improved Echo Subsystem</title>
+        <para id="id7433826">In the “Improved Echo Subsystem”, you may wish to experiment with the number of delay elements, the delay times and the amounts of gain. Try to make the echo as realistic as possible.</para>
+      </section>
+      <section id="id4333569">
+        <title>Create Your Own Subsystem</title>
+        <para id="id7372979">Add your own subsystem block and add your own signal processing. You might want to design a subsystem with both echo and reverberation.</para>
+        <para id="id6428065"/>
+        <para id="id4610328">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+        <para id="id7362528"/>
+      </section>
+    </section>
+  </content>
+</document>

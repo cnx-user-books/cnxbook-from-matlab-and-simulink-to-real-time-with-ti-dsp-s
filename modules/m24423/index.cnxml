@@ -1,0 +1,130 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Edge Detection</title>
+  <metadata>
+  <md:content-id>m24423</md:content-id><md:title>Edge Detection</md:title>
+  <md:abstract>This module will describe the use of the “Edge Detection” Simulink® Block, to generate real-time DSP code for image and video processing.</md:abstract>
+  <md:uuid>93c58ddb-1dbc-4dee-8d83-cb5b6c1ca0ce</md:uuid>
+</metadata>
+
+<content>
+    
+    <section id="id-720251281833">
+      <title>Introduction</title>
+      <para id="id11731287">This chapter will describe the use of the “Edge Detection” Simulink® Block, both for stills images and video files.</para>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation <link resource="Edge Detection.ppt">Edge Detection.ppt</link></item>
+<item>Simulink Model for Image Processing Simulation- <link resource="EdgeDetectionPicture.mdl">EdgeDetectionPicture.mdl</link></item>	
+<item>MATLAB Script for Real-Time Image Processing - <link resource="EdgeDetectionPicturescript.m">EdgeDetectionPicturescript.m</link></item>
+<item>Simulink Model for Real-Time Image Processing - <link resource="EdgeDetectionPictureDSK6416.mdl">EdgeDetectionPictureDSK6416.mdl</link></item>
+<item>Simulink Model for Video Processing Simulation- <link resource="EdgeDetectionVideo.mdl">EdgeDetectionVideo.mdl</link></item>
+<item>MATLAB Script for Real-Time Video Processing - <link resource="EdgeDetectionVideoscript.m">EdgeDetectionVideoscript.m</link></item>
+<item>Simulink Model for Real-Time Video Processing - <link resource="EdgeDetectionVideoDM6437DVDP.mdl">EdgeDetectionVideoDM6437DVDP.mdl</link></item>
+<item>Input Image - <link resource="TMW2.jpg">TMW2.jpg</link></item>
+<item>Input Video File - <link resource="vipmem_Y.avi">vipmem_Y.avi</link></item>
+<item>MATLAB Routine for AVI to RGB conversion - <link resource="avi2rgb.m">avi2rgb.m</link></item>
+</list>
+</section>
+    </section>
+    <section id="id-857822248931">
+      <title>The Edge Detection Block</title>
+      <para id="id4405120">The "Edge Detection" block from the "Analysis &amp; Enhancement" group of the Video and Image Processing Blockset (Please refer to Figure 1).</para>
+      <figure id="id10755016"><media id="id8347017" alt=""><image src="../../media/graphics1-2d65.png" mime-type="image/png"/></media><caption>The Edge Detection Block</caption></figure>
+      
+      <para id="id5485764">This block will enable you to simulate the edge detection procedure in the input image using the Sobel, Prewitt, Roberts, or Canny methods. </para>
+      <para id="id6416757">If the selected method is Sobel, Prewitt, or Roberts, the Edge Detection block finds the edges in an input image by approximating the gradient magnitude of the image. The block convolves the input matrix with the Sobel, Prewitt, or Roberts kernel. The block output can be either the result of this convolution operation (two gradient components of the image) or a binary image, obtained by comparing the convolution result against a threshold. If a pixel value is ‘1’, in this binary image it is an edge. Please refer to Figure 2</para>
+      <figure id="id5489472"><media id="id10630913" alt=""><image src="../../media/graphics2-95c0.png" mime-type="image/png"/></media><caption>The Edge Detection Block Configuration Window for Sobel, Prewitt and Roberts Methods </caption></figure>
+      
+      <para id="id4230613">If the selected method is Canny, the Edge Detection block finds edges by looking for the local maxima of the gradient of the input image. It calculates the gradient using the derivative of the Gaussian filter. The Canny method uses two thresholds to detect strong and weak edges. Please refer to Figure 3.</para>
+      <figure id="id4267311"><media id="id6681943" alt=""><image src="../../media/graphics3-930c.png" mime-type="image/png"/></media><caption>The Edge Detection Block Configuration Window for the Canny Method </caption></figure>
+      
+    </section>
+    <section id="id-0485974941299">
+      <title>Image (Stills) Processing</title>
+      <section id="id-107031304676">
+        <title>Simulation</title>
+        <list id="id5462640" list-type="enumerated"><item>Open the “<link url="http://cnx.org/Members/jfaing/m23996/stills_sim.mdl">stills_R_W.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23996/latest/">A Framework for Image Processing with the DSK6416</link>" module).</item>
+	<item>Add the "Edge Detection" block from the "Analysis &amp; Enhancement" group of the Video and Image Processing Blockset (Please refer to section ).</item>
+	<item>Connect the various blocks as shown in Figure 4. Save your model.         <figure id="id10874846"><media id="id3838677" alt=""><image src="../../media/graphics4-162a.png" mime-type="image/png"/></media><caption>The Edge Detection Simulation Model for Stills</caption></figure></item>
+	<item>Running this gives you the images shown in Figure 5. 
+       
+<figure id="figure-4" orient="horizontal"><subfigure id="subfigure-1">
+				<title>Input Picture</title>
+				<media id="id9733679" alt=""><image src="../../media/graphics5-1d8a.png" mime-type="image/png"/></media>
+			</subfigure>
+			<subfigure id="subfigure-2">
+				<title>The Processed Picture</title>
+				<media id="id4181242" alt=""><image src="../../media/graphics6-4e79.png" mime-type="image/png"/></media>
+			</subfigure><caption>Edge Detection - Simulation Results</caption></figure></item>
+</list>
+     
+        
+        <para id="id10826620">You may repeat the simulation here to experiment the various algorithms with different thresholds.</para>
+      </section>
+      <section id="id-574438358792">
+        <title>Real-Time</title>
+        <list id="id10730854" list-type="enumerated"><item>Open the “<link url="http://cnx.org/Members/jfaing/m23996/stills_sim.mdl">stills_R_W.mdl</link>” Simulink model (generated in the "<link url="http://cnx.org/content/m23996/latest/">A Framework for Image Processing with the DSK6416</link>" module).</item>
+	<item>Add the "Edge Detection" block from from the "Analysis &amp; Enhancement" group of the Video and Image Processing Blockset, as it was done for the simulation.</item>
+	<item>Connect the various blocks as shown in Figure 6. Save the model (EdgeDetectionPictureDSK6416.mdl).  
+        <figure id="id6445310"><media id="id10483416" alt=""><image src="../../media/graphics7-fccf.png" mime-type="image/png"/></media><caption>The Edge Detection Real Time Implementation Model</caption></figure></item>
+	<item>Generate code &amp; create project. Double-click the " Generate code &amp;.." block.</item>
+	<item>Build the project. Double-click the “Build Project” block.</item>
+	<item>Load the project. Double-click the “Load Project” block.</item>
+	<item>Run the target. Double-click the “Run” block. </item>
+	<item>Run the file “<link url="http://cnx.org/Members/jfaing/module.2008-08-11.5404829390/EdgeDetectionPicturescript.m">“EdgeDetectionPicturescript.m”</link>”, this should give you the images in figure 7. 
+<figure id="figure-3" orient="vertical"><subfigure id="subfigure-3">
+				<title>The Original Color Picture</title>
+				<media id="id11140518" alt=""><image src="../../media/fig8.JPG" mime-type="image/jpeg"/></media>
+			</subfigure>
+			<subfigure id="subfigure-4">
+				<title>The Original Grayscale Picture</title>
+				<media id="id4332216" alt=""><image src="../../media/fig9.JPG" mime-type="image/jpeg"/></media>
+			</subfigure>
+			<subfigure id="subfigure-5">
+				<title>The Received Image(After Edge Detection)</title>
+				<media id="id4331324" alt=""><image src="../../media/fig10-2ba3.JPG" mime-type="image/jpeg"/></media>
+			</subfigure><caption>Edge Detection on the DSK6416</caption></figure></item>
+</list>       
+      </section>
+    </section>
+    <section id="id-303431330876">
+      <title>Video Processing</title>
+      <section id="id-424391613388">
+        <title>Simulation</title>
+        <list id="id4116053" list-type="enumerated">
+          <item>Open the model “video_sim.mdl” model </item>
+          <item>Add the "Edge Detection" block from from the "Analysis &amp; Enhancement" group of the Video and Image Processing Blockset </item>
+          <item>Add a second Video Viewer and connect the various blocks as shown in Figure 8. Save your model (EdgeDetectionVideoDSK6416.mdl). 
+        <figure id="id4400735"><media id="id11474820" alt=""><image src="../../media/graphics11-c88f.png" mime-type="image/png"/></media><caption>The Edge Detection Simulation Model for Video</caption></figure></item>
+
+          <item>Run the model. A single frame of the input and output video is shown in Figure 9.        
+<figure id="figure-2" orient="horizontal"><subfigure id="subfigure-6">
+	<title>Input Video</title>
+	<media id="id12270729" alt=""><image src="../../media/graphics12-8f64.png" mime-type="image/png"/></media>
+	</subfigure>
+<subfigure id="subfigure-7">
+	<title>Processed Video</title>
+	<media id="id12471792" alt=""><image src="../../media/graphics13-3485.png" mime-type="image/png"/></media>
+	</subfigure><caption>Edge Detection on Video</caption></figure></item>
+</list>
+        <para id="id6217147">You may repeat the simulation here to experiment the various algorithms with different thresholds.</para>
+      </section>
+      <section id="id-137817724787">
+        <title>Real-Time</title>
+        <list id="id10876663" list-type="enumerated"><item>Connect the camera and the display to the board and open the “<link url="http://cnx.org/content/m23999/latest/Video_R_W.mdl">Video_R_W.mdl</link>” (placed in the “<link url="http://cnx.org/content/m23999">A Framework for Video Processing with the DM6437 DVDP
+</link>” module.).<figure id="id11274004"><media id="id4330611" alt=""><image src="../../media/graphics14-cbf7.png" mime-type="image/png"/></media><caption>The Edge Detection Real Time Implementation Model</caption></figure></item>
+	<item>Change the name of the “Video Processing” block to “Edge Detection” (Please refer to Figure 10). A new window will be opened</item>
+	<item>Add the "Edge Detection" block from the "Analysis &amp; Enhancement" group of the Video and Image Processing Blockset, as it was done for the simulation. </item>
+	<item>Add the "Image Data Type Conversion" block from the " Conversion" group of the Video and Image Processing Blockset. </item>
+	<item>Set the model in the Simulation-&gt;Configuration Parameters, as shown in Figure 11.</item>
+	<item>Generate code &amp; create project. Double-click the " Generate code &amp;.." block</item>
+	<item>Build the project. Double-click the “Build Project” block.</item>
+	<item>Load the project. Double-click the “Load Project” block.</item>
+	<item>Run the target. Double-click the “Run” block. The results will be diaplyed in the screen as shown in Figure 12. <figure id="id3681834"><media id="id6588332" alt=""><image src="../../media/graphics15-3e92.png" mime-type="image/png"/></media><caption>Configuration Parameters for CCS</caption></figure>
+		<figure id="id7792661"><media id="id11478526" alt=""><image src="../../media/last_fig.jpg" mime-type="image/jpeg"/></media><caption>Edge Detection on Real-time Video</caption></figure></item>
+</list>
+
+       </section>
+   </section>
+  </content>
+</document>

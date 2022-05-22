@@ -1,0 +1,226 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>A Framework for Video Processing with the DM6437 DVDP</title>
+  <metadata>
+  <md:content-id>m23999</md:content-id><md:title>A Framework for Video Processing with the DM6437 DVDP</md:title>
+  <md:abstract>This module describes general procedures for reading and writing video streams using the DM6437 Digital Video Development Platform (DVDP). The scripts and models created in this chapter will be the basis for simulation and implementation of video processing algorithms.</md:abstract>
+  <md:uuid>e472d6de-b21e-493b-aba5-ec7b494ec961</md:uuid>
+</metadata>
+
+<content>
+    <section id="id3018161">
+      <title>Introduction</title>
+      <para id="id3018168">This chapter describes general procedures for reading and writing video streamss. The scripts and models created in this chapter will be the basis for the other video processing chapters.</para>
+      <section id="id3661046">
+        <title>Hardware and Software Requirements </title>
+        <para id="id3602274">This laboratory was originally developed using the following hardware and software:</para>
+        <list id="id3602280" list-type="bulleted"><item id="id3602283">MATLAB® R2008a </item>
+	<item>Code Composer Studio (CCS) v3.3</item>
+	<item>Texas Instruments DM6437 Digital Video Development Platform (DVDP) .</item>
+	<item>Video camera and screen.</item>
+</list>
+      </section>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Simulink Model for Simulation - <link resource="Video_sim.mdl">Video_sim.mdl</link></item>
+	<item>Input Video File - <link resource="vipmem_Y.avi">vipmem_Y.avi</link></item>
+	<item>Simulink Model for Real-Time Video Processing with a Camera- <link resource="Video_R_W.mdl">Video_R_W.mdl</link>
+	</item>
+	<item>
+MATLAB script for Real-Time TCP/IP Interface - <link resource="RW_tcpip_script.m">
+RW_tcpip_script.m</link></item>
+	<item>Simulink Model for Real-Time Video Processing through the TCP/IP Interface - <link resource="RW_dm6437_tcpip.mdl">RW_dm6437_tcpip.mdl </link></item>
+	<item>Simulink Model for PC Control of Real-Time Video Processing through the TCP/IP Interface - <link resource="RW_pcl_tcpip.mdl">RW_pcl_tcpip.mdl</link></item></list>
+</section>
+
+    </section>
+    <section id="id3565815">
+      <title>Simulation</title>
+      <para id="id3556581">Start by creating a new model in Simulink®.</para>
+      <list id="id3599760" list-type="enumerated">
+        <item>Open the Simulink library browser and add the "From Multimedia File" from the "Sources" group of the Video and Image Processing Blockset (Please refer to Figure 1).       <figure id="id3016258"><media id="id1171968411448" alt=""><image src="../../media/graphics1-54fc.png" mime-type="image/png"/></media><caption>The "From Multimedia File" Simulink Block</caption></figure></item>
+
+      
+      <item>Double Click and select the <link resource="vipmem_Y.avi">“vipmem_Y.avi”</link> input file(Please refer to Figure 2). 
+      <figure id="id3542608"><media id="id2409530" alt=""><image src="../../media/graphics2-e37e.png" mime-type="image/png"/></media><caption>Source Block Configuration</caption></figure></item>
+
+        <item>In order to display the picture the "Video Viewer" from the "Sinks" group of the Video and Image Processing Blockset will be used. 
+           <figure id="id3668571"><media id="id1171967011576" alt=""><image src="../../media/graphics3-1d0e.png" mime-type="image/png"/></media><caption>The "To Video Display" Block</caption></figure>
+      
+      <figure id="id3660376"><media id="id1171973527876" alt=""><image src="../../media/graphics4-0e5b.png" mime-type="image/png"/></media><caption>Configuring the Video Viewer</caption></figure>
+</item>      
+
+        <item>Connect the three blocks as shown in Figure 5. 
+      <figure id="id3143774"><media id="id2496290" alt=""><image src="../../media/graphics5-46fc.png" mime-type="image/png"/></media><caption>Displaying a Video-Clip</caption></figure></item>
+
+        <item>Run the model, you should see the video clip. A single frame is shown mage shown in Figure 6.  
+      <figure id="id4769820"><media id="id1971074" alt=""><image src="../../media/graphics6-26c9.png" mime-type="image/png"/></media><caption>The Video Display</caption></figure></item>
+
+ <item>Save your model (We used the name “Video_sim.mdl", that you may find it <link resource="Video_sim.mdl"> here</link>).</item>
+</list>
+    </section>
+    <section id="id3188023">
+      <title>Real-Time Processing with the DM6437 DVDP</title>
+      <section id="id3185022">
+        <title>Using a Camera and a Display</title>
+        <para id="id3185029">The procedure for capture/display video using the DM6437 is shown in Figure 7. </para>
+<figure id="id3535672"><media id="id3960886" alt=""><image src="../../media/graphics7-545e.png" mime-type="image/png"/></media><caption>Using the Video I/O of the DM6437 board</caption></figure>
+        <section id="id4769354">
+          <title>CCS Code Generation</title>
+          <para id="id3773650">This procedure is similar to the one developed for stills pictures. Video will be capture/display using a camera and a monitor. Image acquisition and Processing will run in a DSP/BIOS task.</para>
+          <list id="id3773657" list-type="enumerated">
+            <item>Open the “stills_R_W.mdl”</item>
+            <item>Delete the “From RTDX” and “To RTDX” blocks</item>
+            <item>Add the "Task" block from the "DSP/BIOS library" group of the "Target Support Package TC6" Blockset.</item>
+            <item>Add the “Function- Call Subsystem” from the “Ports &amp; Subsystems" group of the "Simulink" Blockset (Please refer to Figure 8).         
+          <figure id="id3755703"><media id="id1171967001948" alt=""><image src="../../media/graphics8-66e9.png" mime-type="image/png"/></media><caption>The "Function-Call Subsystem" Block</caption></figure></item>
+
+            <item>Rename “Function- Call Subsystem” to “Video Processing” and connect it to the “Task” block. </item>
+            <item>Save the model as “Video_R_W.mdl”. Your model should look as follows<footnote id="id1171971665697">You may add a title to the model, as done here ( ”Video Processing Template”) </footnote>: 
+
+          <figure id="id3771077"><media id="id1171967374747" alt=""><image src="../../media/graphics9-4585.png" mime-type="image/png"/></media><caption>The Video Processing Model Template</caption></figure></item>
+          
+ 
+            <item>Double-click the “Task” block and make the same changes as shown in Figure 34.  
+            <figure id="id3749393"><media id="id1171974095648" alt=""><image src="../../media/graphics10-627c.png" mime-type="image/png"/></media><caption>Configuring a "Task"</caption></figure>
+          </item>
+
+            <item>Double-click the “Video Processing” block. A new window will be opened.</item>
+            <item>In the new window, add the "Video Capture" and "Video Display" from the "DM6437 EVM Board Support" group of the ""Target Support Package TC6" Blockset as shown in Figure 11. 
+            <figure id="id3774688"><media id="id1171976900862" alt=""><image src="../../media/graphics11-3d03.png" mime-type="image/png"/></media><caption>The "Video Capture" block</caption></figure>
+          </item>
+
+            <item>Double-click the “Video Capture” block and change the Sample Time (and the Video capture mode only if you are using the components in the PAL mode) as shown in Figure 12. 
+
+          <figure id="id3827106"><media id="id1171969800503" alt=""><image src="../../media/graphics12-6695.png" mime-type="image/png"/></media><caption>Video Capture Configuration</caption></figure></item>
+
+            <item>Double-click the “Video Display” block and change the Video capture mode only if you are using the components in the PAL<footnote id="id5842815">If the camera video capture mode is NTSC you should choose this option </footnote> mode as shown in Figure 13. 
+          <figure id="id3794853"><media id="id1171970315589" alt=""><image src="../../media/graphics13-eaeb.png" mime-type="image/png"/></media><caption>Video Display Configuration</caption></figure></item>
+
+            <item>Connect the blocks as shown in Figure 14.
+
+          <figure id="id3743251"><media id="id1171973169971" alt=""><image src="../../media/graphics14-eed9.png" mime-type="image/png"/></media><caption>Capturing and Displaying Video</caption></figure></item>
+
+            <item>Generate code &amp; create project. Double-click the " Generate code &amp;.." block.</item>
+            <item>Build the project. Double-click the “Build Project” block.</item>
+            <item>Load the project. Double-click the “Load Project” block.</item>
+            <item>Run the target. Double-click the “Run” block. 
+          This model can be found <link resource="Video_R_W.mdl"> here</link>.</item>
+
+         </list>
+        </section>
+      </section>
+      <section id="id3884205">
+        <title>Using the TCP/IP Interface</title>
+        <para id="id3884215">This section will describe a Simulink model used to generate code for capturing and displaying video frames from/to the PC target using the TCP/IP protocol<footnote id="id1171967285846">You should allocate an IP address to the DM6437 DVDP, as described in the board documentation. </footnote>. </para>
+
+          <figure id="id4769784"><media id="id1171969605786" alt=""><image src="../../media/graphics15-371a.png" mime-type="image/png"/></media><caption>Capturing and Displaying Video Using the TCP/IP port</caption></figure>
+
+        
+        <list id="id4769370" list-type="enumerated">
+          <item>Create a new Simulink model</item>
+          <item>Open the Simulink library browser and add the "C6437EVM" from the "Target Support Package TC6" group of the " C6000 Target Preferences" Blockset (Please refer to Figure 16).         
+        <figure id="id4771845"><media id="id1171973293560" alt=""><image src="../../media/graphics16-826a.png" mime-type="image/png"/></media><caption>The "C6437EVM" Block</caption></figure> 
+We now need to create Simulink dedicated block to execute CCS commands. 
+</item>
+
+        
+
+          <item>Drag in an empty subsystem into the model (Simulink-&gt;Ports &amp; Subsystem-&gt; Subsystem).</item>
+          <item>Delete its contents </item>
+          <item>Format it: Give it a name. In our example we use “Bulid / Reload &amp; Run".</item>
+          <item>Right click on the Subsystem, choose “Block Properties”. Go to the Callbacks tab, and under OpenFcn* enter: “RW_tcpip_script('RW_pcl_tcpip');”, as shown in the following picture: 
+        <figure id="id4770773"><media id="id1171966973271" alt=""><image src="../../media/graphics17-7049.png" mime-type="image/png"/></media>
+<caption>Creating the “Bulid / Reload &amp; Run” Simulink block</caption></figure> </item>
+
+          <item>Add the "Task" block from the "DSP/BIOS library" group of the "Target Support Package TC6" Blockset.</item>
+          <item>Add the “Function- Call Subsystem” from the “Ports &amp; Subsystems" group of the "Simulink" Blockset (Please refer to Figure 18). 
+        <figure id="id4771035"><media id="id1171977823779" alt=""><image src="../../media/graphics18-66e9.png" mime-type="image/png"/></media><caption>The "Function-Call Subsystem" Block</caption></figure></item>
+       
+
+<item>Rename “Function- Call Subsystem” to “R_W Algorithm” and connect it to the “Task” block. </item>
+	<item>Add the "IP Config" block from "Target Support Package™ TC6-&gt;DM6437 EVM Board Support"</item>
+	<item>Save the model as “RW_dm6437_tcpip.mdl”. Your model should look as follows: 
+        <figure id="id3855427"><media id="id1171975832628" alt=""><image src="../../media/graphics19-36ad.png" mime-type="image/png"/></media><caption>The " RW_dm6437_tcpip.mdl " Model</caption></figure></item>
+
+
+<item id="id3991583">Double-click the “Task” block and make the same changes as shown in Figure 20. 
+        <figure id="id3991600"><media id="id1171977021510" alt=""><image src="../../media/graphics20-d216.png" mime-type="image/png"/></media><caption>"Task" Configuration</caption></figure></item>
+ <item>Double-click the “IP Config” block and make the same changes as shown in Figure 21. 			<figure id="id4770567"><media id="id1171967371855" alt=""><image src="../../media/graphics21-e134.png" mime-type="image/png"/></media><caption>“IP Config” Configuration</caption></figure></item>
+	<item>Double-click the “R_W Algorithm” block. A new window will be opened. </item>
+	<item>In the new window, add the "TCP/IP Recive", "TCP/IP Send", "Byte Unpack" and "Byte Pack" from the "C6000 DSP Communication Libary" group of the ""Target Support Package TC6" Blockset as shown in Figure 22. 
+
+          <figure id="id3991509"> <media id="id1171969793562" alt=""><image src="../../media/graphics22-a59b.png" mime-type="image/png"/></media><caption>The "TCP/IP Receive" and "TCP/IP Send" blocks</caption></figure></item>
+
+          <item>Connect the blocks as shown in Figure 23. 
+         <figure id="id3991505"><media id="id1171967639432" alt=""><image src="../../media/graphics23-8d03.png" mime-type="image/png"/></media><caption>The “R_W Algorithm” block</caption></figure></item>
+
+          <item>Double-click the “TCP/IP Receive” block and make the same changes as shown in Figure 24.
+<figure id="figure-2" orient="vertical"><subfigure id="subfigure-1">
+	<media id="id1171967684276" alt=""><image src="../../media/graphics24-fda9.png" mime-type="image/png"/></media>
+	<caption>Main Screen</caption>
+</subfigure>
+<subfigure id="subfigure-2">
+	<media id="id1171977580311" alt=""><image src="../../media/graphics25-284d.png" mime-type="image/png"/></media>
+	<caption>Data Types</caption>
+</subfigure><caption>"TCP/IP Receive" Configuration</caption></figure>.</item>
+
+
+<item>Double-click the “TCP/IP Send” block and configure it as shown in Figure 25: 
+          <figure id="id3798999"><media id="id1171967314106" alt=""><image src="../../media/graphics26-683f.png" mime-type="image/png"/></media><caption>"TCP/IP Send" Configuration</caption></figure></item>
+
+
+          <item>Double-click the “Byte Unpack” block and configure it as shown in Figure 26. 
+          <figure id="id4770900"><media id="id1171967529872" alt=""><image src="../../media/graphics27-e50f.png" mime-type="image/png"/></media><caption>" Byte Unpack " Configuration</caption></figure>
+       </item>
+
+          <item>Double-click the “Byte pack” block and configure it as shown in Figure 27. 
+          <figure id="id4769505"><media id="id1171977808880" alt=""><image src="../../media/graphics28-ab48.png" mime-type="image/png"/></media><caption>" Byte Pack " Configuration</caption></figure></item>
+
+
+          <item>Open a new m-file, copy the following code and save it as "RW_tcpip_script.m" at the same directory as the model.</item>
+          <item>Create another new Simulink model. Add the "Byte Pack" from the "C6000 DSP Communication Libary" group of the ""Target Support Package TC6" Blockset as shown before and the "TCP/IP Receive", "TCP/IP Send" from the "Instrument Control Toolbox" blockset.</item>
+          <item>Configure the " TCP/IP Receive " and " TCP/IP Send " blocks : 
+
+ <figure id="figure-3" orient="vertical"><subfigure id="subfigure-3">
+	<media id="id5989165" alt=""><image src="../../media/graphics29-2b63.png" mime-type="image/png"/></media>
+	<caption>"TCP/IP Receive"</caption>
+</subfigure>
+<subfigure id="subfigure-4">
+	<media id="id1171967526854" alt=""><image src="../../media/graphics30-683f.png" mime-type="image/png"/></media>
+	<caption>TCP/IP Send</caption>
+</subfigure><caption> "TCP/IP Receive" "TCP/IP Send" Blocks Configuration</caption></figure></item>
+ <item>Add the "To Video Display" from the "DM6437 EVM Board Support" group of the ""Target Support Package TC6" Blockset , also add the "From Multimedia File" from " Signal Processing Sources" group of the "Signal Processing blockset".</item>
+<item>Configure the " From Multimedia File " block 
+ <figure id="figure-4" orient="vertical"><subfigure id="subfigure-5">
+	<media id="id1171974343385" alt=""><image src="../../media/graphics31-7c50.png" mime-type="image/png"/></media>
+	<caption>"TCP/IP Receive"</caption>
+</subfigure>
+<subfigure id="subfigure-6">
+	<media id="id1171972479920" alt=""><image src="../../media/graphics32-7e09.png" mime-type="image/png"/></media>
+	<caption>TCP/IP Send</caption>
+</subfigure><caption>"From Multimedia File" Configuration</caption></figure></item>
+
+          <item>Add the “Subsystem” from the “Ports &amp; Subsystems" group of the "Simulink" Blockset as shown before.</item>
+          <item>Rename “Function- Call Subsystem” to “Display”.Double-click the “Display” block. A new window will be opened. In the new window, add the "Byte Unpack" and " To Video Display " as shown before, add the "Reshape" from the "Math Operations" grope of the "Simulink" blockset. (Configurations are the same as before). </item>
+          <item>Connect the blocks as follows:            <figure id="id4771784"><media id="id1171967255378" alt=""><image src="../../media/graphics33-8e6a.png" mime-type="image/png"/></media><caption>The "Display" block</caption></figure></item>
+
+
+          <item>Your model should look as follows:</item>
+          <item>Save it as “RW_pcl_tcpip.mdl”. </item>
+          <item>Build load and run the project. Double-click the "Build / Reload &amp; Run" block.</item>
+          <item>Running the script, you will see the video captured and displayed. A single frame is shown in Figure 32. 
+ <figure id="figure-5" orient="vertical"><subfigure id="subfigure-7">
+	<media id="id1171967825398" alt=""><image src="../../media/graphics35-166b.png" mime-type="image/png"/></media>
+	<caption>The Captured Video</caption>
+</subfigure>
+<subfigure id="subfigure-8">
+	<media id="id1171967630526" alt=""><image src="../../media/graphics36-9e97.png" mime-type="image/png"/></media>
+	<caption>The Displayed Video</caption>
+</subfigure><caption>Capturing and Displaying Video Using TCP/IP </caption></figure></item>
+
+ <item>This model can be found <link resource="RW_pcl_tcpip.mdl">here</link>.</item>
+</list>
+      </section>
+    </section>
+  </content>
+</document>

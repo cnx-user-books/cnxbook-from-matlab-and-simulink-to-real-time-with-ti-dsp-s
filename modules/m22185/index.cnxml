@@ -1,0 +1,1135 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Audio Conference Bridge</title>
+  <metadata>
+  <md:content-id>m22185</md:content-id><md:title>Audio Conference Bridge</md:title>
+  <md:abstract>The Audio Conference Bridge enables a voice call with multiple (n &gt;2) attendants. The algorithm monitors the voice signals from all attendants, and creates the signals to be transmitted to the attendants.
+In this module the implementation of such a bridge is described, The implementation is based on the integration of user-specific driver with the Simulink environement building blocks.</md:abstract>
+  <md:uuid>9fb1b3ea-03dd-40c0-8023-db33fb52dd08</md:uuid>
+</metadata>
+
+<content>
+    <section id="id12255014">
+      <title>Introduction</title>
+      <para id="id3432338">The Audio Conference Bridge enables a voice call with multiple (n &gt;2) attendants, as described in Figure 1. The algorithm monitors the voice signals from all attendants, and creates the signals to be transmitted to the attendants.</para>
+      <para id="id10377571">This application cannot be implemented using solely the DSK6713, as it has only 2 analog ports. Therefore two daughterboards, the TLV320AIC20/20KEVM and the DSP/CODEC development platform, are used. In this example we will integrate an algorithm based on Simulink blocks, with a legacy driver.</para>
+      <para id="id9796164">This module demonstrates the use of the device driver building blocks together with legacy code integration to implement a custom device driver on the DSK6713. This feature allows the use of the Simulink® environment with user-specific drivers.</para>
+      <para id="id4189353">A wide range of algorithms exist, in the current chapter a simple algorithm based on finding the maximum level among 3 attendants is implemented </para>
+      <figure id="id9123948">
+        <media id="id8209876" alt=""><image src="../../media/graphics1-8bd7.jpg" mime-type="image/jpeg"/></media>
+<caption>The Audio Conference Bridge</caption>
+      </figure><section id="element-391"><title>Related Files</title><section id="myfiles">    
+<list id="id10274059" list-type="bulleted"><item>Powerpoint Presentation - <link resource="Multichannel.ppt">Multichannel.ppt</link></item>
+	<item>CCS Example Project - <link resource="C67.rar">C67.rar</link></item>
+	<item>Simulink Model for Audio Conference Bridge and Legacy Driver Files - <link resource="C67_Simulink_conference.rar">C67_Simulink_conference.rar</link></item>
+</list>
+</section>
+</section>
+        </section>
+    <section id="id11577344">
+      <title>The Platform</title>
+      <para id="id9562529">The DSK6713 supports stereo analog inputs and outputs. The Audio Conference Bridge application demands more analog ports. In this example we will use TLV320AIC24EVM<footnote id="id13042836">An additional board the DSP-CODEC Platform () is also needed. This board mainly interfaces between the TLV320AIC24EVM connector and the peripherals connector in the DSK6713.</footnote>(). This board contains two TLV320AIC24 () stereo CODECs, thus supporting 4 audio channels. The system is shown in Figure 2. </para>
+      <para id="id3351465">The TLV320AIC24 implements the smart time division multiplexed serial port (SMARTDM™). The SMARTDM port is a synchronous 4-wire serial port in TDM format for glue-free interface to TI DSPs. The TLV320AIC24 can be gluelessly cascaded to any SMARTDM-based device to form a multichannel CODEC, and up to eight TLV320AIC2x CODECs can be cascaded<footnote id="id6666846">We will use a single EVM board in this example.</footnote>.</para>
+      <para id="id12025848">The SMARTDM port is connected to the Multichannel Buffered Serial Port (McBSP) in the DSP as shown in Figure 3. </para>
+      <para id="id10381997">The TLV320AIC24 supports various types of analog interfaces, and can operate with sampling rates to 104 KSPS, with 16 bit samples. The block diagram is shown in Figure 4. The TLV320AIC24 features are summarized in Figure 5.</para>
+      <figure id="id12156746">
+        <media id="id9508917" alt=""><image src="../../media/graphics2-a52e.jpg" mime-type="image/jpeg"/></media>
+        <caption>The Platform</caption> 
+      </figure>
+      <figure id="id6630722">
+        <media id="id9300390" alt=""><image src="../../media/graphics3-0824.jpg" mime-type="image/jpeg"/></media>
+        <caption>TLV320AIC24 Interface</caption> 
+      </figure>
+      <figure id="id9098252">
+        <media id="id8380946" alt=""><image src="../../media/graphics4-c1ce.jpg" mime-type="image/jpeg"/></media>
+        <caption>TLV320AIC24 Block Diagram</caption> 
+      </figure>
+      <figure id="id9414512">
+        <media id="id7919836" alt=""><image src="../../media/figure5.jpg" mime-type="image/jpeg"/></media>
+        <caption>TLV320AIC24 Features Summary</caption> 
+      </figure>
+
+    </section>
+    <section id="id9562921">
+      <title>The TLV320AIC24 Driver</title>
+    <section id="id9562777">
+      <title>Principle of Operation</title>
+      <para id="id8526949">The driver operates in a double-buffering scheme as shown in Figure 6. There are two buffers in each direction (Receive/Transmit). For each frame to processes occur simultaneously:</para>
+      <list id="id5314632" list-type="enumerated">
+        <item>The CPU processes samples from one of the receive buffers, and stores the results in the correspondent transmit buffer.</item>
+        <item>The EDMA reads and writes samples that belong to the next frame.</item>
+        </list>
+<figure id="verfig" orient="vertical">
+   <subfigure id="subfig1">
+     <title>Frame #n</title>
+    <media id="id4404782" alt=""><image src="../../media/graphics7-6b14.png" mime-type="image/png"/></media>
+  </subfigure>
+  <subfigure id="subfig2">
+    <title>Frame #n+1</title>
+    <media id="id9433920" alt=""><image src="../../media/graphics8-425e.png" mime-type="image/png"/></media>
+  </subfigure>
+  <caption>
+    Double-Buffering Mechanism
+  </caption>
+</figure>
+
+      <para id="id10378254">The driver uses two EDMA channels. The first will read from a fixed location in the memory, which is the received data register (DRR) of the MCBSP port, to a buffer in the memory that will hold those samples. The second will write from a buffer in the memory to a fixed location that is the transmit register (DXR) of the MCBSP port.</para>
+      <para id="id8792048">Samples are send/received to/from the CODEC in an interleaved mode. The EDMA receive channel sorts the samples and place the samples of each channel placed in consecutive addresses in the data memory. A symmetric process occurs in the opposite direction. Figure 7 describes the process of receiving samples and Figure 8 describes the process of transmitting samples. Once a buffer is received/transmitted a Callback (please refer to section ) function is called, activating the signal processing procedures.</para>
+      <figure id="id11361611">
+        <media id="id4135329" alt=""><image src="../../media/graphics9-cda7.png" mime-type="image/png"/></media>
+        <caption>Receiving Samples</caption> 
+      </figure>
+      <figure id="id10882773">
+        <media id="id4638001" alt=""><image src="../../media/graphics10-3270.png" mime-type="image/png"/></media>
+        <caption>Transmitting Samples</caption> 
+      </figure>
+</section>
+<section id="id10375750">
+
+      <para id="id5292386">The driver consists of 4 files:</para>
+      <list id="id5199033" list-type="enumerated">
+        <item>”aic24_defs.h” – This file contains the definitions of the various registers of the TLV320AIC24.</item>
+        <item>”aic24.h” – Needed for the DSP configuration.</item>
+        <item>”aic24.c” – Contains the various initialization routines.</item>
+        <item>“AIC24-C6713.cdb” - DSP-BIOS configuration file.</item>
+      </list>
+      <para id="id7280580">Those files should be integrated with a user file, explained in the next section.</para>
+</section>
+      <section id="id4166021">
+ <title>The Driver Interface</title>
+      <para id="id3295830">The driver interface is implemented in the user defined file. This file consists of the main program and the callback processing function.</para>
+
+      <section id="id10649828">
+        <title>The “main” program</title>
+        <para id="id3174606">The driver allocates a handle to the chain of CODECs, initializes it and afterwards activates the components.</para>
+        <para id="id5396139">This file:</para>
+        <list id="id4347816" list-type="enumerated">
+          <item>Initializes the AIC24 handle. This is a structure that contains handles to the EDMA and to the MCBSP port. It also contains their configuration structures, pointers to user buffers (the data is read and written through them) and some more variables like the AIC24 register values, the current buffer etc. handle and the data is exchanged through a callback function. The function AIC24_Init Defaults initializes the handle with the values provided by user and some default values.</item>
+          <item>Configures the TLV320AIC24 mode<footnote id="id7791875">The CODEC can operate in DATAMODE or PROGRAMMING mode. We’ll use DATAMODE only. For a detailed explanation, please refer to the TLV320AIC24 datasheet.</footnote>.</item>
+          <item>n addition, the user needs to map the analog input/output ports to the channels in the SMARTDM/McBSP (Please refer to ).</item>
+          <item>Run the AIC24_Start, the main function that:</item>
+        </list>
+        <list id="id10787432" list-type="bulleted">
+          <item>Configures the McBSP</item>
+          <item>Activates the McBSP</item>
+          <item>Configures the AIC24 (through the McBSP).</item>
+          <item>Configures the EDMA</item>
+          <item>Activates the EDMA</item>
+        </list>
+      </section>
+      <section id="id3654803">
+        <title>The Callback Function</title>
+        <para id="id6608006">The user is required to create a callback function were the processing is implemented. This function receives pointers to two buffers as arguments; one buffer contains the latest information read from the CODECs, while the second will contain the data to be written to the CODECs. The callback function template is shown: </para>
+
+<para id="myid"><title>The Callback Function Template</title>
+<code id="id11027361" display="block">
+void process(Int16 *r_data, Int16 *w_data
+{
+   /* Processing functions (user-defined) */
+}
+</code></para>
+</section>
+</section>
+<section id="id12584914">
+<title>Using the Driver in the CCS Environment</title>
+        <para id="id5831169">In this section we will describe the way the driver is used in the CCS environment.</para>
+        <list id="id6688711" list-type="enumerated">
+          <item>Create a new project in the CCS environment</item>
+          <item>Copy the following files to the project directory<footnote id="id9793422">This is not mandatory. You may add the files from any directory.</footnote>:</item>
+        </list>
+        <list id="id13172242" list-type="bulleted">
+          <item>aic24.c </item>
+          <item>aic24.h </item>
+          <item>aic24_defs.h</item>
+          <item>AIC24-C6713.cdb</item>
+          <item>Add aic24.c and AIC24-C6713.cdb files to your project.</item>
+          <item>Add the user file with the callback function.</item>
+        </list>
+        <para id="id8708296">An example of this process is provided in the next section.</para>
+</section>
+        <section id="id13078324"><title>An example</title>
+        <para id="id6488628">The example creates two audio paths as follows:</para>
+        <para id="id5189627">Path # 1: J14 ⇒ CODEC#0/INP1 ⇒ SMARTDM/Channel 0 ⇒ McBSP1/Channel 0 ⇒ DSP ⇒ McBSP1/Channel 2 ⇒ SMARTDM/Channel 2 ⇒ CODEC#2/OUTP1 ⇒ J4 </para>
+        <para id="id11073672">Path # 2: J13 ⇒ CODEC#2/INP3 ⇒ SMARTDM/Channel 2 ⇒ McBSP1/Channel 2 ⇒ DSP ⇒ McBSP1/Channel 0 ⇒ SMARTDM/Channel 0 ⇒ CODEC#0/OUTP2 ⇒ J5 </para>
+        <para id="id12424263">The example is illustrated in Figure 9. A user defined function “test.c” was created for this application. </para>
+        <figure id="id13069132">
+          <media id="id7572053" alt=""><image src="../../media/graphics11-5d5d.png" mime-type="image/png"/></media>
+        <caption>CCS Example Configuration</caption> 
+      </figure>
+<section id="progsect"><title>The Program</title>
+<para id="id10376676">The first part of the program defines the buffers for reading and writing samples.</para>
+<para id="myid1"><title>Buffer Allocation</title>
+<code id="id13137165" display="block">
+#define NUM_CODECS	4	// The number of CODECs connected
+#define DATANUM	128	// The number of samples  in each channel
+#define DATAMODE	0	// AIC24 operates in data mode
+
+#if 〔DATAMODE == 1〕
+	#define BUFS_PER_CHANNEL 1
+#else
+	#define BUFS_PER_CHANNEL 2
+#endif
+
+Int16 r_data1[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];  // data buffer for read
+Int16 w_data1[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];    // data buffer for read
+Int16 r_data2[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];    // data buffer for write
+Int16 w_data2[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];    // data buffer for write
+
+</code></para>
+        <para id="id4446556">The callback function follows the template introduced in the previous section, and calls the subroutine “copyData”.</para>
+<para id="myid2"><title>The Callback Function</title>
+<code id="id13159548" display="block">
+void copyData〔Int16 *inbuf, Int16 *outbuf, Int16 length〕
+{
+    Int16 i = 0;
+    
+    for 〔i = 0; i &lt; length; i++rbbrk; {                      
+        outbuf[i] = inbuf[i];
+    }
+}
+
+// The callback function that is called when the EDMA buffers are full
+// The function copies the data from channel 0 to channel 2
+void process(Int16 *r_data, Int16 *w_data)
+{
+	if (hAIC24.DataMode)
+	{
+		int i;
+		for (i=0; i&lt;DATANUM; i++)
+			r_data[0*DATANUM+i] ⩓= 0xfffe;
+	}
+	copyData(r_data+0*DATANUM, w_data+2*DATANUM, DATANUM);
+}
+</code></para>
+
+        <para id="id9533676">The main program: </para>
+        <list id="id9412259" list-type="bulleted">
+          <item>Sets the AIC24 handle</item>
+          <item>Maps the analog ports <footnote id="id7811112">The driver sets a default configuration. Those commands are needed if changes in the default configuration are required.</footnote></item>
+          <item>Starts the AIC24</item>
+        </list>
+        <para id="id12165156">After this step, the program will enter in an endless loop. Samples will be processed each time an EDMA interrupt occurs.</para>
+<para id="myid3"><title>The “main” program</title>
+<code id="id10410531" display="block">
+int main()
+{
+	// setting up the AIC24 handle
+	AIC24_InitDefaults(⩓hAIC24, NUM_CODECS, DATANUM, r_data1, r_data2, w_data1, w_data2, process);
+
+	// determining data mode (continuous or programming)
+	hAIC24.DataMode = DATAMODE;
+
+	// example for setting devices input and outputs
+	// if defaults are ok then this is not necessary
+	hAIC24.Regs[0].creg6.reg6a.control_bit.mici = 0;
+	hAIC24.Regs[0].creg6.reg6a.control_bit.inp1 = 1;
+	hAIC24.Regs[0].creg6.reg6a.control_bit.inp2 = 0;
+	hAIC24.Regs[0].creg6.reg6a.control_bit.inp3 = 0;
+	hAIC24.Regs[0].creg6.reg6a.control_bit.inp4 = 0;
+	hAIC24.Regs[0].creg6.reg6b.control_bit.outp1 = 0;
+	hAIC24.Regs[0].creg6.reg6b.control_bit.outp2 = 1;
+	hAIC24.Regs[0].creg6.reg6b.control_bit.outp3 = 0;
+
+	hAIC24.Regs[1].creg6.reg6a.control_bit.mici = 0;
+	hAIC24.Regs[1].creg6.reg6a.control_bit.inp1 = 0;
+	hAIC24.Regs[1].creg6.reg6a.control_bit.inp2 = 0;
+	hAIC24.Regs[1].creg6.reg6a.control_bit.inp3 = 0;
+	hAIC24.Regs[1].creg6.reg6a.control_bit.inp4 = 0;
+	hAIC24.Regs[1].creg6.reg6b.control_bit.outp1 = 0;
+	hAIC24.Regs[1].creg6.reg6b.control_bit.outp2 = 0;
+	hAIC24.Regs[1].creg6.reg6b.control_bit.outp3 = 0;
+
+	hAIC24.Regs[2].creg6.reg6a.control_bit.mici = 0;
+	hAIC24.Regs[2].creg6.reg6a.control_bit.inp1 = 0;
+	hAIC24.Regs[2].creg6.reg6a.control_bit.inp2 = 0;
+	hAIC24.Regs[2].creg6.reg6a.control_bit.inp3 = 1;
+	hAIC24.Regs[2].creg6.reg6a.control_bit.inp4 = 0;
+	hAIC24.Regs[2].creg6.reg6b.control_bit.outp1 = 1;
+	hAIC24.Regs[2].creg6.reg6b.control_bit.outp2 = 0;		
+	hAIC24.Regs[2].creg6.reg6b.control_bit.outp3 = 0;
+
+	hAIC24.Regs[3].creg6.reg6a.control_bit.mici = 0;
+	hAIC24.Regs[3].creg6.reg6a.control_bit.inp1 = 0;
+	hAIC24.Regs[3].creg6.reg6a.control_bit.inp2 = 0;
+	hAIC24.Regs[3].creg6.reg6a.control_bit.inp3 = 0;
+	hAIC24.Regs[3].creg6.reg6a.control_bit.inp4 = 0;
+	hAIC24.Regs[3].creg6.reg6b.control_bit.outp1 = 0;
+	hAIC24.Regs[3].creg6.reg6b.control_bit.outp2 = 0;		
+	hAIC24.Regs[3].creg6.reg6b.control_bit.outp3 = 0; 	
+
+	// Starting the AIC24
+	AIC24_Start(⩓hAIC24);	
+</code></para>
+</section>
+<section id="runsect"><title>Running the Example</title>
+<para id="id10862767">Connect an audio source to J14, a speaker / headphone to J4 and check Path #1.</para>
+<para id="id10184912">Connect an audio source to J13, a speaker / headphone to J5 and check Path #2.</para>
+</section>
+</section>
+</section>
+
+
+    <section id="id11279901">
+      <title>Migration to Simulink</title>
+      <section id="id7490135">
+<title>Principle of Operation</title>
+      <para id="id10881379">The main idea is to create a Simulink environment that reads samples form 4 channels, process them and send them to 4 output channels. The example model is shown in Figure 14.</para>
+      <figure id="id10245857">
+        <media id="id8325365" alt=""><image src="../../media/graphics12-26ca.png" mime-type="image/png"/></media>
+        <caption>Simulink Environment for Multichannel Processing</caption> 
+      </figure>
+      <para id="id9092008">The Simulink driver block is based on the driver described in the previous chapters. Both drivers read and write samples using a double-buffering mechanism, but they differ in the way they activate the processing algorithm.</para>
+      <para id="id11343636">The algorithm code, in the Simulink environment, runs as a separate free-running task. At the start of the function it checks the semaphore to see if data is ready to read from the buffer – if not then it stays in a wait state until the semaphore is posted by the callback routine (Please refer to section ). Once this has been posted, it reads the data elements from the addresses supplied by the appropriate pointers. Once the algorithm has then processed the data, it writes the data elements from the addresses supplied by the appropriate pointers. After process is concluded, it will wait for the next frame of samples. This process then repeats until halted.</para>
+      <para id="id10844352">The callback function, in the Simulink environment, needs to set the appropriate pointers each time an EDMA interrupt occur, and post a semaphore for the “Algorithm” task afterwards.</para> </section>
+      <section id="id7562045"><title>Driver Structure</title>
+
+      <para id="id3430790">The driver consists of 4 files:</para>
+      <list id="id3964437" list-type="enumerated">
+        <item>”aic24_defs.h” – This file contains the definitions of the various registers of the TLV320AIC24.</item>
+        <item>”aic24.h” – Needed for the DSP configuration.</item>
+        <item>”aic24.c” – Contains the various initialization routines.</item>
+        <item>“aic24link.c” </item>
+      </list>
+      <para id="id10962139">The first three files are the same files used for the CCS driver. The ai24link.c file is similar to the user defined file (test.c for example) described in , </para>
+      <para id="id10306683">This file contains the following functions and definitions:</para>
+
+<para id="myid4"><title>Buffers Definitions:</title>
+<code id="id8094468" display="block">
+Int16 r_data1[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];  // data buffer for read
+Int16 w_data1[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];  // data buffer for read
+Int16 r_data2[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];  // data buffer for write
+Int16 w_data2[DATANUM*NUM_CODECS*BUFS_PER_CHANNEL];  // data buffer for write
+</code></para>
+<para id="myid5"><title>Pointers to each channel buffers (read and write). </title>
+Those pointers are used by the Algorithm block in the Simulink model.
+<code id="id9115273" display="block">
+Int16 *InSig1;
+Int16 *InSig2;
+Int16 *InSig3;
+Int16 *InSig4;
+Int16 *OutSig1;
+Int16 *OutSig2;
+Int16 *OutSig3;
+Int16 *OutSig4;
+</code></para>
+<para id="myid6"><title>An AIC24 handle and a Semaphore handle</title>
+As explained the semaphore will be used to wait for the data to arrive.
+<code id="id12113160" display="block">
+AIC24_Handle hAIC24;
+SEM_Obj AIC24_ready_sem;
+</code></para>
+<para id="id6814138"><title>The AIC24LINK_init function.</title>
+It calls the AIC24_Init function and also initializes the semaphore.
+<code id="id10381986" display="block">
+void AIC24LINK_init()
+{
+ // setting up the AIC24 handle
+AIC24_InitDefaults(⩓hAIC24, NUM_CODECS, DATANUM, r_data1, r_data2, w_data1, w_data2, AIC24LINK_process);
+
+
+	SEM_new(⩓AIC24_ready_sem,0);
+}
+</code></para>
+<para id="id12167392"><title>The callback function.</title>
+The callback function AIC24LINK_process simply sets the channel buffer pointers (the pointers the model uses) to the correct places and posts on the semaphore.
+<code id="mycode" display="block">
+void AIC24LINK_process(Int16 *r_data, Int16 *w_data)
+{
+	InSig1 = r_data;        
+	InSig2 = r_data + DATANUM;   
+	InSig3 = r_data + DATANUM*2;  
+	InSig4 = r_data + DATANUM*3;  
+	OutSig1 = w_data;      
+	OutSig2 = w_data + DATANUM; 
+	OutSig3 = w_data + DATANUM*2;
+	OutSig4 = w_data + DATANUM*3;
+
+	SEM_post(⩓AIC24_ready_sem);
+}
+
+void AIC24LINK_wait()
+{
+	SEM_pend(⩓AIC24_ready_sem, SYS_FOREVER);
+}
+</code></para>
+<para id="id12167888"><title>AIC24LINK_wait</title>This  function pends on the semaphore.</para>
+<para id="id12167222"><title>AIC24LINK_start</title>This function calls AIC24_start.</para>
+ </section>
+
+      <section id="firstsect">
+
+      <para id="id10634589">The Simulink block will be created from the AIC23 driver used in the “Custom Device Driver/Legacy Code Integration” Simulink demo. </para>
+      <list id="id3357439" list-type="bulleted">
+        <item>Open the demo<figure id="id12360436"><media id="id4131122" alt=""><image src="../../media/figure13.png" mime-type="image/png"/></media><caption>The Simulink demo for Device Driver/Legacy Code Integration</caption></figure>
+</item>
+      </list>
+       <list id="id9796153" list-type="bulleted">
+        <item>Open the model</item>
+</list>
+<figure id="id3381057"><media id="id4857307" alt=""><image src="../../media/graphics14-de71.png" mime-type="image/png"/></media>
+        <caption>Real-time model using a custom device driver</caption> 
+      </figure>
+
+
+      <list id="id10898125" list-type="bulleted">
+        <item>Double-click the "AIC23 Codec Driver" box. </item>
+        <item>Rename it (TLV320AIC24EVM). </item>
+        <item>Delete the EDMA related boxes<footnote id="id3483716">The EDMA and interrupts configurations are handled as in the original CCS driver.</footnote>. </item>
+        <item>Double-click the "System Start" box. Delete the code and replace it by the initialization function AIC24LINK_init () in the execution box.</item>
+        <item>Double-click the "System Enable". Delete the code and add the AIC24LINK_Start(), to the execution box.</item>
+        <item>Delete the code in the "Model Header" box.</item>
+        <item>Double-click the "Model Source" box. Delete the code. Add to the "Top of Model Source" box the line #include "aic24link.h". This will allow calling the functions in the aic24link.c file. Figure 17 summarizes the driver blocks configuration
+<figure id="id10142064"><media id="id3810485" alt=""><image src="../../media/graphics15-06e1.png" mime-type="image/png"/></media>
+        <caption>TLV320AIC24EVM driver blocks</caption> 
+      </figure>
+        </item>
+      </list>
+      <para id="id13063880">The next steps will guide you through the “Algorithm” block configuration</para>
+      <list id="id6544027" list-type="bulleted">
+        <item>Add 6 terminators (inputs and outputs) both inside and outside the "Algorithm" box and of course wiring them appropriately. Double click on each terminator and set its dimension to 64<footnote id="id8791376">The terminator dimension should match the value of the DATANUM constant in the aic24link.c file</footnote> (except for the internal terminators). Set the data type to int16.The 8 input and output ports should be linked to the buffers (i.e. the pointers) in the aic24link.c file. </item>
+        <item>Right-click the wires connecting the terminators to the algorithm and select "Signal Properties". A new window will be opened window, Select "RealTime Workshop" tab and "ImportedExternPointer". Enter the signal name. It should have the same name of the correspondent pointers in the driver (As defined in the aic24link.c file).</item>
+        <item>Double-click the "Algorithm" box again and then open the "System Outputs" block. Delete the code and add a call to AIC24LINK_wait. This way the loop of the task stops each time and waits for the data.<figure id="id13120427"><media id="id4452123" alt=""><image src="../../media/graphics16-9183.png" mime-type="image/png"/></media>
+<caption>The “Algorithm” block</caption>
+</figure></item>
+      </list>
+      
+      <para id="id13214602">The model is now ready to generate real-time code for processing of 4 audio channels. AN example is shown in the next chapter.</para>
+    </section>
+</section>
+    <section id="id8752414">
+      <title>The Audio Conference Bridge Application </title>
+      <para id="id10056338">This chapter illustrates the use of the Simulink driver introduced in the previous chapter, to implement a conference bridge. </para>
+      <para id="id12514395">Figure 15 shows the configuration used for this application. Three headsets<footnote id="id12961681">The TLV320AIC24 contains three analog interfaces for headsets. The use of an additional channel requires minor hardware changes in the board. </footnote> are used, enabling a 3-port conference. The DSP monitors the 3 input signals, and routes the “loudest” input signal to the three outputs. The algorithm is described in the next section.</para>
+
+      <figure id="id12466197">
+        <media id="id7533729" alt=""><image src="../../media/graphics17-9e2d.jpg" mime-type="image/jpeg"/></media>
+        <caption>System Configuration</caption> 
+      </figure>
+<section id="id5720494"><title>The Algorithm</title>
+<para id="dummy"/>
+      <figure id="id10907832"><media id="id6799910" alt=""><image src="../../media/graphics18-f6f6.jpg" mime-type="image/jpeg"/></media><caption>The Algorithm (Block Diagram)</caption></figure>
+      <para id="id12571819">The algorithm processes 64 samples (each channel). It calculates the absolute power of each channel (sum of absolute values). Three counters are used, each one corresponding to a distinct channel.</para>
+      <para id="id12320418">For each frame the counter correspondent to the loudest channel is incremented. When a channel counter equals a threshold<footnote id="id6669510">The requirement for a threshold amount of wining rounds was set in order to prevent random noise or occasional “spikes” from interfering with the algorithms function. This threshold is configurable. In this example it was set to 10.</footnote>, the correspondent channel is selected. </para>
+      <para id="id9098225">For Each 64 samples frame the following algorithm is implemented:</para>
+<list id="id3114757" list-type="enumerated">
+<title>Output Channel Selection Procedure</title>
+<item>Find Maximum Input Level</item>
+<item>Increment Counter correspondent to the “loudest” channel</item>
+<item>If the Counter value =10 THEN:</item>
+<item>Broadcast correspondent input channel to all outputs</item>
+<item>Reset Counter</item>
+</list>
+
+</section>
+<section id="id8532063"><title>The Simulink Algorithm Implementation</title>
+      <para id="id10882850">This section will describe the process of generating a real-time application using Simulink blocks for the algorithm itself and the driver introduced in the previous chapter. The Simulink model is shown in Figure 21<footnote id="id5134976">The algorithm is implemented for 4 channels, however we will use only three of them.</footnote>. </para>
+      <figure id="id5155640">
+        <media id="id5617874" alt=""><image src="../../media/graphics19-506c.png" mime-type="image/png"/></media>
+        <caption>Simulink Model</caption> 
+      </figure>
+      <para id="id3968177">The block diagram shown in Figure 20 is translated to the model shown in the following figures.</para>
+      <list id="id4327521" list-type="bulleted">
+        <item>The conference algorithm routes a selected channel to the 4 outputs:</item>
+      </list>
+      <figure id="id7548563">
+        <media id="id5237244" alt=""><image src="../../media/graphics20-c52c.png" mime-type="image/png"/></media>
+        <caption>Signal Routing</caption> 
+      </figure>
+      <list id="id11257374" list-type="bulleted">
+        <item>The input level is measured for 4 channels:</item>
+      </list>
+      <figure id="id5831412">
+        <media id="id6455682" alt=""><image src="../../media/graphics21-4aec.png" mime-type="image/png"/></media>
+        <caption>Algorithm Model</caption> 
+      </figure>
+      <list id="id6848894" list-type="bulleted">
+        <item>The 4 level values compose a 4 element vector. This vector is fed to the “Max abs value” block:</item>
+      </list>
+      <figure id="id12268879">
+        <media id="id3499853" alt=""><image src="../../media/graphics22-a994.png" mime-type="image/png"/></media>
+        <caption>Finding the Maximum Level</caption> 
+      </figure>
+      <list id="id8600407" list-type="bulleted">
+        <item>The index of the Maximum level enters the index selection block. The correspondent channel is incremented and compared to the threshold.</item>
+      </list>
+      <figure id="id3834860">
+        <media id="id4057105" alt=""><image src="../../media/graphics23-bc40.png" mime-type="image/png"/></media>
+        <caption>Index Selection</caption> 
+      </figure>
+      <list id="id10865373" list-type="bulleted">
+        <item>If the counter value equals the threshold, the index is selected as input to the conference block</item>
+      </list>
+      <para id="id9945387">The real-time model can be found in the file <link resource="C67_Simulink_conference.rar">C67_Simulink_conference.rar.</link></para>
+    </section>
+</section>
+    <section id="id6156024">
+      <title>References</title>
+      <list id="id7340853" list-type="enumerated">
+        <item id="id13119961">"TLV320AIC20K/24KEVM User's Guide ", TI Document SLAU088A, April 2005 (<link url="http://focus.ti.com/lit/ug/slau088a/slau088a.pdf">http://focus.ti.com/lit/ug/slau088a/slau088a.pdf</link>) </item>
+        <item id="id12597168">"DSP−CODEC Development Platform User's Guide", TI Document SLAU090, September 2002 (<link url="http://focus.ti.com/lit/ug/slau090/slau090.pdf">http://focus.ti.com/lit/ug/slau090/slau090.pdf</link>) </item>
+        <item id="id12633561">"Low Power Highly-Integrated Programmable 16-Bit 26-KSPS Dual Channel CODEC (Rev. D)" TI Document SLAS363D, March 2002 –Revised April 2005 (<link url="http://focus.ti.com/lit/ds/slas363d/slas363d.pdf">http://focus.ti.com/lit/ds/slas363d/slas363d.pdf</link>) </item>
+      </list>
+      <para id="id13137077"/>
+      <para id="id11656378">MATLAB and Simulink are registered trademarks of The MathWorks, Inc. See www.mathworks.com/trademarks for a list of additional trademarks. Other product or brand names may be trademarks or registered trademarks of their respective holders.</para>
+    </section>
+    <section id="id11030795">
+      <title>Appendix A – Configuration</title>
+      <section id="id12304166">
+       <title>TLV320AIC24K &amp; CODEC Development Platform</title>
+      <section id="id11357487">
+        <title>Analog Ports</title>
+        <para id="id12672624">The following table is based on the one the Codec’s EVM Datasheet. </para>
+        <para id="id10201290">It matches the board connectors with the inputs and outputs.</para>
+        <para id="id10912023">(Notice, this table includes corrections and elaborations in compare to the one in the Datasheet).</para>
+        <figure id="id5214873">
+          <media id="id3653431" alt=""><image src="../../media/graphics24-eda7.png" mime-type="image/png"/></media>
+         
+      </figure>
+        <list id="id3347712" list-type="bulleted">
+          <item>We are using the TLV320AIC24KEVM is 24K.</item>
+        </list>
+        <para id="id12767254">The Inputs and Outputs of a certain channel are set by its 6a and 6b registers.</para>
+        <para id="id3380719">Those registers can be set, like before, between the initialization of the Handle and its activation.</para>
+        <para id="id11866718">If, for example, the input samples of channel 0 in the CODEC should be received from INP3<footnote id="id9245062">According to the table the connection is to J10, since we are working with 24K EVM and channel 0 is located at the master side.) </footnote>. The configuration should be as follows:</para>
+<para id="id11866666"><code id="mycode1" display="block">
+
+int main()
+{
+   // setting up the AIC24 handle
+  AIC24_InitDefaults(⩓hAIC24,  4, 64, r_data1, r_data2, w_data1, w_data2, process);
+
+  hAIC24.Regs[0].creg6.reg6a.control_bit.mici = 0;
+  hAIC24.Regs[0].creg6.reg6a.control_bit.inp1 = 0;
+  hAIC24.Regs[0].creg6.reg6a.control_bit.inp2 = 0;
+  hAIC24.Regs[0].creg6.reg6a.control_bit.inp3 = 1;
+  hAIC24.Regs[0].creg6.reg6a.control_bit.inp4 = 0; 
+
+  // Starting the AIC24
+  AIC24_Start(⩓hAIC24);
+}
+</code></para>
+        <para id="id9400974">Each entry corresponds to a bit that determines whether it should be connected or not to the channel input<footnote id="id9357907">Other entries were reset ('0'), as they should not be connected to the channel's input.</footnote>. The names of the fields correlate to the table.</para>
+        <para id="id11023024">A similar procedure applies for the output channel:
+<code id="mycode2" display="block">
+hAIC24.Regs[0].creg6.reg6b.control_bit.outp1 = 0;
+hAIC24.Regs[0].creg6.reg6b.control_bit.outp2 = 1;
+hAIC24.Regs[0].creg6.reg6b.control_bit.outp3 = 0;
+</code></para>
+        <para id="id11959648">In the case above, output of channel 0 is connected to OUTP2 (i.e. J1).</para>
+        <para id="id11543046">A single channel can be connected to a number of outputs. It is not recommended to connect two CODEC channels to a single output.</para>
+        <para id="id8018579">The default channel configuration is:</para>
+        <para id="id3826796">Even Channels (i.e. 0,2,…) Input: MICI</para>
+        <para id="id7630989">Even Channels (i.e. 0,2,…) Output: OUTP1</para>
+        <para id="id11023531">Odd Channels (i.e. 1,3,…) Input: INP1</para>
+        <para id="id8620914">Odd Channels (i.e. 1,3,…) Output: OUTP2</para>
+      </section>
+      <section id="id11315851">
+        <title>Switches and Jumpers</title>
+        <para id="id11781015"><title>Jumper settings for the AIC24 EVM</title></para>
+        <table id="id4058318" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Jumper</entry>
+                <entry>State</entry>
+              </row>
+              <row>
+                <entry>W1: </entry>
+                <entry>Closed </entry>
+              </row>
+              <row>
+                <entry>W2: </entry>
+                <entry>2-3</entry>
+              </row>
+              <row>
+                <entry>W3: </entry>
+                <entry>1-2</entry>
+              </row>
+              <row>
+                <entry>W4:</entry>
+                <entry>1-2 </entry>
+              </row>
+              <row>
+                <entry>W5:</entry>
+                <entry>Closed </entry>
+              </row>
+              <row>
+                <entry>P1.13-P1.14: </entry>
+                <entry>Closed</entry>
+              </row>
+              <row>
+                <entry>P1.9-P1.10: </entry>
+                <entry>Closed </entry>
+              </row>
+              <row>
+                <entry>P1.11-P1.12: </entry>
+                <entry>Closed </entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        
+        <para id="element-810"><title>Jumper settings for the AIC Motherboard</title></para><table id="id10926610" summary="">
+<tgroup cols="2"><colspec colnum="1" colname="c1"/>
+	<colspec colnum="2" colname="c2"/>
+	<tbody>
+		<row>
+			<entry>Jumper</entry>
+			<entry>State</entry>
+		</row>
+		<row>
+			<entry>W1: </entry>
+			<entry>1-2 </entry>
+		</row>
+		<row>
+			<entry>W2: </entry>
+			<entry>2-3</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+</section></section>
+        <section id="id5731023">
+<title>DSP </title>
+  <section id="id8688283">
+        <title>EDMA Configuration</title>
+        <para id="id9882972"><title>EDMA Receive Channel Configuration (Register Values)</title></para>
+        <table id="id6318629" frame="all" pgwide="3" summary="">
+<tgroup cols="3">
+          <colspec colnum="1" colname="c1" colwidth="1*"/>
+	<colspec colnum="2" colname="c2" colwidth="8*"/>
+	<colspec colnum="3" colname="c3" colwidth="8*"/>
+	<tbody>
+		<row>
+			<entry><emphasis>Register</emphasis></entry>
+			<entry><emphasis>Value</emphasis></entry>
+			<entry><emphasis>Remarks</emphasis></entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>opt</emphasis></entry>
+			<entry>EDMA_OPT_PRI_LOW</entry>
+			<entry>Low Priority (Allows other DMAs first)</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>
+			<entry>EDMA_OPT_ESIZE_16BIT</entry>
+			<entry>16 bits elements</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>
+			<entry>EDMA_OPT_2DS_NO</entry>
+			<entry>Source not using 2D option</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>			<entry>EDMA_OPT_SUM_NONE</entry>
+			<entry>Source Address is fixed (The MCBSP rcv register)
+</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>			<entry>
+EDMA_OPT_2DD_NO
+</entry>
+			<entry>Destination not using 2D option
+</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>
+			<entry>
+EDMA_OPT_DUM_IDX
+</entry>
+			<entry>Destination address is in double index (sort) mode
+</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>			<entry>
+EDMA_OPT_TCINT_YES
+</entry>
+			<entry>Cause interrupt
+</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>
+			<entry>
+EDMA_OPT_TCC_OF(0)
+</entry>
+			<entry>Transfer Complete Code (given to the interrupt, set later)
+</entry>
+		</row>
+		<row>
+			<entry rowsep="0"> </entry>
+			<entry>
+EDMA_OPT_LINK_YES
+</entry>
+			<entry>Use linking to another EDMA record
+</entry>
+		</row>
+		<row>
+			<entry/>
+			<entry>
+EDMA_OPT_FS_NO
+</entry>
+			<entry>Don't use frame sync
+</entry>
+		</row>
+		<row>
+			<entry><emphasis>src</emphasis></entry>
+			<entry>MCBSP_getRcvAddr(hAIC-&gt;hMcbsp)</entry>
+			<entry>The address of the McBSP recv register</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>cnt</emphasis></entry>
+			<entry>EDMA_CNT_FRMCNT_OF(ChannelBufferSize – 1)</entry>
+			<entry>The number of frames is the size of the buffer</entry>
+		</row>
+		<row>
+			<entry>
+			</entry>
+			<entry>EDMA_CNT_ELECNT_OF(TotalNumChannels)</entry>
+			<entry>Each frame has NumChannel elements</entry>
+		</row>
+		<row>
+			<entry><emphasis>dst</emphasis></entry>
+			<entry>EDMA_DST_OF(ReadAddr)</entry>
+			<entry>The address of the buffer to write to</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>idx</emphasis></entry>
+			<entry>EDMA_IDX_FRMIDX_OF(-((ChannelBufferSize * (TotalNumChannels-1)) * 2)+2</entry>
+			<entry>Negative Frame Index to move us back to the next position in the first channel after each frame</entry>
+		</row>
+		<row>
+			<entry>
+			</entry>
+			<entry>EDMA_IDX_ELEIDX_OF((ChannelBufferSize * 2)</entry>
+			<entry>Positive Element Index to move us to the next position in channel after every elemnt</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>rld</emphasis></entry>
+			<entry>EDMA_RLD_ELERLD_OF(TotalNumChannels)</entry>
+			<entry>Should be the same as Element Count</entry>
+		</row>
+		<row>
+			<entry>
+			</entry>
+			<entry>EDMA_RLD_LINK_OF(LinkedRecord)</entry>
+			<entry>The number of the next record to load (since we use double buffering the next record will point back to this one)</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+        <para id="id8539236"><title>EDMA Transmit Channel Configuration (Register Values)</title></para>
+        <table id="id3260309" frame="all" pgwide="2" summary="">
+<tgroup cols="3">
+          <colspec colnum="1" colname="c1" colwidth="1*"/>
+	<colspec colnum="2" colname="c2" colwidth="8*"/>
+	<colspec colnum="3" colname="c3" colwidth="8*"/>
+	<tbody>
+		<row>
+		<entry><emphasis>Register</emphasis></entry>
+			<entry><emphasis>Value</emphasis></entry>
+			<entry><emphasis>Remarks</emphasis></entry>
+		</row>
+<row>
+<entry rowsep="0"><emphasis>opt</emphasis></entry>
+<entry>EDMA_OPT_PRI_LOW</entry>
+<entry>Low Priority (Allows other DMAs first)</entry>
+</row>
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_ESIZE_16BIT</entry>
+<entry>16 bits elements</entry>
+</row>
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_2DS_NO</entry>
+<entry>Source not using 2D option</entry>
+</row>
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_SUM_IDX</entry>
+<entry>Source address is in double index (sort)</entry>
+</row>
+
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_2DD_NO</entry>
+<entry>Destination not using 2D option</entry>
+</row>
+
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_DUM_NONE</entry>
+<entry>Destination Address is fixed (The MCBSP xmt register)</entry>
+</row>
+
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_TCINT_YES</entry>
+<entry>Cause interrupt</entry>
+</row>
+
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_TCC_OF(0)</entry>
+<entry>Transfer Complete Code (given to the interrupt, set later)</entry>
+</row>
+
+<row>
+<entry rowsep="0"/>
+<entry>EDMA_OPT_LINK_YES</entry>
+<entry>Use linking to another EDMA record</entry>
+</row>
+
+<row>
+<entry/>
+<entry>EDMA_OPT_FS_NO</entry>
+<entry>Don't use frame sync</entry>
+</row>
+
+		<row>
+			<entry><emphasis>src</emphasis></entry>
+			<entry>EDMA_SRC_OF(WriteAddr)</entry>
+			<entry>The address of the buffer read from</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>cnt</emphasis></entry>
+			<entry>EDMA_CNT_FRMCNT_OF(ChannelBufferSize – 1)</entry>
+			<entry>Each frame has NumChannel elements</entry>
+		</row>
+
+<row>
+			<entry/>
+			<entry>EDMA_CNT_ELECNT_OF(TotalNumChannels)</entry>
+			<entry>Each frame has NumChannel elements</entry>
+		</row>
+
+		<row>
+			<entry><emphasis>dst</emphasis></entry>
+			<entry>MCBSP_getXmtAddr(hAIC-&gt;hMcbsp)</entry>
+			<entry>The address of the McBSP transmit register</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>idx</emphasis></entry>
+			<entry>EDMA_IDX_FRMIDX_OF(-((ChannelBufferSize * (TotalNumChannels-1)) * 2)+2)</entry>
+			<entry>Negative Frame Index to move us back to the next position in the first channel after each frame</entry>
+		</row>
+<row>
+<entry> </entry>
+			<entry>EDMA_IDX_ELEIDX_OF((ChannelBufferSize * 2)) </entry>
+			<entry>Positive Element Index to move us to the next position in channel after every elemnt</entry>
+		</row>
+		<row>
+			<entry><emphasis>rld</emphasis></entry>
+			<entry>EDMA_RLD_ELERLD_OF(TotalNumChannels)</entry>
+			<entry>Should be the same as Element Count</entry>
+		</row>
+	<row> 
+<entry rowsep="0"/>
+			<entry>EDMA_RLD_LINK_OF(LinkedRecord)</entry>
+			<entry>The number of the next record to load (since we use double buffering the next record will point back to this one)</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+      </section>
+      <section id="id13137073">
+        <title>MCBSP Configuration </title>
+        <para id="id5732381"><title>McBSP Configuration (Register Values)</title></para>
+        <table id="id4443177" frame="all" pgwide="2" summary="">
+<tgroup cols="3">
+      <colspec colnum="1" colname="c1" colwidth="1*"/>
+	<colspec colnum="2" colname="c2" colwidth="8*"/>
+	<colspec colnum="3" colname="c3" colwidth="8*"/>
+
+	<tbody>
+		<row>
+			<entry><emphasis>Register</emphasis></entry>
+			<entry><emphasis>Value</emphasis></entry>
+			<entry><emphasis>Remarks</emphasis></entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>Serial Port Control Register (SPCR)</emphasis></entry>
+			<entry>MCBSP_SPCR_FREE_YES </entry>
+			<entry>Used for emulation</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_SOFT_YES </entry>
+			<entry>Used for emulation</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+
+			<entry>MCBSP_SPCR_FRST_YES</entry>
+			<entry>Frame sync generator is in reset (generated by master CODEC) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+
+			<entry>MCBSP_SPCR_GRST_YES</entry>
+			<entry> Sample rate generator is in reset (generated by master CODEC) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_XINTM_FRM</entry>
+			<entry>The transmit interrupt is driven by new frame sync</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_XSYNCERR_NO</entry>
+			<entry> No synchronization error detected</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_XRST_YES</entry>
+			<entry> The serial port transmitter is disabled and in reset state</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_DLB_OFF</entry>
+			<entry> Digital Loopback mode off</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_RJUST_RZF</entry>
+			<entry> Receive data right-justified and zero-fill MSBSs in DRR</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_CLKSTP_DISABLE</entry>
+			<entry>The Clock stop mode is disabled</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_DXENA_OFF</entry>
+			<entry> Disable extra delay of DX</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_RINTM_FRM</entry>
+			<entry> Receive interrupt on new frame synch</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_SPCR_RSYNCERR_NO</entry>
+			<entry> No synchronization error detected</entry>
+		</row>
+		<row>
+			<entry/>
+			<entry>MCBSP_SPCR_RRST_YES</entry>
+			<entry> The serial port receiver is disabled and in reset state</entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>Receive Control Register (RCR)</emphasis></entry>
+			<entry>MCBSP_RCR_RPHASE_SINGLE</entry>
+			<entry> receive one phase only</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RFRLEN2_OF(0)</entry>
+			<entry>Don't Care. Phase 2 is not used</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RWDLEN2_16BIT</entry>
+			<entry>Don't Care. Phase 2 is not used</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RCOMPAND_MSB</entry>
+			<entry>No companding, data transfer starts with MSB first</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RFIG_NO</entry>
+			<entry>sync error doesn't cause transfer restart</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RDATDLY_1BIT</entry>
+			<entry>1 bit data delay</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RFRLEN1_OF(NumChannels-1)</entry>
+			<entry>Each frame contains an element for each channel</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_RCR_RWDLEN1_16BIT</entry>
+			<entry>Each sample is 16 bit</entry>
+		</row>
+		<row>
+			<entry/>
+			<entry>
+MCBSP_RCR_RWDREVRS_DISABLE</entry>
+			<entry>Don't Care. Only 16 bit elements  are used</entry>
+		</row>
+		<row>
+			<entry rowsep="0">
+<emphasis>Transmit Control Register (XCR)</emphasis></entry>
+			<entry>
+MCBSP_XCR_XPHASE_SINGLE</entry>
+			<entry>Transmit one phase only</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>MCBSP_XCR_XFRLEN2_OF(0)</entry>
+			<entry>Don't Care. Phase 2 is not used</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XWDLEN2_16BIT</entry>
+			<entry>Don't Care. Phase 2 is not used</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XCOMPAND_MSB</entry>
+			<entry>No companding, data transfer starts with MSB first</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XFIG_NO</entry>
+			<entry>sync error doesn't cause transfer restart</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XDATDLY_1BIT</entry>
+			<entry>1 bit data delay</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XFRLEN1_OF(NumChannels-1)</entry>
+			<entry>Each frame contains an element for each channel</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_XCR_XWDLEN1_16BIT</entry>
+			<entry>Each sample is 16bit</entry>
+		</row>
+		<row>
+			<entry/>
+			<entry>
+MCBSP_XCR_XWDREVRS_DISABLE</entry>
+			<entry>Does not matter, we use 16 bit elements</entry>
+		</row>
+		<row>
+			<entry><emphasis>Sample Rate Generator Register (SRGR)</emphasis>
+			</entry>
+			<entry>0</entry>
+			<entry>Not used, clock and frame sync are generated by the master CODEC
+(The source code contains the flags but they are 0) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"><emphasis>Pin Control Register (PCR)</emphasis></entry>
+			<entry>
+MCBSP_PCR_XIOEN_SP</entry>
+			<entry>All pins are dedicated for MCBSP (Not GPIO) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_RIOEN_SP</entry>
+			<entry>All pins are dedicated for MCBSP (Not GPIO) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_FSXM_EXTERNAL</entry>
+			<entry>Transmit frame sync is generated by the master CODEC</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_FSRM_EXTERNAL</entry>
+			<entry>Receive frame sync is generated by the master CODEC</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_CLKXM_INPUT</entry>
+			<entry>Transmit clock sync is generated by the master CODEC</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_CLKRM_INPUT</entry>
+			<entry>Receive clock sync is generated by the master CODEC</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_CLKSSTAT_0</entry>
+			<entry> Does not matter (used in GPIO) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_DXSTAT_0</entry>
+			<entry>Does not matter (used in GPIO) </entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_FSXP_ACTIVEHIGH</entry>
+			<entry>Transmit frame sync is active high for AIC24</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_FSRP_ACTIVEHIGH</entry>
+			<entry>Receive frame sync is active high for AIC24</entry>
+		</row>
+		<row>
+			<entry rowsep="0"/>
+			<entry>
+MCBSP_PCR_CLKXP_RISING</entry>
+			<entry>Transmit data driven on rising edge</entry>
+		</row>
+		<row>
+			<entry/>
+			<entry>
+MCBSP_PCR_CLKRP_FALLING</entry>
+			<entry>Receive data sampled on falling edge</entry>
+		</row>
+		<row>
+			<entry>MCR</entry>
+			<entry>0</entry>
+			<entry>Unused</entry>
+		</row>
+		<row>
+			<entry>RCER</entry>
+			<entry>0</entry>
+			<entry>Unused</entry>
+		</row>
+		<row>
+			<entry>XCER</entry>
+			<entry>0</entry>
+			<entry>Unused</entry>
+		</row>
+	</tbody>
+
+</tgroup>
+</table>
+         </section>
+      </section>
+    </section>
+  </content>
+</document>

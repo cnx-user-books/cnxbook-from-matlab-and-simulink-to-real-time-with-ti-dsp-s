@@ -1,0 +1,264 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>A Framework for Image Processing with the DSK6416</title>
+  <metadata>
+  <md:content-id>m23996</md:content-id><md:title>A Framework for Image Processing with the DSK6416</md:title>
+  <md:abstract>This module describes general procedures for reading and writing stills images with the DSK6416. The scripts and models created her will serve as the framework for image processing algorithms simulation and implementation.</md:abstract>
+  <md:uuid>f37fefaa-8b25-4486-8e0d-b7b912e1d34f</md:uuid>
+</metadata>
+
+<content>
+    <section id="id-630258455582">
+      <title>Introduction</title>
+      <para id="id11807396">This module describes general procedures for reading and writing stills images. The scripts and models created in this chapter will be the basis for image processing algorithms simulation and implementation using the DSK6416.</para>
+<section id="myfiles">    
+<title>Related Files</title>
+<list id="id10274059" list-type="bulleted"><item>Simulink Model for Simulation - <link resource="stills_sim.mdl">stills_sim.mdl</link></item>
+	<item>Input Image - <link resource="TMW2.jpg">TMW2.jpg</link>
+	</item>
+	<item>MATLAB script for Real-Time - <link resource="Picture_script.m">Picture_script.m</link></item>
+	<item>Simulink Model for Real-Time - <link resource="stills_R_W.mdl">stills_R_W.mdl</link>
+	</item>
+</list>
+</section>
+</section>
+            
+         <section id="id-613210386071">
+      <title>Activating CCS under Simulink®</title>
+      <para id="id4486155">This section will show you how to activate CCS under the Simulink.</para>
+      <list id="id6069211" list-type="enumerated">
+<item>Create a new Simulink model.</item>
+	<item>Open the Simulink library browser and add the "C6416DSK" from the "Target Preferences" group of the "Embedded Target for the TI TMS320C6000 DSP" Blockset (Please refer to Figure 1). <figure id="id9744561"><media id="id5704785" alt=""><image src="../../media/graphics1-6f38.png" mime-type="image/png"/></media><caption>The C6416DSK Block</caption></figure></item>
+	<item>Set the model to “Generate a CCS Project” in the Simulation-&gt;Configuration Parameters -&gt; Build Action, as shown in the following picture:</item>
+</list>
+      <para id="id11289794">
+        <figure id="id11813570"><media id="id7502039" alt=""><image src="../../media/graphics2-d23f.png" mime-type="image/png"/></media><caption>Configuration Parameters for CCS</caption></figure>
+      </para>
+      
+      <para id="id12428357">We now need to create Simulink dedicated blocks to execute CCS commands. The first is the “Build”. We can do this in many ways: clicking Build icon, pressing Ctrl-B or in MATLAB® typing make_rtw. Given this command is available in MATLAB, we will create a custom block with this command.</para>
+
+<list id="id6069233" list-type="bulleted"><item><label>Drag in an empty subsystem into the model (Simulink-&gt;Ports &amp; Subsystem-&gt; Subsystem)</label></item>
+	<item><label>Delete its contents </label></item>
+	<item><label>Format it</label>
+		<list id="id1234567" list-type="bulleted">
+			<item>Give it a name. In our example we use “Generate Code &amp; Create Project”</item>
+			<item>Choose the shadow, colour etc…</item>
+			<item>Right click on the Subsystem, choose “ Block Properties”. Go to the Callbacks tab, and under OpenFcn enter: “make_rtw;”, as shown in the following picture:</item>
+		</list>
+<figure id="id12026614"><media id="id1169471101131" alt=""><image src="../../media/graphics3-2d5b.png" mime-type="image/png"/></media>
+<caption>Creating the “Generate Code &amp; Create Project” Simulink block</caption></figure>
+</item>
+<item>Repeat this process for the following commands as follows: <table id="id13022849" orient="land" summary="">
+         <tgroup cols="3">
+         <colspec colnum="1" colname="c4"/>
+	<colspec colnum="2" colname="c5"/>
+	<colspec colnum="3" colname="c6"/>
+		<tbody>
+		<row>
+			<entry>Block Name</entry>
+			<entry>CCS Command</entry>
+			<entry>OpenFcn</entry>
+		
+		</row>
+                  <row>
+			<entry> Build</entry>
+			<entry>Build in CCS:</entry>
+			<entry>CCS_Obj.build;</entry>
+			
+		</row>
+		<row>
+		<entry> Load</entry>
+		<entry>Load Program in CCS:</entry>
+		<entry>CCS_Obj.load([pwd,'\',bdroot,'_c6000_rtw\', bdroot, '.out']);</entry>
+			</row>
+		<row>
+			<entry> Run</entry>
+			<entry>Run on target:</entry>
+			<entry>CCS_Obj.run;</entry>
+		
+		</row>
+                   <row>
+			<entry> Halt</entry>
+			<entry>Halt on target:</entry>
+			<entry>CCS_Obj.halt;</entry>
+		
+		</row>
+
+		<row>
+			<entry> Reset</entry>
+			<entry>Reset target:</entry>
+			<entry>CCS_Obj.reset;</entry>
+	
+		</row>
+		
+		<row>
+			<entry>Close Active Project</entry>
+			<entry>Close Active Project</entry>
+			<entry>close(CCS_Obj,[],'project')</entry>
+	
+		</row>
+
+
+	</tbody>
+
+</tgroup>
+</table>
+
+Your model should look as follows:
+<figure id="id10641576"><media id="id8492681" alt=""><image src="../../media/graphics4-3eda.png" mime-type="image/png"/></media><caption>Simulink Blocks for CCS commands</caption></figure>
+</item>
+</list>      
+ </section>
+    <section id="id-682859059855">
+      <title>Image (Stills) I/O</title>
+      <section id="id-834123873195">
+        <title>Simulation </title>
+        <para id="id9439110">Figure 5 shows the data flow for the edge detection simulation. The Edge detection model reads the source picture from a file in the PC, and displays both the original and the processed images.</para>
+        <figure id="id11481563"><media id="id3480393" alt=""><image src="../../media/figure10.jpg" mime-type="image/jpeg"/></media><caption>Simulation Environment</caption></figure>
+
+        <section id="id-506265638493">
+          <title>Reading and Displaying a Picture</title>
+          <list id="id11802228" list-type="enumerated">
+            <item>Start by creating a new model in Simulink</item>
+            <item>Open the Simulink library browser and add the "Image from File" from the "Sources" group of the Video and Image Processing Blockset (Please refer to Figure 6). This block reads an image and converts it to the RGB format in Simulink .         
+<figure id="id12329913"><media id="id2355949" alt=""><image src="../../media/graphics5-d4ff.png" mime-type="image/png"/></media>
+<caption>The "ImageFrom File" Simulink Block</caption></figure></item>
+<item>Double Click and select the <link resource="TMW2.jpg">TMW2.jpg</link> image (Please refer to Figure 7).  
+          <figure id="id11661068">
+          <media id="id7192222" alt=""><image src="../../media/graphics6-c831.png" mime-type="image/png"/></media><caption>The Source Block Configuration</caption>
+          </figure></item>
+
+            <item>In order to display the picture the "Video Viewer" from the "Sinks" group of the Video and Image Processing Blockset (Please refer to Figure 8). This block displays an input RGB or intensity video stream or image. The edge detection block operates on intensity images.           <figure id="id10075844">
+<media id="id6367355" alt=""><image src="../../media/graphics7-124a.png" mime-type="image/png"/></media><caption>The Video Viewer Block</caption></figure></item>
+
+            <item>Select the "intensity" input format as shown in Figure 9.           <figure id="id11992676">
+            <media id="id8112021" alt=""><image src="../../media/graphics8-64b6.png" mime-type="image/png"/></media><caption>Video Viewer Configuration</caption>
+          </figure></item>
+
+
+            <item>The conversion from RGB to intensity will be executed in the Color Space Conversion: from the "Conversions" group of the Video and Image Processing Blockset (Please refer to Figure 10).           <figure id="id11194043"><media id="id7341413" alt=""><image src="../../media/graphics9-88f9.png" mime-type="image/png"/></media><caption>The Color Conversion Block</caption></figure></item>
+
+            <item>Double Click and select the "R'G'B' to intensity" conversion scheme as shown in Figure 11. 
+          <figure id="id10629358"><media id="id3962743" alt=""><image src="../../media/graphics10-ac90.png" mime-type="image/png"/></media><caption>Configuring the Color Conversion Scheme</caption></figure>
+</item>
+          
+
+            <item>Connect the three blocks as shown in Figure 12. 
+          <figure id="id11597496"><media id="id2657988" alt=""><image src="../../media/graphics11-2a9d.png" mime-type="image/png"/></media><caption>Reading and Displaying a Picture</caption></figure></item>
+
+
+            <item>Run the model, you should get the image shown in Figure 13 
+          <figure id="id10699402"><media id="id6808590" alt=""><image src="../../media/graphics12-bbf0.png" mime-type="image/png"/></media><caption>The Video Viewer Display</caption></figure></item>
+          </list>
+          
+        </section>
+      </section>
+      <section id="id-430298658699">
+        <title>Real-Time</title>
+        <para id="id11844198"> shows the data flow for the real time implementation of the image processing algorithms. The algorithms will be implemented using the DSK6416. A MATLAB will run simultaneously in the PC. This script will read the source picture from a file in the PC, convert it to grayscale and send it to the DSK6416 through an RTDX channel. The processed picture will be sent from the DSK6416 through a second RTDX channel. The script will display three images:</para>
+        <list id="id10311449" list-type="bulleted">
+          <item>The original color picture</item>
+          <item>The grayscale picture</item>
+          <item>The processed image</item>
+        </list>
+        <para id="id10087184"/>
+        <figure id="id11783644"><media id="id4034468" alt=""><image src="../../media/figure14.jpg" mime-type="image/jpeg"/></media><caption>Real Time Implementation Environment</caption></figure>
+        
+        <section id="id-453767682593">
+          <title>CCS Code Generation</title>
+          <para id="id6977408">Use the model created in chapter 2. </para>
+          <list id="id11186322" list-type="enumerated">
+            <item>Add the "From RTDX" from the "RTDX Instrumentation" group of the "Embedded Target for the TI TMS320C6000 DSP" Blockset (Please refer to Figure 15). This block will be used receive data from the PC using a specified RTDX. 
+
+          <figure id="id12366930"><media id="id8600378" alt=""><image src="../../media/graphics13-adb6.png" mime-type="image/png"/></media><caption>The "From RTDX" Block</caption></figure></item>
+
+<item>Configure the block to receive data from a channel named "inputimage" as shown in Figure 16 <footnote id="id4533425">If you are using the XDS560 or the Blackhawk USB560, you will need to enable High Speed RTDX in the "C61416DSK" block.</footnote>. For the test we will send in an image over RTDX<footnote id="id5876760">The "Output Dimensions" should contain the Frame size</footnote>. The selection of ‘Blocking Mode’ will cause the code running on the DSP to wait until the RTDX transfer is complete before executing. This will give the MATLAB script full control over the execution. 
+
+          <figure id="id11185521"><media id="id1169471491838" alt=""><image src="../../media/graphics14-2134.png" mime-type="image/png"/></media> <caption>Configuring the Input Channel</caption></figure></item>
+
+            <item>Add the "To RTDX" from the "RTDX Instrumentation" group of the "Embedded Target for the TI TMS320C6000 DSP" Blockset (Please refer to Figure 15). This block will be used to send the processed image to the PC using a specified RTDX.          
+          <figure id="id11186811"><media id="id5980664" alt=""><image src="../../media/graphics15-b9cf.png" mime-type="image/png"/></media><caption>The "To RTDX" Block</caption></figure>
+Configure the block to send data through a channel named "outputimage" as shown in Figure 9.
+          <figure id="id11304392"><media id="id4086859" alt=""><image src="../../media/graphics16-4b87.png" mime-type="image/png"/></media><caption>Configuring the Output Channel</caption></figure>
+          </item>
+
+
+            <item>The RTDX channel transfers data in the uint8 format. Therefore the output of the Edge Detection Block should be converted to this format. Add the "Convert Image" block from from the "Conversions" group of the Video and Image Processing Blockset, (Please refer to Figure 19). The block should be configured as shown in Figure 20.<figure id="id11761536"><media id="id3901342" alt=""><image src="../../media/graphics17-92bf.png" mime-type="image/png"/></media><caption>The Image Conversion Block</caption></figure> 
+<figure id="id11730455"><media id="id2683497" alt=""><image src="../../media/graphics18-7db8.png" mime-type="image/png"/></media><caption>The Image Conversion Configuration</caption></figure></item>
+
+<item>Save your model (We used the name “stills_R_W.mdl”). Your model should look as shown in Figure 21.      
+<figure id="id10025867"><media id="id4013215" alt=""><image src="../../media/graphics19-8ea0.png" mime-type="image/png"/></media><caption>Reading and Displaying a Picture</caption></figure></item>
+<item>Now you can generate the code to your DSK by using Ctrl-B<footnote id="id2701220">If you do so, the build will fail at compilation in CCS due to an ISRAM space issue. In this case, we can fix this by redefining the location for .far as SDRAM rather than ISRAM (the default) in the board properties box. Rebuild, and it should compile fine.</footnote>. When the model builds, it creates an object in the MATLAB workspace which represents CCS, by default called CCS_Obj. This object will be used to interact with the application on the DSP from MATLAB. </item>
+            <item>Build the project. Double-click the “Build Project” block.</item>
+            <item>Load the project. Double-click the “Load Project” block.</item>
+            <item>Run the target. Double-click the “Run” block. It should now be running, as displayed in CCS:         
+          <figure id="element-378"><media id="id2995359" alt=""><download src="fig22.JPG" mime-type="application/octet-stream"/></media><caption>CCS Compilation Display</caption></figure> </item>  </list>
+
+        </section>
+        <section id="id-238830693849">
+          <title>The MATLAB Script</title>
+          <para id="id10219287">The purpose of the MATLAB code we want is to define an interface with the RTDX channels, to control the execution of the application on the processor, to send/retrieve data from the processor and to display it. An example script, “picture_script.m” will do this. The steps are also detailed below:</para>
+          <list id="id11551155" list-type="enumerated">
+            <item>With the application running, we can configure the RTDX channels in CCS. 
+
+<code id="first_codeblock" display="block">
+ %% Configure RTDX channels 
+ % Identify RTDX channel names/modes
+ chan_struct(1).name = 'inputimage';
+ chan_struct(1).mode = 'w'; 
+ chan_struct(2).name = 'outputimage'; 
+ chan_struct(2).mode = 'r'; 
+ % Identify RTDX host buffer parameters 
+ RTDX_config_struct.Buffsize = 32768;  
+ RTDX_config_struct.Nbuffers = 4; 
+ RTDX_config_struct.Mode = 'continuous'; 
+ % Set up RTDX 
+ r = setupRTDX(CCS_Obj, chan_struct, RTDX_config_struct); 	  </code> 
+This This sets up a writeable RTDX channel to inputimage and a readable RTDX channel to outputimage. The names used are those in the blocks in the Simulink model.	               
+</item>
+
+<item>Once running, we enable the RTDX channels for use, and get some data to send to the DSP – in this case a grayscale image taken from a file. 
+<code id="second_codeblock" display="block">
+%% Enable RTDX 
+r.enable('all');
+%% Import an image from file to send to the DSP
+Y = imread('TMW2.jpg'); 
+I = rgb2gray(Y);
+</code> 
+</item>
+
+<item>We then send this to the DSP:  
+<code id="third_codeblock" display="block">
+%% Send test frame to target via RTDX
+r.writemsg('inputimage', I);   </code>
+On receipt of this message, the DSP will process the data and send it back over the return RTDX channel, and then wait for further input.
+</item>
+
+<item>We can read the processed data back:
+<code id="fourth_codeblock" display="block">%% Read processed test frame from DSP
+O = r.readmsg('outputimage', 'uint8', size(I)); 
+</code></item>
+            <item>This script is saved under “Picture_script.m”</item>
+            <item>Run the script and you will see:           <figure id="id8179364" orient="vertical">
+<subfigure id="subfigure-1">
+	<title>The Original Color Picture</title>
+	<media id="id7280618" alt=""><image src="../../media/graphics21-b2fd.png" mime-type="image/png"/></media>
+</subfigure>
+<subfigure id="subfigure-2">
+	<title>The Correspondent Grayscale Picture</title>
+	<media id="id1169472270579" alt=""><image src="../../media/graphics22-9dad.png" mime-type="image/png"/></media>
+</subfigure>
+<subfigure id="subfigure-3">
+	<title>The Received Image (Loopback)</title>
+	<media id="id3640660" alt=""><image src="../../media/graphics23-57b3.png" mime-type="image/png"/></media>
+</subfigure>	
+         
+
+<caption>Image Processing Display</caption></figure>
+</item>
+          </list>
+
+        </section>
+      </section>
+    </section>
+  </content>
+</document>
