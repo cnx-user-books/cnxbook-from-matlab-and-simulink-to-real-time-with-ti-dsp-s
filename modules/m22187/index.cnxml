@@ -727,7 +727,7 @@ guidata(hObject, handles);
             </m:semantics>
           </m:math>
         </equation>
-        <para id="id9145356"><m:math><m:semantics><m:mrow/><m:annotation encoding="StarMath 5.0">{}</m:annotation></m:semantics></m:math> The following model implements the last equation. Please note that a feedback path was included for phase continuity</para>
+        <para id="id9145356"> The following model implements the last equation. Please note that a feedback path was included for phase continuity</para>
         <figure id="id10851058">
           <media id="id1169065783487" alt=""><image src="../../media/graphics40-ed6f.png" mime-type="image/png"/></media><caption>Carrier Wave Generator</caption></figure>
       </section>
